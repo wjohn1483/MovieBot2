@@ -26,7 +26,7 @@ for template in data:
     for i, word in enumerate(words):
         if word == template["values"]:
             temp[i] = template["slots"][0]
-    slots.append(temp)
+    slots.append(" ".join(temp))
     intent.append(template["intent"])
 
 # Shuffle

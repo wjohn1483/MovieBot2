@@ -19,6 +19,7 @@ testing_data_path = "./data/testing_data.json"
 output_path = "./prediction.json"
 nclass_slot = len(slot2idx)
 nclass_intent = len(intent2idx)
+print(nclass_intent)
 vocsize = len(word2idx)
 max_sequence_length = 15 # Defined by myself
 rnn_dim = 16
@@ -54,7 +55,7 @@ class RNN_model:
         # Define model inputs
         input_sentences = tf.placeholder(tf.float32, [None, self.max_sequence_length, self.vocsize])
         sequence_length = tf.placeholder(tf.int64, [None])
-        sentence_slots = tf.placeholder(tf.float32, [None, self.max_sequence_length])
+        sentence_slots = tf.placeholder(tf.int64, [None, self.max_sequence_length])
         sentence_intent = tf.placeholder(tf.int64, [None])
 
         # Transform words in input sentence to self.word_dim
@@ -131,7 +132,7 @@ def read_data(filepath):
 
 def restore():
     sess = tf.Session()
-    input_sentences, sequence_length, sentence_slots, sentence_intent, train_step, loss, prediction_slot, prediction_intent = RNN_model(rnn_dim=rnn_dim, max_sequence_length=max_sequence_length, vocsize=vocsize, word_dim=word_dim, nclass=nclass).build_model()
+    input_sentences, sequence_length, sentence_slots, sentence_intent, train_step, loss, prediction_slot, prediction_intent = RNN_model(rnn_dim=rnn_dim, max_sequence_length=max_sequence_length, vocsize=vocsize, word_dim=word_dim, nclass_slot=nclass_slot, nclass_intent=nclass_intent).build_model()
     tf.train.Saver().restore(sess, tf.train.latest_checkpoint(model_dir))
 
     return sess, input_sentences, sequence_length, prediction_slot, prediction_intent
@@ -162,7 +163,7 @@ def slot_filling_and_intent_prediction(input_string, sess, input_sentences, sequ
 if __name__ == "__main__":
     # Create model
     sess = tf.Session()
-    input_sentences, sequence_length, sentence_slots, sentence_intent, train_step, loss, prediction_slot, prediction_intent = RNN_model(rnn_dim=rnn_dim, max_sequence_length=max_sequence_length, vocsize=vocsize, word_dim=word_dim, nclass=nclass).build_model()
+    input_sentences, sequence_length, sentence_slots, sentence_intent, train_step, loss, prediction_slot, prediction_intent = RNN_model(rnn_dim=rnn_dim, max_sequence_length=max_sequence_length, vocsize=vocsize, word_dim=word_dim, nclass_slot=nclass_slot, nclass_intent=nclass_intent).build_model()
 
     # Train
     if FLAGS.train:
@@ -172,7 +173,7 @@ if __name__ == "__main__":
             print("Succcessfully load model")
 
         # Read data
-        sentences, length, slots, intents = read_data(training_sentences, training_slots)
+        sentences, length, slots, intents = read_data(training_data_path)
 
         epoch = 0
         while epoch < nepoch:
@@ -211,13 +212,13 @@ if __name__ == "__main__":
 
         # Read testing data
         if FLAGS.check_overfitting:
-            sentences, length, slots, intents = read_data(training_sentences, training_slots, training_intent)
+            sentences, length, slots, intents = read_data(training_data_path)
             sentences = sentences[0:batch_size]
             length = length[0:batch_size]
             slots = slots[0:batch_size]
             intents = intents[0:batch_size]
         else:
-            sentences, length, slots, intents = read_data(testing_sentences, testing_slots, testing_intent)
+            sentences, length, slots, intents = read_data(testing_data_path)
 
         # Predict and output
         feed_dict = {input_sentences: sentences, sequence_length: length, sentence_slots: slots, sentence_intent: intents}
@@ -231,8 +232,9 @@ if __name__ == "__main__":
             groundtruth_string = ""
             predict_string = ""
             for j in range(length[i]):
-                groundtruth_string += idx2slot[str(slots[i])] + ' '
+                groundtruth_string += idx2slot[str(int(slots[i][j]))] + ' '
                 predict_string += idx2slot[str(np.argmax(predict[j]))] + ' '
-            outputs.append({"groundtruth_slot": groundtruth_string, "groundtruth_intent": intents[i], "prediction_slot": predict_string, "prediction_intent": idx2intent[str(np.argmax(predicts_intent))]})
+            outputs.append({"groundtruth_slot": groundtruth_string, "groundtruth_intent": idx2intent[str(intents[i])], "prediction_slot": predict_string, "prediction_intent": idx2intent[str(np.argmax(predicts_intent[i]))]})
+
         json.dump(outputs, open(output_path, 'w'), indent=4)
         print("Prediction saved in file: " + str(output_path))
