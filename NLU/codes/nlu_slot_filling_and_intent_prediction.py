@@ -19,7 +19,6 @@ testing_data_path = "./data/testing_data.json"
 output_path = "./prediction.json"
 nclass_slot = len(slot2idx)
 nclass_intent = len(intent2idx)
-print(nclass_intent)
 vocsize = len(word2idx)
 max_sequence_length = 15 # Defined by myself
 rnn_dim = 16
