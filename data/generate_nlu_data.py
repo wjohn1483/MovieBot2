@@ -3,7 +3,7 @@ import copy
 import sys
 import re
 import itertools
-sys.path.append('/home/roylu/WorkSpace/MovieBot2')
+sys.path.append('/media/wjohn1483/DATA/ntu/ICB/MovieBot2')
 from ontology import OntologyManager
 
 
@@ -25,7 +25,7 @@ ch_hours = ["一", "兩", "三", "四", "五", "六", "七", "八", "九", "十"
 num_hours = [ str(i) for i in range(1, 25) ]
 ch_minutes = ["零分", "十分", "二十分", "三十分", "四十分", "五十分", "十五分", "二十五分", "三十五分", "四十五分", "五十五分"]
 num_minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
-        
+
 
 if __name__ == "__main__":
 
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     # Location values
     loc_values = get_all_values(loc_filename, 'loc')
     theater_name_values = get_all_values(theater_name_filename, 'theater_name')
-    
+
     ontologyManager = OntologyManager.OntologyManager()
     print(ontologyManager.get_all_slots())
     #ontologyManager.values_by_slot(slot=slot)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
         if slots[0] == 'theater_location':
             curr_values = loc_values
-        elif slots[0] == 'movie_time':
+        elif slots[0] == 'showing_time':
             curr_values = time_values
         elif slots[0] == 'theater_name':
             curr_values = theater_name_values
@@ -87,7 +87,7 @@ if __name__ == "__main__":
         template['values'] = None
         data.append(copy.deepcopy(template))
     nlu_data.extend(data)
-   
+
     # booking
     data = []
     for template in templates['booking']:
