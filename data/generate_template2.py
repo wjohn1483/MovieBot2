@@ -133,7 +133,7 @@ def gen_irrelevant_templates():
 
 
 if __name__ == "__main__":
-    filename = 'template.json'
+    filename = './data/template.json'
     
     data = {}
     data['request'] = gen_request_templates()

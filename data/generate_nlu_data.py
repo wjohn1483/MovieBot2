@@ -26,7 +26,6 @@ num_hours = [ str(i) for i in range(1, 25) ]
 ch_minutes = ["零分", "十分", "二十分", "三十分", "四十分", "五十分", "十五分", "二十五分", "三十五分", "四十五分", "五十五分"]
 num_minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
 
-
 if __name__ == "__main__":
 
     filename = './data/template.json'
