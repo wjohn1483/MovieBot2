@@ -1,0 +1,23 @@
+{
+    "0": "inform_theater_location",
+    "1": "inform_theater_name",
+    "2": "inform_showing_time",
+    "3": "inform_showing_version",
+    "4": "inform_movie_type",
+    "5": "inform_movie_country",
+    "6": "request_theater_location",
+    "7": "request_theater_name",
+    "8": "request_theater_address",
+    "9": "request_theater_phone",
+    "10": "request_theater_website",
+    "11": "request_movie_name",
+    "12": "request_movie_description",
+    "13": "request_movie_rating",
+    "14": "request_movie_type",
+    "15": "request_movie_country",
+    "16": "request_showing_time",
+    "17": "request_showing_version",
+    "18": "booking",
+    "19": "closing_success",
+    "20": "closing_failure"
+}
