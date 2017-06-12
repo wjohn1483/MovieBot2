@@ -20,10 +20,10 @@ def get_all_values(filename, val='loc'):
 
 
 
-time_begin = ["早上", "中午", "下午", "晚上", ""]
-hours = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二",
-         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-minutes = ["半", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55", ""]
+#time_begin = ["早上", "中午", "下午", "晚上", ""]
+#ch_hours = ["一", "兩", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二" ]
+num_hours = [ str(i) for i in range(1, 25) ]
+minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
         
 
 if __name__ == "__main__":
@@ -33,9 +33,11 @@ if __name__ == "__main__":
     theater_name_filename = './data/theater_name.json'
 
     # Generate time values
-    begin_and_hour = [ "".join(list(l)+["點"]) for l in list(itertools.product(time_begin, hours)) ]
-    time_values = [ "".join(list(l)) for l in list(itertools.product(begin_and_hour, minutes)) ]
-    time_values.extend(time_begin[:4])
+    time_values = [ ":".join(list(l)) for l in list(itertools.product(num_hours, minutes)) ]
+    time_values.extend(num_hours)
+    #time_values.extend(time_begin[:4])
+    #begin_and_hour = [ "".join(list(l)+[":"]) for l in list(itertools.product(time_begin, num_hours)) ]
+    #time_values.extend([ "".join(list(l)) for l in list(itertools.product(begin_and_hour, minutes[1:-1])) ])
 
     # Location values
     loc_values = get_all_values(loc_filename, 'loc')
@@ -71,30 +73,38 @@ if __name__ == "__main__":
             curr_values = values
 
         for v in curr_values:
+            #try:
+            template['nl'] = 123#template['nl']['user']
+            #except:
+            #    print(template['nl'])
+            #    exit()
             template['values'] = v
             data.append(copy.deepcopy(template))
-    nlu_data['inform'] = data
+    nlu_data.extend(data)
 
     # request
     data = []
     for template in templates['request']:
+        template['nl'] = template['nl']['user']
         template['values'] = None
         data.append(copy.deepcopy(template))
-    nlu_data['request'] = data
+    nlu_data.extend(data)
    
     # booking
     data = []
     for template in templates['booking']:
+        template['nl'] = template['nl']['user']
         template['values'] = None
         data.append(copy.deepcopy(template))
-    nlu_data['booking'] = data
+    nlu_data.extend(data)
 
     # closing
     data = []
     for template in templates['closing']:
+        template['nl'] = template['nl']['user']
         template['values'] = None
         data.append(copy.deepcopy(template))
-    nlu_data['closing'] = data
+    nlu_data.extend(data)
 
     with open('./data/nlu_data.json', 'w', encoding='utf-8') as fout:
         json.dump(nlu_data, fout, ensure_ascii=False, indent=4)
