@@ -20,10 +20,11 @@ def get_all_values(filename, val='loc'):
 
 
 
-#time_begin = ["早上", "中午", "下午", "晚上", ""]
-#ch_hours = ["一", "兩", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二" ]
+time_begin = ["早上", "中午", "下午", "晚上"]
+ch_hours = ["一", "兩", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"]
 num_hours = [ str(i) for i in range(1, 25) ]
-minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
+ch_minutes = ["零分", "十分", "二十分", "三十分", "四十分", "五十分", "十五分", "二十五分", "三十五分", "四十五分", "五十五分"]
+num_minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
         
 
 if __name__ == "__main__":
@@ -33,8 +34,10 @@ if __name__ == "__main__":
     theater_name_filename = './data/theater_name.json'
 
     # Generate time values
-    time_values = [ ":".join(list(l)) for l in list(itertools.product(num_hours, minutes)) ]
-    time_values.extend(num_hours)
+    begin_and_hour = [ "".join(list(l)) for l in list(itertools.product(time_begin, ch_hours)) ]
+    time_values = [ "點".join(list(l)) for l in list(itertools.product(begin_and_hour, ch_minutes)) ]
+
+    #time_values.extend(num_hours)
     #time_values.extend(time_begin[:4])
     #begin_and_hour = [ "".join(list(l)+[":"]) for l in list(itertools.product(time_begin, num_hours)) ]
     #time_values.extend([ "".join(list(l)) for l in list(itertools.product(begin_and_hour, minutes[1:-1])) ])
@@ -51,7 +54,7 @@ if __name__ == "__main__":
     with open(filename, 'r', encoding='utf-8') as fin:
         templates = json.load(fin)
 
-    nlu_data = {}
+    nlu_data = []
 
     # inform
     data = []
@@ -73,11 +76,6 @@ if __name__ == "__main__":
             curr_values = values
 
         for v in curr_values:
-            #try:
-            template['nl'] = 123#template['nl']['user']
-            #except:
-            #    print(template['nl'])
-            #    exit()
             template['values'] = v
             data.append(copy.deepcopy(template))
     nlu_data.extend(data)
