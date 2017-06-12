@@ -113,7 +113,7 @@ def gen_closing_templates():
     nlg_failure_template = "這不是我要的票．"
     #nlg_maxturn_template = "你已經成功考驗我的耐心了！"
 
-    closing = [ {'intent': 'closing_success', 'slots': [], 'nl': {'user': nlg_success_templates}} for nlg_success_template in nlg_success_templates]
+    closing = [ {'intent': 'closing_success', 'slots': [], 'nl': {'user': nlg_success_template}} for nlg_success_template in nlg_success_templates]
     failure = {'intent': 'closing_failure', 'slots': [], 'nl': {'user': nlg_failure_template}}
     #maxturn = {'intent': 'closing_max_turn', 'slots': [], 'nl': {'user': nlg_maxturn_template}}
 
