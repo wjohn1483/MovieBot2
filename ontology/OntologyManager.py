@@ -37,5 +37,5 @@ class OntologyManager(object):
     def values_by_slot(self, slot):
         return self.ontologyManager.db.values_by_slot(slot=slot)
 
-    def entity_by_features(self, constraints):
-        return self.ontologyManager.db.entity_by_features(constraints=constraints)
+    def entity_by_features(self, key, constraints):
+        return self.ontologyManager.db.entity_by_features(key=key, constraints=constraints)

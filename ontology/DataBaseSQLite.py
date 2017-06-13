@@ -5,7 +5,7 @@ class DataBase_SQLite:
     def __init__(self, dbfile):
         self._loaddb(dbfile)
         self.domain = "Movie_Showing"
-        self.from_all_tables = '''from {}
+        self.from_all_tables = '''{}
             join Movies, Theaters
             on Movie_Showing.movie_name=Movies.movie_name
             and Movie_Showing.theater_name=Theaters.theater_name
@@ -36,9 +36,9 @@ class DataBase_SQLite:
         :returns: (list) all slots
         '''
         try:
-            sql_query = 'select * ' + self.from_all_tables
+            sql_query = 'select * from {}'.format(self.from_all_tables)
             cursor = self.cursor.execute(sql_query)
-            results = list(set(map(lambda x: x[0], cursor.description)))
+            results = sorted(list(set(map(lambda x: x[0], cursor.description))))
         except Exception as e:
             print(e)
 
@@ -52,16 +52,16 @@ class DataBase_SQLite:
         '''
         try:
             if slot=='movie_name' or slot=='theater_name':
-                sql_query = 'select distinct {} '.format(self.domain+'.'+slot) + self.from_all_tables
+                sql_query = 'select distinct {} from {}'.format(self.domain+'.'+slot, self.from_all_tables)
             else:
-                sql_query = 'select distinct {} '.format(slot) + self.from_all_tables
+                sql_query = 'select distinct {} from {}'.format(slot, self.from_all_tables)
             results = [row[slot] for row in self.cursor.execute(sql_query)]
         except Exception as e:
             print(e)
 
         return results
 
-    def entity_by_features(self, constraints):
+    def entity_by_features(self, key, constraints):
         '''Retrieves from database all entities matching the given constraints.
 
         :param constraints: features. Dict {slot:value, ...}
@@ -77,22 +77,26 @@ class DataBase_SQLite:
             bits = []
             values = []
             for slot,value in constraints.items():
-                if value != 'dontcare':
+                if slot=='movie_name' or slot=='theater_name':
+                    slot = self.domain+'.'+slot
+                if value != '':
+                #if value != 'dontcare':
                     bits.append(slot + '= ?')
                     values.append(value)
 
             # 2. Finalise and Execute sql_query
             try:
                 if len(bits):
-                    sql_query = '''select *
-                    from {}
-                    where '''.format(self.domain)
+                    sql_query = '''select distinct {}
+                    from {} 
+                    where '''.format(key, self.from_all_tables)
                     sql_query += ' and '.join(bits)
                     self.cursor.execute(sql_query, tuple(values))
                 else:
-                    sql_query = self.no_constraints_sql_query
+                    sql_query = '''select distinct {}
+                    from {}'''.format(key, self.from_all_tables)
                     self.cursor.execute(sql_query)
-                    doRand = True
+                    #doRand = True
             except Exception as e:
                 print(e)        # hold to debug here
         
