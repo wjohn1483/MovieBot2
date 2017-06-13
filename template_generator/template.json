@@ -1,0 +1,1627 @@
+{
+    "inform": [
+        {
+            "nl": "我想找{theater_location}",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我要{theater_location}",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要{theater_location}",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要找{theater_location}",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "找{theater_location}",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_name}",
+            "intent": "inform_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "我要{theater_name}",
+            "intent": "inform_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "我想要{theater_name}",
+            "intent": "inform_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "我想要找{theater_name}",
+            "intent": "inform_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "找{theater_name}",
+            "intent": "inform_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "我想找{theater_name}",
+            "intent": "inform_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "{theater_location}",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "{theater_name}",
+            "intent": "inform_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "我想找{showing_time}",
+            "intent": "inform_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我要{showing_time}",
+            "intent": "inform_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我想要{showing_time}",
+            "intent": "inform_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我想要找{showing_time}",
+            "intent": "inform_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "找{showing_time}",
+            "intent": "inform_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我想找{showing_time}",
+            "intent": "inform_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我想找{showing_version}",
+            "intent": "inform_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我要{showing_version}",
+            "intent": "inform_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我想要{showing_version}",
+            "intent": "inform_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我想要找{showing_version}",
+            "intent": "inform_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "找{showing_version}",
+            "intent": "inform_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我想找{showing_version}",
+            "intent": "inform_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "{showing_time}",
+            "intent": "inform_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "{showing_version}",
+            "intent": "inform_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我想找{movie_type}",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我要{movie_type}",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我想要{movie_type}",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我想要找{movie_type}",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "找{movie_type}",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我想找{movie_type}",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我想找{movie_country}",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我要{movie_country}",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我想要{movie_country}",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我想要找{movie_country}",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "找{movie_country}",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我想找{movie_country}",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "{movie_type}片",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "{movie_type}的電影",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "{movie_country}片",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "{movie_country}的電影",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "{movie_type}",
+            "intent": "inform_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "{movie_country}",
+            "intent": "inform_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}附近",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}附近的電影院",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}附近的",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}旁邊",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}旁",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我要{theater_location}附近",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我要{theater_location}附近的電影院",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我要{theater_location}附近的",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我要{theater_location}旁邊",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我要{theater_location}旁",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要{theater_location}附近",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要{theater_location}附近的電影院",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要{theater_location}附近的",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要{theater_location}旁邊",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要{theater_location}旁",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要找{theater_location}附近",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要找{theater_location}附近的電影院",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要找{theater_location}附近的",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要找{theater_location}旁邊",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要找{theater_location}旁",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "找{theater_location}附近",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "找{theater_location}附近的電影院",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "找{theater_location}附近的",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "找{theater_location}旁邊",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "找{theater_location}旁",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}附近",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}附近的電影院",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}附近的",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}旁邊",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找{theater_location}旁",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "{theater_location}附近",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "{theater_location}附近的電影院",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "{theater_location}附近的",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "{theater_location}旁邊",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "{theater_location}旁",
+            "intent": "inform_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        }
+    ],
+    "request": [
+        {
+            "nl": "請問放映的地點有哪些？",
+            "intent": "request_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想找地點",
+            "intent": "request_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "我想要看地點",
+            "intent": "request_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "請問放映的電影院有哪些？",
+            "intent": "request_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "我想找電影院",
+            "intent": "request_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "我想要看電影院",
+            "intent": "request_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "地點",
+            "intent": "request_theater_location",
+            "slots": [
+                "theater_location"
+            ]
+        },
+        {
+            "nl": "電影院",
+            "intent": "request_theater_name",
+            "slots": [
+                "theater_name"
+            ]
+        },
+        {
+            "nl": "請問放映的地址有哪些？",
+            "intent": "request_theater_address",
+            "slots": [
+                "theater_address"
+            ]
+        },
+        {
+            "nl": "我想找地址",
+            "intent": "request_theater_address",
+            "slots": [
+                "theater_address"
+            ]
+        },
+        {
+            "nl": "我想要看地址",
+            "intent": "request_theater_address",
+            "slots": [
+                "theater_address"
+            ]
+        },
+        {
+            "nl": "請問放映的電話有哪些？",
+            "intent": "request_theater_phone",
+            "slots": [
+                "theater_phone"
+            ]
+        },
+        {
+            "nl": "我想找電話",
+            "intent": "request_theater_phone",
+            "slots": [
+                "theater_phone"
+            ]
+        },
+        {
+            "nl": "我想要看電話",
+            "intent": "request_theater_phone",
+            "slots": [
+                "theater_phone"
+            ]
+        },
+        {
+            "nl": "請問放映的網址有哪些？",
+            "intent": "request_theater_website",
+            "slots": [
+                "theater_website"
+            ]
+        },
+        {
+            "nl": "我想找網址",
+            "intent": "request_theater_website",
+            "slots": [
+                "theater_website"
+            ]
+        },
+        {
+            "nl": "我想要看網址",
+            "intent": "request_theater_website",
+            "slots": [
+                "theater_website"
+            ]
+        },
+        {
+            "nl": "地址",
+            "intent": "request_theater_address",
+            "slots": [
+                "theater_address"
+            ]
+        },
+        {
+            "nl": "電話",
+            "intent": "request_theater_phone",
+            "slots": [
+                "theater_phone"
+            ]
+        },
+        {
+            "nl": "網址",
+            "intent": "request_theater_website",
+            "slots": [
+                "theater_website"
+            ]
+        },
+        {
+            "nl": "我想找電影",
+            "intent": "request_movie_name",
+            "slots": [
+                "movie_name"
+            ]
+        },
+        {
+            "nl": "我要電影",
+            "intent": "request_movie_name",
+            "slots": [
+                "movie_name"
+            ]
+        },
+        {
+            "nl": "我想要電影",
+            "intent": "request_movie_name",
+            "slots": [
+                "movie_name"
+            ]
+        },
+        {
+            "nl": "我想要找電影",
+            "intent": "request_movie_name",
+            "slots": [
+                "movie_name"
+            ]
+        },
+        {
+            "nl": "找電影",
+            "intent": "request_movie_name",
+            "slots": [
+                "movie_name"
+            ]
+        },
+        {
+            "nl": "我想找電影",
+            "intent": "request_movie_name",
+            "slots": [
+                "movie_name"
+            ]
+        },
+        {
+            "nl": "我想找介紹",
+            "intent": "request_movie_description",
+            "slots": [
+                "movie_description"
+            ]
+        },
+        {
+            "nl": "我要介紹",
+            "intent": "request_movie_description",
+            "slots": [
+                "movie_description"
+            ]
+        },
+        {
+            "nl": "我想要介紹",
+            "intent": "request_movie_description",
+            "slots": [
+                "movie_description"
+            ]
+        },
+        {
+            "nl": "我想要找介紹",
+            "intent": "request_movie_description",
+            "slots": [
+                "movie_description"
+            ]
+        },
+        {
+            "nl": "找介紹",
+            "intent": "request_movie_description",
+            "slots": [
+                "movie_description"
+            ]
+        },
+        {
+            "nl": "我想找介紹",
+            "intent": "request_movie_description",
+            "slots": [
+                "movie_description"
+            ]
+        },
+        {
+            "nl": "我想找評價",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找類型",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我要類型",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我想要類型",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我想要找類型",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "找類型",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我想找類型",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "我想找國家",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我要國家",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我想要國家",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我想要找國家",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "找國家",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我想找國家",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "電影",
+            "intent": "request_movie_name",
+            "slots": [
+                "movie_name"
+            ]
+        },
+        {
+            "nl": "介紹",
+            "intent": "request_movie_description",
+            "slots": [
+                "movie_description"
+            ]
+        },
+        {
+            "nl": "評價",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "類型",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "國家",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "類型片",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "類型的電影",
+            "intent": "request_movie_type",
+            "slots": [
+                "movie_type"
+            ]
+        },
+        {
+            "nl": "國家片",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "國家的電影",
+            "intent": "request_movie_country",
+            "slots": [
+                "movie_country"
+            ]
+        },
+        {
+            "nl": "我想找時間",
+            "intent": "request_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我要時間",
+            "intent": "request_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我想要時間",
+            "intent": "request_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我想要找時間",
+            "intent": "request_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "找時間",
+            "intent": "request_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我想找時間",
+            "intent": "request_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "我想找版本",
+            "intent": "request_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我要版本",
+            "intent": "request_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我想要版本",
+            "intent": "request_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我想要找版本",
+            "intent": "request_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "找版本",
+            "intent": "request_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我想找版本",
+            "intent": "request_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "時間",
+            "intent": "request_showing_time",
+            "slots": [
+                "showing_time"
+            ]
+        },
+        {
+            "nl": "版本",
+            "intent": "request_showing_version",
+            "slots": [
+                "showing_version"
+            ]
+        },
+        {
+            "nl": "我想找評價好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價壞的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價普通的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價還行的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價非常好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價熱烈的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價有趣的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價兩極的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價很好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價很差的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價壞的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價普通的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價還行的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價非常好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價熱烈的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價有趣的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價兩極的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價很好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我要評價很差的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價壞的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價普通的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價還行的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價非常好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價熱烈的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價有趣的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價兩極的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價很好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要評價很差的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價壞的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價普通的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價還行的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價非常好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價熱烈的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價有趣的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價兩極的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價很好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想要找評價很差的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價壞的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價普通的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價還行的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價非常好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價熱烈的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價有趣的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價兩極的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價很好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "找評價很差的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價壞的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價普通的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價還行的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價非常好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價熱烈的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價有趣的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價兩極的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價很好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "我想找評價很差的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價壞的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價普通的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價還行的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價非常好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價熱烈的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價有趣的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價兩極的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價很好的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        },
+        {
+            "nl": "評價很差的電影",
+            "intent": "request_movie_rating",
+            "slots": [
+                "movie_rating"
+            ]
+        }
+    ],
+    "booking": [
+        {
+            "nl": {
+                "user": "請問可以幫我訂票嗎？"
+            },
+            "intent": "booking",
+            "slots": []
+        },
+        {
+            "nl": {
+                "user": "幫我訂票"
+            },
+            "intent": "booking",
+            "slots": []
+        },
+        {
+            "nl": {
+                "user": "訂"
+            },
+            "intent": "booking",
+            "slots": []
+        },
+        {
+            "nl": {
+                "user": "訂吧"
+            },
+            "intent": "booking",
+            "slots": []
+        }
+    ],
+    "closing": [
+        {
+            "nl": {
+                "user": "謝謝"
+            },
+            "intent": "closing_success",
+            "slots": []
+        },
+        {
+            "nl": {
+                "user": "謝謝你！"
+            },
+            "intent": "closing_success",
+            "slots": []
+        },
+        {
+            "nl": {
+                "user": "這不是我要的票．"
+            },
+            "intent": "closing_failure",
+            "slots": []
+        }
+    ]
+}
