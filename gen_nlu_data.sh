@@ -1,0 +1,3 @@
+python3 template_generator/generate_template.py
+python3 template_generator/generate_nlu_data.py
+
