@@ -7,7 +7,7 @@ jieba.load_userdict("./data/values.txt")
 
 edit_distance_threshold = 2
 
-valid_slot = ['theater_address', 'theater_location', 'movie_name', \
+valid_slot = ['theater_address', 'movie_name', \
               'movie_country', 'theater_name', 'movie_type']
 time_map = {0:'零',1:'一',2:'兩',3:'三',4:'四',5:'五',6:'六',\
             7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'}
@@ -22,8 +22,6 @@ for slot in valid_slot:
     value_list.extend(OM.values_by_slot(slot = slot))
 
 def error_correction(slot_dict, ontology):
-  # only read slot value
-  slot_dict = slot_dict[0]
   for slot in slot_dict:
     if slot in valid_slot and slot_dict[slot] != '':
       value_list = ontology.values_by_slot(slot = slot)
