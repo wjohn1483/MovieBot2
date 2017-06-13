@@ -2,6 +2,7 @@ from Levenshtein import distance
 import numpy as np
 from ontology import OntologyManager
 import json
+import jieba
 
 valid_slot = ['theater_address', 'theater_location', 'movie_name', \
               'movie_country', 'theater_name', 'movie_type']
@@ -9,10 +10,15 @@ time_map = {0:'零',1:'一',2:'兩',3:'三',4:'四',5:'五',6:'六',\
             7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'}
 subtime_map = {1:'一',2:'二',3:'三',4:'四',5:'五',6:'六',\
                7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'}
+date_blacklist = ['禮拜一','禮拜二','禮拜三','禮拜四','禮拜五','禮拜六','禮拜天','禮拜日',\
+                  '星期一','星期二','星期三','星期四','星期五','星期六','星期日','星期天']
+
 
 def error_correction(slot_dict, ontology): 
+  # only read slot value
+  slot_dict = slot_dict[0]
   for slot in slot_dict:
-    if slot in valid_slot:
+    if slot in valid_slot and slot_dict[slot] != '':
       value_list = ontology.values_by_slot(slot = slot)
       #print(value_list)
 
@@ -20,7 +26,25 @@ def error_correction(slot_dict, ontology):
       slot_dict[slot] = value_list[np.argmin(similarity)]
 
   return slot_dict
-  
+
+def block_date(sentence):
+  for s in date_blacklist:
+    if s in sentence:
+      sentence = sentence.replace(s,'')
+    if '/' in sentence:
+      if sentence.index('/') in range(2, len(sentence) - 2):
+        for i in [sentence.index('/')-2, sentence.index('/')-1]:
+          if sentence[i].isdigit():
+            pre = i
+            break
+        for i in [sentence.index('/')+2, sentence.index('/')+1]:
+          if sentence[i].isdigit():
+            aft = i
+            break
+        sentence = sentence.replace(sentence[pre:aft+1], '')
+  return sentence
+        
+        
 def time_transfer(string):
   if '：' in string or ':' in string:
     time = string.replace('：', '').replace(':', '')
@@ -61,6 +85,11 @@ def time_transfer(string):
 if __name__ == '__main__':
 
   OM = OntologyManager.OntologyManager()
-  d = {'showing_time': '0015', 'movie_name': '我和他的季軍男友'}
-  print(error_correction(d, OM))
-  print(time_transfer('23:59'))
+  d = [{'showing_time': '0015', 'movie_name': '我和他的季軍男友'}]
+  #print(error_correction(d, OM))
+  #print(time_transfer('23:59'))
+  print(block_date('我想要定7/25的票'))
+
+  while(True):
+    s = input("> ")
+    print(block_date(s))
