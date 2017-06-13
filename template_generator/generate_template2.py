@@ -17,6 +17,7 @@ slot2ch_dict = { 'theater_location': ["地點"],
                  'showing_version': ["版本", "版"] }
 
 begin_end_nls_iwant = [ ["我想", ""], ["我想要", ""], ["我想找", ""], ["我想要找", ""], ["請幫我找", ""], ["我要", ""], ["我要找", ""] ]
+begin_end_nls_iwantin = [ ["我想在", ""], ["我想在", "看"], ["我想在", "看電影"], ["我想要在", ""], ["我想要在", "看"], ["我想要在", "看電影"] ]
 begin_end_nls_igo   = [ ["我想去", ""], ["我要去", ""], ["我想要去", ""] ]
 begin_end_nls_movie = [ ["請問放映的", "有哪些？"] ]
 begin_end_nls_type_country = [ ["", "片"], ["", "的電影"] ]
@@ -62,6 +63,9 @@ def raw_template_to_nlu_template(filename, intent_type):
 
                     if intent_type == 'inform':
                         ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant))
+
+                    if intent_type == 'inform' and template['intent'] == 'theater_location':
+                        ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwantin))
 
                     # For empty
                     ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_empty))
