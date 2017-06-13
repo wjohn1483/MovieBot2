@@ -32,8 +32,8 @@ num_minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
 if __name__ == "__main__":
 
     filename = './data/template.json'
-    loc_filename = './data/loc.json'
-    theater_name_filename = './data/theater_name.json'
+    loc_filename = './raw_data/loc.json'
+    theater_name_filename = './raw_data/theater_name.json'
 
     # Generate time values
     begin_and_hour = [ "".join(list(l)) for l in list(itertools.product(time_begin, ch_hours)) ]
