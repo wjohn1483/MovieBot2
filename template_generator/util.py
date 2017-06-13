@@ -24,7 +24,7 @@ def gen_request_templates():
     
     cc = {
     # 地點
-    'request':[{ 'intent': 'theater_location', 'slots': [''], 'mid_nls': ["{intent}{%s}"] },
+    'request':[{ 'intent': 'theater_location', 'slots': [''], 'mid_nls': ["在{intent}{%s}", "去{intent}{%s}", "{intent}{%s}"] },
 
     # 電影院的
     { 'intent': 'theater_name', 'slots': ['movie_name'], 'mid_nls': ["有放映{%s}的{intent}", "有播放{%s}的{intent}", "有{%s}的{intent}"] },

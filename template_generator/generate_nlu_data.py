@@ -49,9 +49,7 @@ if __name__ == "__main__":
     theater_name_values = get_all_values(theater_name_filename, 'theater_name')
 
     ontologyManager = OntologyManager.OntologyManager()
-    print(ontologyManager.get_all_slots())
     #ontologyManager.values_by_slot(slot=slot)
-    print(ontologyManager.values_by_slot(slot='theater_location'))
 
     with open(filename, 'r', encoding='utf-8') as fin:
         templates = json.load(fin)

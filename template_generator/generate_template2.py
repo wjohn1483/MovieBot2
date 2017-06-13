@@ -3,25 +3,18 @@ import json
 import os
 import sys
 
-theater_slots_attrs = [ 'theater_location', 'theater_name' ]
-theater_info_slots = [ 'theater_address', 'theater_phone', 'theater_website' ]
-
-movie_slots_name       = [ 'movie_name', 'movie_description', 'movie_rating' ]
-showing_slots_name     = [ 'showing_time', 'showing_version' ]
-movie_tc_slots_name    = [ 'movie_type', 'movie_country' ]
-
-slot2ch_dict = { 'theater_location': "地點", 
-                 'theater_name': "電影院",
-                 'theater_phone': "電話",
-                 'theater_address': "地址",
-                 'theater_website': "網址",
-                 'movie_name': "電影", 
-                 'movie_description': "介紹",
-                 'movie_type': "類型",
-                 'movie_rating': "評價",
-                 'movie_country': "國家",
-                 'showing_time': "時間",
-                 'showing_version': "版本" }
+slot2ch_dict = { 'theater_location': ["地點"], 
+                 'theater_name': ["電影院", "戲院"],
+                 'theater_phone': ["電話"],
+                 'theater_address': ["地址", "位置"],
+                 'theater_website': ["網址", "網站"],
+                 'movie_name': ["電影", "影片"], 
+                 'movie_description': ["介紹", "簡介"],
+                 'movie_type': ["類型", "類別"],
+                 'movie_rating': ["評價", "評分", "評論", "分數"],
+                 'movie_country': ["國家", "出版商", "出版地", "製造地"],
+                 'showing_time': ["時間"],
+                 'showing_version': ["版本", "版"] }
 
 begin_end_nls_iwant = [ ["我想", ""], ["我想要", ""], ["我想找", ""], ["我想要找", ""], ["請幫我找", ""], ["我要", ""], ["我要找", ""] ]
 begin_end_nls_igo   = [ ["我想去", ""], ["我要去", ""], ["我想要去", ""] ]
@@ -49,27 +42,29 @@ def raw_template_to_nlu_template(filename, intent_type):
         for mid_nl in template['mid_nls']:
             for slot in template['slots']:
                 
-                if slot == '':
-                    curr_mid_nl = mid_nl.replace('{intent}', slot2ch_dict[template['intent']]).replace('{%s}','')
-                else:
-                    curr_mid_nl = (mid_nl % slot).replace('{intent}', slot2ch_dict[template['intent']])
+                for slot_ch in slot2ch_dict[template['intent']]:
+                    if slot == '':
+                        curr_mid_nl = mid_nl.replace('{intent}', slot_ch).replace('{%s}','')
+                    else:
+                        curr_mid_nl = (mid_nl % slot).replace('{intent}', slot_ch)
 
-                if intent_type == 'request' and template['intent'] == 'theater_name':
-                    ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_igo))
-                if intent_type == 'request' and template['intent'] != 'theater_name':
-                    ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant))
+                    if intent_type == 'request' and template['intent'] == 'theater_name':
+                        ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_igo))
+                    if intent_type == 'request' and template['intent'] != 'theater_name':
+                        ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant))
 
 
-                if intent_type == 'request' and ( template['intent'] == 'movie_name' or template['intent'] == 'movie_time' ):
-                    ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant + begin_end_nls_movie))
+                    if intent_type == 'request' and ( template['intent'] == 'movie_name' or template['intent'] == 'movie_time' ):
+                        ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant + begin_end_nls_movie))
 
-                if intent_type == 'request' and ( template['intent'] == 'movie_country' or template['intent'] == 'movie_type' ):
-                    ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant))
+                    if intent_type == 'request' and ( template['intent'] == 'movie_country' or template['intent'] == 'movie_type' ):
+                        ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant))
 
-                if intent_type == 'inform':
-                    ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant))
+                    if intent_type == 'inform':
+                        ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_iwant))
 
-                ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_empty))
+                    # For empty
+                    ret_templates.extend(gen_templates(curr_intent, [slot], curr_mid_nl, begin_end_nls_empty))
 
     return ret_templates
 
