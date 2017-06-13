@@ -57,15 +57,24 @@ class DialogueManager():
 
 if __name__ == '__main__':
   DM = DialogueManager()
+  turn = 1
   print('安安   你真是他媽幹話王ㄟ')
   while(True):
     s = input("> ")
+    print("## Turn %s" % turn)
+    print(s)
     if s == 'reset':
       DM.reset()
       print(DM.system_state)
+      turn = 0
     elif s == 'end':
       exit()
     else:
       print(DM.update(s))
+
+    print()
+    print()
+    print()
+    turn += 1
 
 

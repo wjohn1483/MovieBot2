@@ -3,6 +3,8 @@ import numpy as np
 from ontology import OntologyManager
 import json
 import jieba
+import re
+
 jieba.load_userdict("./data/values.txt")
 
 location_map = json.loads(open('raw_data/loc.json').read())
@@ -35,6 +37,9 @@ def time_ch2num(string):
     "兩", "三十", "四十", "五十", "二十五", "三十五", "四十五", "五十五", "半"]
     num_hours = list(range(0, 25)) + [2, 30, 40, 50, 25, 35, 45, 55, 30]
     ch2num_dic = { ch: num for ch, num in zip(ch_hours, num_hours) }
+
+    if not re.match("([早上|中午|下午|晚上])(.*)([點])(.*)([半|分])", string):
+        return string
 
     for tb in time_begin:
         if tb in string:
