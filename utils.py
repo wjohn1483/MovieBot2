@@ -16,8 +16,12 @@ subtime_map = {1:'一',2:'二',3:'三',4:'四',5:'五',6:'六',\
 date_blacklist = ['禮拜一','禮拜二','禮拜三','禮拜四','禮拜五','禮拜六','禮拜天','禮拜日',\
                   '星期一','星期二','星期三','星期四','星期五','星期六','星期日','星期天']
 
+OM = OntologyManager.OntologyManager()
+value_list = []
+for slot in valid_slot:
+    value_list.extend(OM.values_by_slot(slot = slot))
 
-def error_correction(slot_dict, ontology): 
+def error_correction(slot_dict, ontology):
   # only read slot value
   slot_dict = slot_dict[0]
   for slot in slot_dict:
@@ -46,13 +50,10 @@ def block_date(sentence):
             break
         sentence = sentence.replace(sentence[pre:aft+1], '')
   return sentence
-        
-        
-def error_correction_by_nl(string, value_list):
+
+def error_correction_by_nl(string):
     words = " ".join(jieba.cut(string)).split()
-    print(reversed(range(2, len(words))))
-    for sub_string_length in reversed(range(2, len(words))):
-        print(words)
+    for sub_string_length in reversed(range(3, len(words))):
         for index in range(0, len(words)-sub_string_length+1):
             sub_string = "".join(words[index:index+sub_string_length])
             edit_distance = [distance(s, sub_string) for s in value_list]
@@ -61,8 +62,6 @@ def error_correction_by_nl(string, value_list):
                 temp.append(value_list[np.argmin(edit_distance)])
                 temp.extend(words[index+sub_string_length+1:])
                 words = temp
-    print("Final words")
-    print(words)
     return "".join(words)
 
 def time_transfer(string):
@@ -103,22 +102,10 @@ def time_transfer(string):
   return o
 
 if __name__ == '__main__':
-  OM = OntologyManager.OntologyManager()
-  value_list = []
-  for slot in valid_slot:
-    value_list.extend(OM.values_by_slot(slot = slot))
-
-  OM = OntologyManager.OntologyManager()
-  d = [{'showing_time': '0015', 'movie_name': '我和他的季軍男友'}]
-  #print(error_correction(d, OM))
-  #print(time_transfer('23:59'))
-  print(block_date('我想要定7/25的票'))
-
-  while(True):
-    s = input("> ")
-    print(block_date(s))
-    d = {'showing_time': '0015', 'movie_name': '我和他的季軍男友'}
+    d = [{'showing_time': '0015', 'movie_name': '我和他的季軍男友'}]
+    #print(block_date('我想要定7/25的票'))
     #print(error_correction(d, OM))
-    print(error_correction_by_nl("我想要看我和我的冠軍男友", value_list))
-    print(error_correction_by_nl("我想要看神力女廢人", value_list))
+    #print(error_correction_by_nl("我想要看我和我的冠軍男友"))
+    #print(error_correction_by_nl("我想要看神力女廢人"))
+    print(error_correction_by_nl("我想要看神鬼戰士"))
     #print(time_transfer('23:59'))
