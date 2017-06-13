@@ -1,5 +1,5 @@
 import utils
-import sys 
+import sys
 sys.path.append('./NLU')
 from NLU import NLU
 from ontology import OntologyManager
@@ -23,7 +23,7 @@ class DialogueManager():
     slot_dict, self.intent = self.nlu.understand(sentence)
     print(slot_dict)
     # restore slot value again
-    slot_dict = utils.error_correction(slot_dict, self.OM)
+    slot_dict = utils.error_correction(slot_dict)
     # state tracking
     self.DialogueStateTracking(slot_dict)
 
@@ -38,7 +38,7 @@ class DialogueManager():
           value_change = True
         self.system_state[slot] = slot_dict[slot]
 
-    return value_change    
+    return value_change
 
   def reset(self):
     self.slot_dict = {}.fromkeys(self.OM.get_all_slots(), '')
@@ -51,5 +51,5 @@ if __name__ == '__main__':
       DM.reset()
     else:
       print(DM.update(s))
-      
-    
+
+

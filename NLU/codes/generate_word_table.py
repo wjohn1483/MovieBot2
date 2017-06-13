@@ -17,5 +17,5 @@ word_table = {}
 for i, word in enumerate(word_list):
     word_table[word] = i
 
-json.dump(word_table, open("./data/word_table.json", 'w'), indent=4)
+json.dump(word_table, open("./tables/word_table.json", 'w'), indent=4)
 print("There are " + str(len(word_list)-1) + " words in the dataset")

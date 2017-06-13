@@ -14,10 +14,10 @@ for template in data:
 idx2indent = {}
 for i, intent in enumerate(intent_table):
     idx2indent[i] = intent
-json.dump(idx2indent, open("./data/intent_table.json", 'w'), indent=4)
+json.dump(idx2indent, open("./tables/intent_table.json", 'w'), indent=4)
 
 # Output values to file
-output_file = open("./data/values.txt", 'w')
+output_file = open("./tables/values.txt", 'w')
 for value in values:
     if value != None:
         output_file.write(str(value) + "\n")

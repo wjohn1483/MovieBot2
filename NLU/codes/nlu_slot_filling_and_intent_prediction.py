@@ -7,9 +7,9 @@ import argparse
 import sys
 
 # Config
-word2idx = json.load(open("./data/word_table.json", 'r'))
-idx2slot = json.load(open("./data/slots_table.json", 'r'))
-idx2intent = json.load(open("./data/intent_table.json", 'r'))
+word2idx = json.load(open("./tables/word_table.json", 'r'))
+idx2slot = json.load(open("./tables/slots_table.json", 'r'))
+idx2intent = json.load(open("./tables/intent_table.json", 'r'))
 slot2idx = dict((k, v) for v, k in idx2slot.items())
 intent2idx = dict((k, v) for v, k in idx2intent.items())
 model_dir = "./NLU/model/"
