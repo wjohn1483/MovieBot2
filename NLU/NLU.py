@@ -2,14 +2,15 @@ import jieba
 import json
 import sys
 sys.path.append("./codes/")
+sys.path.append("./NLU/codes/")
 import nlu_slot_filling_and_intent_prediction
 
 # Load dict
-jieba.load_userdict("./data/values.txt")
+jieba.load_userdict("./NLU/data/values.txt")
 
 # Load slots and intents
-idx2slot = json.load(open("./data/slots_table.json", 'r'))
-idx2intent = json.load(open("./data/intent_table.json", 'r'))
+idx2slot = json.load(open("./NLU/data/slots_table.json", 'r'))
+idx2intent = json.load(open("./NLU/data/intent_table.json", 'r'))
 
 class NLU:
     def __init__(self):

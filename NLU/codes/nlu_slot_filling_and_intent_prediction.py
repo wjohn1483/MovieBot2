@@ -7,15 +7,15 @@ import argparse
 import sys
 
 # Config
-word2idx = json.load(open("./data/word_table.json", 'r'))
-idx2slot = json.load(open("./data/slots_table.json", 'r'))
-idx2intent = json.load(open("./data/intent_table.json", 'r'))
+word2idx = json.load(open("./NLU/data/word_table.json", 'r'))
+idx2slot = json.load(open("./NLU/data/slots_table.json", 'r'))
+idx2intent = json.load(open("./NLU/data/intent_table.json", 'r'))
 slot2idx = dict((k, v) for v, k in idx2slot.items())
 intent2idx = dict((k, v) for v, k in idx2intent.items())
-model_dir = "./model/"
+model_dir = "./NLU//model/"
 model_path = model_dir + "model.ckpt"
-training_data_path = "./data/training_data.json"
-testing_data_path = "./data/testing_data.json"
+training_data_path = "./NLU/data/training_data.json"
+testing_data_path = "./NLU/data/testing_data.json"
 output_path = "./prediction.json"
 nclass_slot = len(slot2idx)
 nclass_intent = len(intent2idx)
