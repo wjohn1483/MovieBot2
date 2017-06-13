@@ -3,9 +3,12 @@ import copy
 import sys
 import re
 import itertools
-sys.path.append('/media/wjohn1483/DATA/ntu/ICB/MovieBot2/NLU/')
-from ontology import OntologyManager
 
+with open('./config', 'r') as f:
+    path = f.readline().strip().split('=')[1]
+    sys.path.append(path)
+
+from ontology import OntologyManager
 
 def get_all_values(filename, val='loc'):
     with open(filename, 'r', encoding='utf-8') as fin:
@@ -82,7 +85,6 @@ if __name__ == "__main__":
     # request
     data = []
     for template in templates['request']:
-        template['nl'] = template['nl']['user']
         template['values'] = None
         data.append(copy.deepcopy(template))
     nlu_data.extend(data)
@@ -90,7 +92,6 @@ if __name__ == "__main__":
     # booking
     data = []
     for template in templates['booking']:
-        template['nl'] = template['nl']['user']
         template['values'] = None
         data.append(copy.deepcopy(template))
     nlu_data.extend(data)
@@ -98,7 +99,6 @@ if __name__ == "__main__":
     # closing
     data = []
     for template in templates['closing']:
-        template['nl'] = template['nl']['user']
         template['values'] = None
         data.append(copy.deepcopy(template))
     nlu_data.extend(data)

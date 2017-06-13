@@ -9,7 +9,6 @@ movie_slots_name       = [ 'movie_name', 'movie_description', 'movie_rating' ]
 showing_slots_name     = [ 'showing_time', 'showing_version' ]
 movie_tc_slots_name    = [ 'movie_type', 'movie_country' ]
 
-# No date since we have only movies from one day
 req_slots_dict = { 'theater_location': "地點", 
                    'theater_name': "電影院",
                    'theater_phone': "電話",
@@ -24,9 +23,9 @@ req_slots_dict = { 'theater_location': "地點",
                    'showing_version': "版本" }
 
 nlg_begin_end_pair_1 = [ ["請問放映的", "有哪些？"], ["我想找", ""], ["我想要看", ""] ]
-nlg_begin_end_pair_2 = [ ["我想找", ""], ["我要", ""] ]
-nlg_begin_end_pair_3 = [ ["", "片"], ["", "的電影"] ] 
-nlg_begin_end_pair_4 = [ ["", ""] ]
+nlg_begin_end_pair_2 = [ ["我想找", ""], ["我要", ""], ["我想要", ""], ["我想要找", ""], ["找", ""], ["我想找", ""] ]
+nlg_begin_end_pair_3 = [ ["", "片"], ["", "的電影"] ]
+nlg_begin_end_pair_empty = [ ["", ""] ]
 
 def gen_templates_by_slots_name(intent, slots_name, nlg_req_begin_end_pair, max_num_of_solts=float('inf')):
     ret = []
@@ -37,7 +36,7 @@ def gen_templates_by_slots_name(intent, slots_name, nlg_req_begin_end_pair, max_
                 nlg = nlg_req_begin
                 
                 if intent == 'request':
-                    slots_ch = [req_slots_dict[s] for s in slots]
+                    slots_ch = [ req_slots_dict[s] for s in slots ]
                     if len(slots_ch) != 1:
                         slots_string = "、".join(slots_ch)
                     elif len(slots_ch) == 1:
@@ -49,7 +48,7 @@ def gen_templates_by_slots_name(intent, slots_name, nlg_req_begin_end_pair, max_
                 nlg = nlg_req_begin + slots_string + nlg_req_end
                 print(nlg)
                 curr_intent = "_".join( [intent] + list(slots) )
-                req = {'intent': curr_intent, 'slots': slots, 'nl': {'user': nlg}}
+                req = {'intent': curr_intent, 'slots': slots, 'nl': nlg}
 
                 ret.append(req)
     return ret
@@ -62,18 +61,23 @@ def gen_request_templates():
     request_templates = []
 
     request_templates.extend( gen_templates_by_slots_name( 'request', theater_slots_name, nlg_begin_end_pair_1, 1) )
-    request_templates.extend( gen_templates_by_slots_name( 'request', theater_slots_name, nlg_begin_end_pair_4, 1) )
+    request_templates.extend( gen_templates_by_slots_name( 'request', theater_slots_name, nlg_begin_end_pair_empty, 1) )
 
     request_templates.extend( gen_templates_by_slots_name( 'request', theater_apw_slots_name, nlg_begin_end_pair_1, 1) )
-    request_templates.extend( gen_templates_by_slots_name( 'request', theater_apw_slots_name, nlg_begin_end_pair_4, 1) )
+    request_templates.extend( gen_templates_by_slots_name( 'request', theater_apw_slots_name, nlg_begin_end_pair_empty, 1) )
 
     request_templates.extend( gen_templates_by_slots_name( 'request', movie_slots_name + movie_tc_slots_name, nlg_begin_end_pair_2, 1) )
-    request_templates.extend( gen_templates_by_slots_name( 'request', movie_slots_name + movie_tc_slots_name, nlg_begin_end_pair_4, 1) )
+    request_templates.extend( gen_templates_by_slots_name( 'request', movie_slots_name + movie_tc_slots_name, nlg_begin_end_pair_empty, 1) )
 
     request_templates.extend( gen_templates_by_slots_name( 'request', movie_tc_slots_name, nlg_begin_end_pair_3, 1) )
 
     request_templates.extend( gen_templates_by_slots_name( 'request', showing_slots_name, nlg_begin_end_pair_2, 1) )
-    request_templates.extend( gen_templates_by_slots_name( 'request', showing_slots_name, nlg_begin_end_pair_4, 1) )
+    request_templates.extend( gen_templates_by_slots_name( 'request', showing_slots_name, nlg_begin_end_pair_empty, 1) )
+
+    # Customize
+    request_templates.extend( gen_templates_by_slots_name( 'request', ['movie_rating'], 
+                                                                      [ [ p[0], "%s的電影" % ch ] for p in nlg_begin_end_pair_2 + nlg_begin_end_pair_empty
+                                                                        for ch in ["好", "壞", "普通", "還行", "非常好", "熱烈", "有趣", "兩極", "很好", "很差"] ], 1) )
 
     return request_templates
 
@@ -83,14 +87,21 @@ def gen_inform_templates():
     inform_templates = []
 
     inform_templates.extend( gen_templates_by_slots_name( 'inform', theater_slots_name, nlg_begin_end_pair_2, 1) )
-    inform_templates.extend( gen_templates_by_slots_name( 'inform', theater_slots_name, nlg_begin_end_pair_4, 1) )
+    inform_templates.extend( gen_templates_by_slots_name( 'inform', theater_slots_name, nlg_begin_end_pair_empty, 1) )
 
     inform_templates.extend( gen_templates_by_slots_name( 'inform', showing_slots_name, nlg_begin_end_pair_2, 1) )
-    inform_templates.extend( gen_templates_by_slots_name( 'inform', showing_slots_name, nlg_begin_end_pair_4, 1) )
+    inform_templates.extend( gen_templates_by_slots_name( 'inform', showing_slots_name, nlg_begin_end_pair_empty, 1) )
 
     inform_templates.extend( gen_templates_by_slots_name( 'inform', movie_tc_slots_name, nlg_begin_end_pair_2, 1) )
     inform_templates.extend( gen_templates_by_slots_name( 'inform', movie_tc_slots_name, nlg_begin_end_pair_3, 1) )
-    inform_templates.extend( gen_templates_by_slots_name( 'inform', movie_tc_slots_name, nlg_begin_end_pair_4, 1) )
+    inform_templates.extend( gen_templates_by_slots_name( 'inform', movie_tc_slots_name, nlg_begin_end_pair_empty, 1) )
+
+    # Customize
+    inform_templates.extend( gen_templates_by_slots_name( 'inform', ['theater_location'], 
+                                                                    [ [ p[0], p1 ] for p in nlg_begin_end_pair_2 + nlg_begin_end_pair_empty 
+                                                                      for p1 in ["附近", "附近的電影院", "附近的", "旁邊", "旁"] ], 1) )
+
+    inform_templates.extend( gen_templates_by_slots_name( 'inform', ['movie_name'], nlg_begin_end_pair_2 + nlg_begin_end_pair_empty, 1) )
 
     return inform_templates
 
@@ -100,7 +111,7 @@ def gen_inform_templates():
 def gen_booking_template():
     booking_templates = []
     nlg_booking_templates = [ "請問可以幫我訂票嗎？", "幫我訂票", "訂", "訂吧"]
-    booking = [ {'intent': 'booking', 'slots': [], 'nl': {'user': nlg_booking_template}} for nlg_booking_template in nlg_booking_templates ]
+    booking = [ {'intent': 'booking', 'slots': [], 'nl': nlg_booking_template} for nlg_booking_template in nlg_booking_templates ]
     booking_templates.extend(booking)
     return booking_templates
 
@@ -113,8 +124,8 @@ def gen_closing_templates():
     nlg_failure_template = "這不是我要的票．"
     #nlg_maxturn_template = "你已經成功考驗我的耐心了！"
 
-    closing = [ {'intent': 'closing_success', 'slots': [], 'nl': {'user': nlg_success_template}} for nlg_success_template in nlg_success_templates]
-    failure = {'intent': 'closing_failure', 'slots': [], 'nl': {'user': nlg_failure_template}}
+    closing = [ {'intent': 'closing_success', 'slots': [], 'nl': nlg_success_template} for nlg_success_template in nlg_success_templates]
+    failure = {'intent': 'closing_failure', 'slots': [], 'nl': nlg_failure_template}
     #maxturn = {'intent': 'closing_max_turn', 'slots': [], 'nl': {'user': nlg_maxturn_template}}
 
     closing_templates.extend(closing)
@@ -127,13 +138,13 @@ def gen_closing_templates():
 def gen_irrelevant_templates():
     irrelevant_templates = []
     nlg_irrelevant_template = "跟我講{irrelevant}尬麻啦？"
-    irrelevant = {'slots': [], 'nl': {'user': nlg_irrelevant_template}}
+    irrelevant = {'slots': [], 'nl': nlg_irrelevant_template}
     irrelevant_templates.append(irrelevant)
     return irrelevant_templates
 
 
 if __name__ == "__main__":
-    filename = './data/template.json'
+    filename = './template.json'
     
     data = {}
     data['request'] = gen_request_templates()
