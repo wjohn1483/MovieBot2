@@ -3,13 +3,13 @@ import json
 import os
 import sys
 
-slot2ch_dict = { 'theater_location': ["地點"], 
-                 'theater_name': ["電影院", "戲院"],
-                 'theater_phone': ["電話"],
-                 'theater_address': ["地址", "位置"],
+slot2ch_dict = { 'theater_location': ["地點", "地方", "在哪裡", "在那裡"],
+                 'theater_name': ["電影院", "戲院", "院", "影城"],
+                 'theater_phone': ["電話", "手機", "客服", "聯絡方式", "聯絡", "號碼", "電話號碼", "手機號碼"],
+                 'theater_address': ["地址", "位置", "在什麼路"],
                  'theater_website': ["網址", "網站"],
-                 'movie_name': ["電影", "影片"], 
-                 'movie_description': ["介紹", "簡介"],
+                 'movie_name': ["電影", "影片", "視頻"], 
+                 'movie_description': ["介紹", "簡介", "內容", "大綱", "劇情", "內幕", "搶先看", "摘要", "重點"],
                  'movie_type': ["類型", "類別"],
                  'movie_rating': ["評價", "評分", "評論", "分數"],
                  'movie_country': ["國家", "出版商", "出版地", "製造地"],
