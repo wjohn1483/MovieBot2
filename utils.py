@@ -3,6 +3,9 @@ import numpy as np
 from ontology import OntologyManager
 import json
 import jieba
+jieba.load_userdict("./data/values.txt")
+
+edit_distance_threshold = 2
 
 valid_slot = ['theater_address', 'theater_location', 'movie_name', \
               'movie_country', 'theater_name', 'movie_type']
@@ -45,6 +48,23 @@ def block_date(sentence):
   return sentence
         
         
+def error_correction_by_nl(string, value_list):
+    words = " ".join(jieba.cut(string)).split()
+    print(reversed(range(2, len(words))))
+    for sub_string_length in reversed(range(2, len(words))):
+        print(words)
+        for index in range(0, len(words)-sub_string_length+1):
+            sub_string = "".join(words[index:index+sub_string_length])
+            edit_distance = [distance(s, sub_string) for s in value_list]
+            if np.min(edit_distance) <= edit_distance_threshold and np.min(edit_distance) != 0:
+                temp = words[:index]
+                temp.append(value_list[np.argmin(edit_distance)])
+                temp.extend(words[index+sub_string_length+1:])
+                words = temp
+    print("Final words")
+    print(words)
+    return "".join(words)
+
 def time_transfer(string):
   if '：' in string or ':' in string:
     time = string.replace('：', '').replace(':', '')
@@ -66,12 +86,12 @@ def time_transfer(string):
     t = str(int(t) - 1200)
     if len(t) < 4:
       t = '0' + t
-  elif int(t) >= 1800: 
+  elif int(t) >= 1800:
     o = '晚上'
     t = str(int(t) - 1200)
     if len(t) < 4:
       t = '0' + t
-  
+
   o = o + time_map[int(t[0] + t[1])] + '點'
   if t[2] == '0' and t[3] != '0':
     o = o + subtime_map[int(t[3])] + '分'
@@ -83,6 +103,10 @@ def time_transfer(string):
   return o
 
 if __name__ == '__main__':
+  OM = OntologyManager.OntologyManager()
+  value_list = []
+  for slot in valid_slot:
+    value_list.extend(OM.values_by_slot(slot = slot))
 
   OM = OntologyManager.OntologyManager()
   d = [{'showing_time': '0015', 'movie_name': '我和他的季軍男友'}]
@@ -93,3 +117,8 @@ if __name__ == '__main__':
   while(True):
     s = input("> ")
     print(block_date(s))
+    d = {'showing_time': '0015', 'movie_name': '我和他的季軍男友'}
+    #print(error_correction(d, OM))
+    print(error_correction_by_nl("我想要看我和我的冠軍男友", value_list))
+    print(error_correction_by_nl("我想要看神力女廢人", value_list))
+    #print(time_transfer('23:59'))
