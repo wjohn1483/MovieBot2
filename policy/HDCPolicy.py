@@ -25,7 +25,7 @@ class HDCPolicy(Policy.Policy):
         if intent[:6] == 'inform':
             results = self.ontology_manager.entity_by_features('*', state)
             movie_showing = [{k: result[k] for k in ('movie_name', 'theater_name', 'showing_time')} for result in results]
-            
+
             # too many results => request for more information
             if len(results) > MAX_RESULTS:
                 if state['movie_name'] == '':
@@ -56,11 +56,11 @@ class HDCPolicy(Policy.Policy):
                     if len(results) == 0:
                         error_slot[slot] = state[slot]
                 sys_act['slot_value'] = [error_slot]
-                    
+
         # request type intent
         elif intent[:7] == 'request':
             results = self.ontology_manager.entity_by_features(intent[8:], state)
-            
+
             # no results => remove error slots
             if len(results) == 0:
                 sys_act['act_type'] = 'confuse'
@@ -72,7 +72,7 @@ class HDCPolicy(Policy.Policy):
                 sys_act['slot_value'] = [error_slot]
 
             # movie, theater, time could be multiple results
-            elif intent[8:] == 'movie_name' or intent[8:0] == 'theater_name' or intent[8:0] == 'showing_time':
+            elif intent[8:] == 'movie_name' or intent[8:] == 'theater_name' or intent[8:] == 'showing_time':
                 sys_act['act_type'] = 'inform_{}'.format(intent[8:])
                 sys_act['slot_value'] = results[:MAX_RESULTS]
 

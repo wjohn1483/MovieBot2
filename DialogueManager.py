@@ -33,7 +33,9 @@ class DialogueManager():
 
     action_dict = self.policy.act_on((self.system_state, self.intent))
     print('-----------------action-----------------')
-    print(action_dict)
+    print("Sys Act:    %s" % action_dict['act_type'])
+    if 'slot_value' in action_dict:
+        print("Slot-value: %s" % action_dict['slot_value'])
     if action_dict['act_type'] == 'confuse':
       for a in action_dict['slot_value'][0]:
         self.system_state[a] = ''
@@ -61,8 +63,9 @@ if __name__ == '__main__':
   print('安安   你真是他媽幹話王ㄟ')
   while(True):
     s = input("> ")
-    print("## Turn %s" % turn)
-    print(s)
+    print("# Turn %s" % turn)
+    print("# Input %s" % s)
+
     if s == 'reset':
       DM.reset()
       print(DM.system_state)
@@ -72,7 +75,6 @@ if __name__ == '__main__':
     else:
       print(DM.update(s))
 
-    print()
     print()
     print()
     turn += 1

@@ -8,7 +8,7 @@ slot2ch_dict = { 'theater_location': ["地點", "地方", "在哪裡", "在那�
                  'theater_phone': ["電話", "手機", "客服", "聯絡方式", "聯絡", "號碼", "電話號碼", "手機號碼"],
                  'theater_address': ["地址", "位置", "在什麼路"],
                  'theater_website': ["網址", "網站"],
-                 'movie_name': ["電影", "影片", "視頻"], 
+                 'movie_name': ["電影", "影片", "視頻"],
                  'movie_description': ["介紹", "簡介", "內容", "大綱", "劇情", "內幕", "搶先看", "摘要", "重點"],
                  'movie_type': ["類型", "類別"],
                  'movie_rating': ["評價", "評分", "評論", "分數"],
@@ -42,7 +42,7 @@ def raw_template_to_nlu_template(filename, intent_type):
         curr_intent = "%s_%s" % (intent_type, template['intent'])
         for mid_nl in template['mid_nls']:
             for slot in template['slots']:
-                
+
                 for slot_ch in slot2ch_dict[template['intent']]:
                     if slot == '':
                         curr_mid_nl = mid_nl.replace('{intent}', slot_ch).replace('{%s}','')
@@ -73,8 +73,8 @@ def raw_template_to_nlu_template(filename, intent_type):
     return ret_templates
 
 # other template, booking, closing, dontcare.
-def gen_other_templates(intent, nls):
-    return [ {'intent': intent, 'slots': [], 'nl': nl} for nl in nls ]
+def gen_other_templates(intent, nls, dup=1000):
+    return [ {'intent': intent, 'slots': [], 'nl': nl} for nl in nls for _ in range(dup) ]
 
 if __name__ == "__main__":
     filename = './data/template.json'
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     data['request']  = raw_template_to_nlu_template('./data/raw_request_template', 'request')
     data['inform']   = raw_template_to_nlu_template('./data/raw_inform_template', 'inform')
     data['closing']  = gen_other_templates('closing', [ "這不是我要的票",  "不是", "不", "否", "不對", "錯", "錯了", "不是這樣", "你很廢", "傻眼", "不好", "爛", "幹", "靠" ])
-    data['booking']  = gen_other_templates('booking', [ "請問可以幫我訂票嗎？", "幫我訂票", "訂", "訂吧"])
+    data['booking']  = gen_other_templates('booking', [ "請問可以幫我訂票嗎？", "幫我訂票", "訂", "訂吧", "可以", "可", "好阿", "行", "沒問題", "請訂"])
     data['dontcare'] = gen_other_templates('dontcare', [ "都可以",  "隨便", "都好", "青菜", "攏好", "隨便啦", "都可以啦", "青菜啦" ])
 
     with open(filename, 'w', encoding='utf-8') as fout:
