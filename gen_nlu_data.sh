@@ -2,8 +2,11 @@
 bash ./setup.sh
 
 # Generate templates
-python3 ./template_generator/generate_template.py
+python3 ./template_generator/util.py
+python3 ./template_generator/generate_template2.py
 python3 ./template_generator/generate_nlu_data.py
+
+exit 1
 
 # Generate slot table (index to slots)
 python3 ./NLU/codes/generate_slot_tables.py

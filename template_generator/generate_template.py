@@ -29,28 +29,37 @@ nlg_begin_end_pair_empty = [ ["", ""] ]
 
 def gen_templates_by_slots_name(intent, slots_name, nlg_req_begin_end_pair, max_num_of_solts=float('inf')):
     ret = []
-    for num_of_items in range(1, min(len(slots_name), max_num_of_solts) + 1, 1):
-        print("Number of items: {}".format(num_of_items))
-        for slots in itertools.combinations(slots_name, num_of_items):
-            for nlg_req_begin, nlg_req_end in nlg_req_begin_end_pair:
-                nlg = nlg_req_begin
-                
-                if intent == 'request':
-                    slots_ch = [ req_slots_dict[s] for s in slots ]
-                    if len(slots_ch) != 1:
-                        slots_string = "、".join(slots_ch)
-                    elif len(slots_ch) == 1:
-                        slots_string = slots_ch[0]
+    #for num_of_items in range(1, min(len(slots_name), max_num_of_solts) + 1, 1):
+    #    print("Number of items: {}".format(num_of_items))
+        #for slots in itertools.combinations(slots_name, num_of_items):
+    for slots in [slots_name]:
+        for nlg_req_begin, nlg_req_end in nlg_req_begin_end_pair:
+            nlg = nlg_req_begin
+            
+            if intent == 'request':
+                slots_ch = [ req_slots_dict[s] for s in slots ]
+                if len(slots_ch) != 1:
+                    slots_string = "、".join(slots_ch)
+                elif len(slots_ch) == 1:
+                    slots_string = slots_ch[0]
+                curr_slots = slots
 
-                elif intent == 'inform':
-                    slots_string = ",".join([ '{%s}' % slot for slot in slots ])
+            elif intent == 'inform':
+                slots_string = ",".join([ '{%s}' % slot for slot in slots ])
+                curr_slots = slots
 
-                nlg = nlg_req_begin + slots_string + nlg_req_end
-                print(nlg)
-                curr_intent = "_".join( [intent] + list(slots) )
-                req = {'intent': curr_intent, 'slots': slots, 'nl': nlg}
+            elif intent == 'request_and_inform':
+                print(slots)
+                #slots_ch = req_slots_dict[slots[0]]
+                slots_string = ",".join([ '{%s}' % slot for slot in slots[1:] ])
+                curr_slots = slots[1:]
 
-                ret.append(req)
+            nlg = nlg_req_begin + slots_string + nlg_req_end
+
+            print(nlg)
+            curr_intent = "%s_%s" % (intent, slots[0])
+            req = {'intent': curr_intent, 'slots': curr_slots, 'nl': nlg}
+            ret.append(req)
     return ret
 
 # Generate request templates
@@ -75,11 +84,22 @@ def gen_request_templates():
     request_templates.extend( gen_templates_by_slots_name( 'request', showing_slots_name, nlg_begin_end_pair_empty, 1) )
 
     # Customize
-    request_templates.extend( gen_templates_by_slots_name( 'request', ['movie_rating'], 
-                                                                      [ [ p[0], "%s的電影" % ch ] for p in nlg_begin_end_pair_2 + nlg_begin_end_pair_empty
-                                                                        for ch in ["好", "壞", "普通", "還行", "非常好", "熱烈", "有趣", "兩極", "很好", "很差"] ], 1) )
+
+    request_templates.extend( gen_templates_by_slots_name( 'request', ['theater_name'], [ [ "%s%s" % (p[0], ch) , "" ] for p in nlg_begin_end_pair_2 
+                                                                                          for ch in ["附近", "附近的", "旁邊的", "旁邊"] ], 1) )
 
     return request_templates
+
+def gen_request_and_inform_templates():
+
+    request_and_inform_templates = []
+    # Customize
+    request_and_inform_templates.extend( gen_templates_by_slots_name( 'request_and_inform', ['movie_name', 'movie_rating'],
+                                                                      [ [ p[0], "的電影" ] for p in nlg_begin_end_pair_2 + nlg_begin_end_pair_empty ], 1) )
+
+    request_and_inform_templates.extend( gen_templates_by_slots_name( 'request_and_inform', ['theater_name', 'theater_location'],
+                                                                      [ [ p[0], "的電影院" ] for p in nlg_begin_end_pair_2 + nlg_begin_end_pair_empty ], 1) )
+    return request_and_inform_templates
 
 # Generate inform templates
 def gen_inform_templates():
@@ -99,7 +119,7 @@ def gen_inform_templates():
     # Customize
     inform_templates.extend( gen_templates_by_slots_name( 'inform', ['theater_location'], 
                                                                     [ [ p[0], p1 ] for p in nlg_begin_end_pair_2 + nlg_begin_end_pair_empty 
-                                                                      for p1 in ["附近", "附近的電影院", "附近的", "旁邊", "旁"] ], 1) )
+                                                                      for p1 in ["附近", "附近的", "旁邊的", "旁邊", "旁"] ], 1) )
 
     inform_templates.extend( gen_templates_by_slots_name( 'inform', ['movie_name'], nlg_begin_end_pair_2 + nlg_begin_end_pair_empty, 1) )
 
@@ -120,16 +140,16 @@ def gen_booking_template():
 
 def gen_closing_templates():
     closing_templates = []
-    nlg_success_templates = [ "謝謝", "謝謝你！" ]
-    nlg_failure_template = "這不是我要的票．"
+    #nlg_success_templates = [ "謝謝", "謝謝你！" ]
+    nlg_failure_templates = [ "這不是我要的票",  "不是", "不", "否", "不對", "錯", "錯了", "不是這樣", "你很廢", "傻眼", "不好", "爛", "幹", "靠" ]
     #nlg_maxturn_template = "你已經成功考驗我的耐心了！"
 
-    closing = [ {'intent': 'closing_success', 'slots': [], 'nl': nlg_success_template} for nlg_success_template in nlg_success_templates]
-    failure = {'intent': 'closing_failure', 'slots': [], 'nl': nlg_failure_template}
+    #closing = [ {'intent': 'closing_success', 'slots': [], 'nl': nlg_success_template} for nlg_success_template in nlg_success_templates]
+    failure = [ {'intent': 'closing_failure', 'slots': [], 'nl': nlg_failure_template} for nlg_failure_template in nlg_failure_templates ]
     #maxturn = {'intent': 'closing_max_turn', 'slots': [], 'nl': {'user': nlg_maxturn_template}}
 
-    closing_templates.extend(closing)
-    closing_templates.append(failure)
+    #closing_templates.extend(closing)
+    closing_templates.extend(failure)
     #closing_templates.append(maxturn)
 
     return closing_templates
@@ -151,6 +171,7 @@ if __name__ == "__main__":
     data['inform'] = gen_inform_templates()
     data['booking'] = gen_booking_template()
     data['closing'] = gen_closing_templates()
+    data['request_and_inform'] = gen_request_and_inform_templates()
     #data['irrelevant'] = gen_irrelevant_templates()
 
     with open(filename, 'w', encoding='utf-8') as fout:

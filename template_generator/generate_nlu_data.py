@@ -60,10 +60,12 @@ if __name__ == "__main__":
 
     # inform
     data = []
-    for template in templates['inform']:
+    for template in templates['inform'] + templates['request']:
 
         slots = template['slots']
-        values = ontologyManager.values_by_slot(slot=slots[0])
+
+        if slots[0] != '':
+            values = ontologyManager.values_by_slot(slot=slots[0])
 
         if slots[0] == 'theater_location':
             curr_values = loc_values
@@ -77,17 +79,21 @@ if __name__ == "__main__":
         else:
             curr_values = values
 
-        for v in curr_values:
-            template['values'] = v
+        if slots[0] == '':
+            template['values'] = None
             data.append(copy.deepcopy(template))
+        else:
+            for v in curr_values:
+                template['values'] = v
+                data.append(copy.deepcopy(template))
     nlu_data.extend(data)
 
     # request
-    data = []
-    for template in templates['request']:
-        template['values'] = None
-        data.append(copy.deepcopy(template))
-    nlu_data.extend(data)
+    #data = []
+    #for template in templates['request']:
+    #    template['values'] = None
+    #    data.append(copy.deepcopy(template))
+    #nlu_data.extend(data)
 
     # booking
     data = []
