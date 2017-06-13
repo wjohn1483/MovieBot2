@@ -3,12 +3,17 @@ import numpy as np
 from ontology import OntologyManager
 import json
 import jieba
+import re
+
 jieba.load_userdict("./data/values.txt")
+
+location_map = json.loads(open('raw_data/loc.json').read())
+theater_map = json.loads(open('raw_data/theater_name.json').read())
 
 edit_distance_threshold = 2
 
 valid_slot = ['theater_address', 'movie_name', \
-              'movie_country', 'theater_name', 'movie_type']
+              'movie_country', 'movie_type']
 time_map = {0:'零',1:'一',2:'兩',3:'三',4:'四',5:'五',6:'六',\
             7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'}
 subtime_map = {1:'一',2:'二',3:'三',4:'四',5:'五',6:'六',\
@@ -21,7 +26,42 @@ value_list = []
 for slot in valid_slot:
     value_list.extend(OM.values_by_slot(slot = slot))
 
+def time_ch2num(string):
+    pattern = "[早上|中午|下午|晚上]"
+    time_begin = ["早上", "中午", "下午", "晚上"]
+    num_begin = [0, 1200, 1200, 1200]
+    ch_begin2num_begin_dic = { ch: num for ch, num in zip(time_begin, num_begin) }
+
+    ch_hours = [ "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四",
+    "十五", "十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四",
+    "兩", "三十", "四十", "五十", "二十五", "三十五", "四十五", "五十五", "半"]
+    num_hours = list(range(0, 25)) + [2, 30, 40, 50, 25, 35, 45, 55, 30]
+    ch2num_dic = { ch: num for ch, num in zip(ch_hours, num_hours) }
+
+    if not re.match("([早上|中午|下午|晚上])(.*)([點])(.*)([半|分])", string):
+        return string
+
+    for tb in time_begin:
+        if tb in string:
+            prefix_hour = ch_begin2num_begin_dic[tb]
+
+    string = re.sub(pattern, '', string)
+
+    # hour
+    ch_hour = string.split("點")[0]
+    num_hour = ch2num_dic[ch_hour] * 100 + prefix_hour
+
+    # minute
+    ch_minute = string.split("點")[1]
+    num_minute = 0
+    if len(ch_minute) != 0 and "分" in ch_minute[-1]:
+        ch_minute = ch_minute[:-1]
+
+    num_minute = ch2num_dic[ch_minute]
+    return "%04d" % (num_hour + num_minute)
+
 def error_correction(slot_dict):
+  # name part
   for slot in slot_dict:
     if slot in valid_slot and slot_dict[slot] != '':
       value_list = OM.values_by_slot(slot = slot)
@@ -29,6 +69,20 @@ def error_correction(slot_dict):
 
       similarity = [distance(s, slot_dict[slot]) for s in value_list]
       slot_dict[slot] = value_list[np.argmin(similarity)]
+
+  # location part
+  for t in location_map:
+    if slot_dict['theater_location'] in location_map[t]:
+      slot_dict['theater_location'] = t
+      break
+
+  # theater name part
+  if slot_dict['theater_name'] in theater_map:
+    slot_dict['theater_name'] = theater_map[slot_dict['theater_name']]
+
+  # Chinese time to number time
+  if slot_dict['showing_time'] != '':
+      slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
 
   return slot_dict
 
