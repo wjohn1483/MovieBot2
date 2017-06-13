@@ -21,10 +21,10 @@ value_list = []
 for slot in valid_slot:
     value_list.extend(OM.values_by_slot(slot = slot))
 
-def error_correction(slot_dict, ontology):
+def error_correction(slot_dict):
   for slot in slot_dict:
     if slot in valid_slot and slot_dict[slot] != '':
-      value_list = ontology.values_by_slot(slot = slot)
+      value_list = OM.values_by_slot(slot = slot)
       #print(value_list)
 
       similarity = [distance(s, slot_dict[slot]) for s in value_list]
