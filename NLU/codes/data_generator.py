@@ -5,7 +5,7 @@ import random
 percentage_of_training_data = 0.8
 
 # Load dict
-jieba.load_userdict("./data/values.txt")
+jieba.load_userdict("./tables/values.txt")
 
 # Generate sentences with slots and intent
 sentences = []

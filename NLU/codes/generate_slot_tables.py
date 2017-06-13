@@ -16,4 +16,4 @@ slot_table = {}
 slot_table[0] = "O"
 for i, slot in enumerate(all_slots):
     slot_table[i+1] = all_slots[i]
-json.dump(slot_table, open("./data/slots_table.json", 'w'), indent=4)
+json.dump(slot_table, open("./tables/slots_table.json", 'w'), indent=4)
