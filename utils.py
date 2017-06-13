@@ -33,7 +33,7 @@ def error_correction(slot_dict):
 
       similarity = [distance(s, slot_dict[slot]) for s in value_list]
       slot_dict[slot] = value_list[np.argmin(similarity)]
-  '''
+  
   # location part
   for t in location_map:
     if slot_dict['theater_location'] in location_map[t]:
@@ -42,9 +42,7 @@ def error_correction(slot_dict):
 
   # theater name part
   if slot_dict['theater_name'] in theater_map:
-    print(slot_dict['theater_name'])
-    slot_dict['theater_name'] = theater_map(slot_dict['theater_name'])
-  '''    
+    slot_dict['theater_name'] = theater_map[slot_dict['theater_name']]
 
   return slot_dict
 
@@ -67,9 +65,6 @@ def block_date(sentence):
 
 def error_correction_by_nl(string):
     words = " ".join(jieba.cut(string)).split()
-    if "戲院" in words:
-        return "".join(words)
-
     for sub_string_length in reversed(range(3, len(words))):
         for index in range(0, len(words)-sub_string_length+1):
             sub_string = "".join(words[index:index+sub_string_length])
