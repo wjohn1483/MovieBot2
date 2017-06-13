@@ -29,11 +29,13 @@ class HDCPolicy(Policy.Policy):
             # too many results => request for more information
             if len(results) > MAX_RESULTS:
                 if state['movie_name'] == '':
-                    sys_act['act_type'] = 'request_movie_name'
+                    slot = 'movie_name'
                 elif state['theater_name'] == '':
-                    sys_act['act_type'] = 'request_theater_name'
+                    slot = 'theater_name'
                 elif state['showing_time'] == '':
-                    sys_act['act_type'] = 'request_showing_time'
+                    slot = 'showing_time'
+                sys_act['act_type'] = 'request_{}'.format(slot)
+                sys_act['slot_value'] = self.ontology_manager.entity_by_features(slot, state)[:MAX_RESULTS]
 
             # show result for user to select
             elif len(results) > 1:
@@ -81,7 +83,9 @@ class HDCPolicy(Policy.Policy):
 
             # too many results => request for more information
             else:
-                sys_act['act_type'] = 'request_{}_name'.format(intent.split('_')[1])
+                slot = '{}_name'.format(intent.split('_')[1])
+                sys_act['act_type'] = 'request_{}'.format(slot)
+                sys_act['slot_value'] = self.ontology_manager.entity_by_features(slot, state)[:MAX_RESULTS]
 
         elif intent == 'booking':
             sys_act['act_type'] = 'booking'
