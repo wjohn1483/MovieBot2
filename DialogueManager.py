@@ -21,7 +21,10 @@ class DialogueManager():
     #print(sentence)
     # NLU
     slot_dict, self.intent = self.nlu.understand(sentence)
-    #print(slot_dict)
+    print('-----------------NLU slot-----------------')
+    print(slot_dict)
+    print('-----------------NLU intent-----------------')
+    print(self.intent)
     # restore slot value again
     slot_dict = utils.error_correction(slot_dict)
     #print(slot_dict)
@@ -33,7 +36,7 @@ class DialogueManager():
     print(action_dict)
     if action_dict['act_type'] == 'confuse':
       for a in action_dict['slot_value'][0]:
-        self.system_state[a] == ''
+        self.system_state[a] = ''
 
     print('-----------------current state-----------------')
     return self.system_state
@@ -50,7 +53,7 @@ class DialogueManager():
     return value_change
 
   def reset(self):
-    self.slot_dict = {}.fromkeys(self.OM.get_all_slots(), '')
+    self.system_state = {}.fromkeys(self.OM.get_all_slots(), '')
 
 if __name__ == '__main__':
   DM = DialogueManager()
@@ -59,6 +62,9 @@ if __name__ == '__main__':
     s = input("> ")
     if s == 'reset':
       DM.reset()
+      print(DM.system_state)
+    elif s == 'end':
+      exit()
     else:
       print(DM.update(s))
 
