@@ -115,7 +115,10 @@ def read_data(filepath):
             if (word in word2idx) and (i<max_sequence_length): temp[i][int(word2idx[word])] = 1
             elif (not (word in word2idx)) and (i<max_sequence_length): temp[i][int(word2idx["_UNK"])] = 1
         sentences.append(temp)
-        sequence_length.append(len(line))
+        if len(line) > max_sequence_length:
+            sequence_length.append(max_sequence_length)
+        else:
+            sequence_length.append(len(line))
 
         # Store slots
         temp = np.zeros((max_sequence_length))
