@@ -46,8 +46,8 @@ def gen_request_templates():
     { 'intent': 'movie_name', 'slots': [''], 'mid_nls': ["最新的{intent}{%s}", "放映{intent}{%s}", 
                                                        "{%s}的播放{intent}", "{intent}{%s}"] },
 
-    { 'intent': 'movie_country', 'slots': ['movie_name', ''], 'mid_nls': ["{intent}{%s}"] },
-    { 'intent': 'movie_type', 'slots': ['movie_name', ''], 'mid_nls': ["{intent}{%s}"] }]
+    { 'intent': 'movie_country', 'slots': ['movie_name', ''], 'mid_nls': ["{%s}{intent}", "{%s}的{intent}"] },
+    { 'intent': 'movie_type', 'slots': ['movie_name', ''], 'mid_nls': ["{%s}{intent}", "{%s}的{intent}"] }]
     }
     with open('./data/raw_request_template', 'w', encoding='utf-8') as fout:
         json.dump(cc, fout, ensure_ascii=False, indent=4)
