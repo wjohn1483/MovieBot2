@@ -1,6 +1,12 @@
 # You need to move this file to working directory to successfully execute
-from ontology import OntologyManager
+import sys
 import json
+
+with open('./config', 'r') as f:
+    path = f.readline().strip().split('=')[1]
+    sys.path.append(path)
+
+from ontology import OntologyManager
 
 ontologyManager = OntologyManager.OntologyManager()
 
