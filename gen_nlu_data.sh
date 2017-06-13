@@ -1,5 +1,6 @@
 #!/bin/bash
 bash ./setup.sh
+mkdir data
 
 # Generate templates
 python3 ./template_generator/generate_template.py
