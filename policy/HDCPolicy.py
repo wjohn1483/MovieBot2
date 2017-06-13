@@ -1,7 +1,7 @@
 from policy import Policy
 from ontology import OntologyManager
 
-MAX_SHOWING = 10
+MAX_RESULTS = 5
 
 class HDCPolicy(Policy.Policy):
     """
@@ -21,10 +21,13 @@ class HDCPolicy(Policy.Policy):
         constraints={}
         state, intent = belief
 
+        # inform type intent
         if intent[:6] == 'inform':
             results = self.ontology_manager.entity_by_features('*', state)
             movie_showing = [{k: result[k] for k in ('movie_name', 'theater_name', 'showing_time')} for result in results]
-            if len(results) > MAX_SHOWING:
+            
+            # too many results => request for more information
+            if len(results) > MAX_RESULTS:
                 if state['movie_name'] == '':
                     sys_act['act_type'] = 'request_movie_name'
                 elif state['theater_name'] == '':
@@ -32,18 +35,53 @@ class HDCPolicy(Policy.Policy):
                 elif state['showing_time'] == '':
                     sys_act['act_type'] = 'request_showing_time'
 
+            # show result for user to select
             elif len(results) > 1:
                  sys_act['act_type'] = 'inform_movie_showing'
                  sys_act['slot_value'] = movie_showing
 
+            # confirm the only result
             elif len(results) == 1:
                 sys_act['act_type'] = 'confirm'
                 sys_act['slot_value'] = movie_showing
 
+            # no results => remove error slots
+            else:
+                sys_act['act_type'] = 'confuse'
+                error_slot = {}
+                for slot in state:
+                    results = self.ontology_manager.entity_by_features('*', {slot: state[slot]})
+                    if len(results) == 0:
+                        error_slot[slot] = state[slot]
+                sys_act['slot_value'] = [error_slot]
+                    
+        # request type intent
         elif intent[:7] == 'request':
             results = self.ontology_manager.entity_by_features(intent[8:], state)
-            sys_act['act_type'] = 'inform_{}'.format(intent[8:])
-            sys_act['slot_value'] = results
+            
+            # no results => remove error slots
+            if len(results) == 0:
+                sys_act['act_type'] = 'confuse'
+                error_slot = {}
+                for slot in state:
+                    results = self.ontology_manager.entity_by_features('*', {slot: state[slot]})
+                    if len(results) == 0:
+                        error_slot[slot] = state[slot]
+                sys_act['slot_value'] = [error_slot]
+
+            # movie, theater, time could be multiple results
+            elif intent[8:] == 'movie_name' or intent[8:0] == 'theater_name' or intent[8:0] == 'showing_time':
+                sys_act['act_type'] = 'inform_{}'.format(intent[8:])
+                sys_act['slot_value'] = results[:MAX_RESULTS]
+
+            # only one result => just show it!
+            elif len(results) == 1:
+                sys_act['act_type'] = 'inform_{}'.format(intent[8:])
+                sys_act['slot_value'] = results
+
+            # too many results => request for more information
+            else:
+                sys_act['act_type'] = 'request_{}_name'.format(intent.split('_')[1])
 
         elif intent == 'booking':
             sys_act['act_type'] = 'booking'

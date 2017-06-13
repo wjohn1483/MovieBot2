@@ -86,6 +86,8 @@ class DataBase_SQLite:
 
             # 2. Finalise and Execute sql_query
             try:
+                if key=='movie_name' or key=='theater_name':
+                    key = self.domain+'.'+key
                 if len(bits):
                     sql_query = '''select distinct {}
                     from {} 
