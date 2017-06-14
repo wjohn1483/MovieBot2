@@ -21,9 +21,9 @@ class NLG:
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
             slot_name = action_dict["slot_value"][0].keys()
             for slot in slot_name:
-                options = action_dict["slot_value"][0][slot]
-                for i in range(1, len(action_dict["slot_value"])):
-                    options += "、" + action_dict["slot_value"][i][slot]
+                options = ""
+                for i in range(0, len(action_dict["slot_value"])):
+                    options += action_dict["slot_value"][i][slot] + "\n"
 
             return self.template[action_dict["act_type"]][index] + options
 
