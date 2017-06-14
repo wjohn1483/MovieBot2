@@ -5,7 +5,7 @@ import json
 import jieba
 import re
 
-jieba.load_userdict("./data/values.txt")
+jieba.load_userdict("./tables/values.txt")
 
 location_map = json.loads(open('raw_data/loc.json').read())
 theater_map = json.loads(open('raw_data/theater_name.json').read())

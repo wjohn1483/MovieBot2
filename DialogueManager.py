@@ -2,12 +2,14 @@ import utils
 import sys
 sys.path.append('./NLU')
 from NLU import NLU
+from NLG import NLG
 from ontology import OntologyManager
 from policy import PolicyManager
 
 class DialogueManager():
   def __init__(self):
     self.nlu = NLU.NLU()
+    self.nlg = NLG.NLG()
     self.policy = PolicyManager.PolicyManager()
     self.OM = OntologyManager.OntologyManager()
 
@@ -48,6 +50,10 @@ class DialogueManager():
 
     print('--------------------------------Current State-----')
     utils.print_dict(self.system_state)
+
+    print('--------------------------------NLG sentence------')
+    print(self.nlg.generate(action_dict))
+
     return self.system_state
 
   # update DST

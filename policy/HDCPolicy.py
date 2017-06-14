@@ -19,7 +19,11 @@ class HDCPolicy(Policy.Policy):
     def nextAction(self, belief):
         sys_act={}
         constraints={}
-        state, intent = belief
+        state, intent, unfinished_intent = belief
+
+        if unfinished_intent != '':
+            intent = unfinished_intent
+            unfinished_intent = '' 
 
         # inform type intent
         if intent[:6] == 'inform':
@@ -86,11 +90,12 @@ class HDCPolicy(Policy.Policy):
                 slot = '{}_name'.format(intent.split('_')[1])
                 sys_act['act_type'] = 'request_{}'.format(slot)
                 sys_act['slot_value'] = self.ontology_manager.entity_by_features(slot, state)[:MAX_RESULTS]
+                unfinished_intent = intent
 
         elif intent == 'booking':
             sys_act['act_type'] = 'booking'
 
-        elif intent == 'closing_failure':
+        elif intent == 'closing':
             sys_act['act_type'] = 'reset'
 
-        return sys_act
+        return (sys_act, unfinished_intent)
