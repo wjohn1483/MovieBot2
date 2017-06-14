@@ -2,12 +2,14 @@ import utils
 import sys
 sys.path.append('./NLU')
 from NLU import NLU
+from NLG import NLG
 from ontology import OntologyManager
 from policy import PolicyManager
 
 class DialogueManager():
   def __init__(self):
     self.nlu = NLU.NLU()
+    self.nlg = NLG.NLG()
     self.policy = PolicyManager.PolicyManager()
     self.OM = OntologyManager.OntologyManager()
 
@@ -39,6 +41,9 @@ class DialogueManager():
     if action_dict['act_type'] == 'confuse':
       for a in action_dict['slot_value'][0]:
         self.system_state[a] = ''
+
+    print('-----------------NLG sentence----------------')
+    print(self.nlg.generate(action_dict))
 
     print('-----------------current state-----------------')
     return self.system_state
