@@ -12,6 +12,7 @@ class DialogueManager():
     self.OM = OntologyManager.OntologyManager()
 
     self.system_state = {}.fromkeys(self.OM.get_all_slots(), '')
+    self.unfinished_intent = ''
   def update(self, sentence):
     # remove date
     sentence = utils.block_date(sentence)
@@ -26,12 +27,13 @@ class DialogueManager():
     print('-----------------NLU intent-----------------')
     print(self.intent)
     # restore slot value again
-    slot_dict = utils.error_correction(slot_dict)
-    #print(slot_dict)
+    #slot_dict = utils.error_correction(slot_dict)
+    print(slot_dict)
     # state tracking
     self.DialogueStateTracking(slot_dict)
 
-    action_dict = self.policy.act_on((self.system_state, self.intent))
+    action_dict, self.unfinished_intent = self.policy.act_on(\
+                               (self.system_state, self.intent, self.unfinished_intent))
     print('-----------------action-----------------')
     print("Sys Act:    %s" % action_dict['act_type'])
     if 'slot_value' in action_dict:
