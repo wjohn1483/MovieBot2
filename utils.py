@@ -9,6 +9,7 @@ jieba.load_userdict("./tables/values.txt")
 
 location_map = json.loads(open('raw_data/loc.json').read())
 theater_map = json.loads(open('raw_data/theater_name.json').read())
+movie_type_map = json.loads(open('raw_data/movie_type.json').read())
 
 edit_distance_threshold = 2
 
@@ -75,6 +76,10 @@ def error_correction(slot_dict):
     if slot_dict['theater_location'] in location_map[t]:
       slot_dict['theater_location'] = t
       break
+
+  # theater type part 
+  if slot_dict['movie_type'] in movie_type_map:
+    slot_dict['movie_type'] = movie_type_map[slot_dict['movie_type']]
 
   # theater name part
   if slot_dict['theater_name'] in theater_map:
