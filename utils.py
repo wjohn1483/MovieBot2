@@ -163,7 +163,8 @@ def time_transfer(string):
 
 def print_dict(d):
   for i in d:
-    print(i, ':', d[i])
+    if d[i] != '':
+      print(i, ':', d[i])
 
 if __name__ == '__main__':
     d = [{'showing_time': '0015', 'movie_name': '我和他的季軍男友'}]
