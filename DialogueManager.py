@@ -22,27 +22,32 @@ class DialogueManager():
     #print(sentence)
     # NLU
     slot_dict, self.intent = self.nlu.understand(sentence)
-    print('-----------------NLU slot-----------------')
-    print(slot_dict)
-    print('-----------------NLU intent-----------------')
+    print('--------------------------------NLU Slot----------')
+    utils.print_dict(slot_dict)
+    print('--------------------------------NLU Intent--------')
     print(self.intent)
     # restore slot value again
     #slot_dict = utils.error_correction(slot_dict)
-    print(slot_dict)
+    utils.print_dict(slot_dict)
     # state tracking
     self.DialogueStateTracking(slot_dict)
 
     action_dict, self.unfinished_intent = self.policy.act_on(\
                                (self.system_state, self.intent, self.unfinished_intent))
-    print('-----------------action-----------------')
+    #action_dict = self.policy.act_on(\
+    #                          (self.system_state, self.intent))
+    print('--------------------------------System Action-----')
     print("Sys Act:    %s" % action_dict['act_type'])
     if 'slot_value' in action_dict:
-        print("Slot-value: %s" % action_dict['slot_value'])
+        print("Slot-value:")
+        for a in action_dict['slot_value']:
+          print(a)
     if action_dict['act_type'] == 'confuse':
       for a in action_dict['slot_value'][0]:
         self.system_state[a] = ''
 
-    print('-----------------current state-----------------')
+    print('--------------------------------Current State-----')
+    utils.print_dict(self.system_state)
     return self.system_state
 
   # update DST
@@ -62,20 +67,22 @@ class DialogueManager():
 if __name__ == '__main__':
   DM = DialogueManager()
   turn = 1
-  print('安安   你真是他媽幹話王ㄟ')
+  print('你好  請問有什麼可以幫助您的嗎？')
   while(True):
     s = input("> ")
-    print("# Turn %s" % turn)
+    print("#-#-#-#-#-# Turn %s #-#-#-#-#-#" % turn)
+    print()
     print("# Input %s" % s)
-
+    print()
     if s == 'reset':
       DM.reset()
-      print(DM.system_state)
+      print('Dialogue State Has Beed Reset!')
+      #print(DM.system_state)
       turn = 0
     elif s == 'end':
       exit()
     else:
-      print(DM.update(s))
+      DM.update(s)
 
     print()
     print()
