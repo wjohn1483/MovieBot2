@@ -7,16 +7,25 @@ class NLG:
 
     def generate(self, action_dict):
         # For multiple return
-        if (action_dict["act_type"] == "inform_movie_name") or \
+        if (action_dict["act_type"] == "inform_movie_showing"):
+            index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
+
+            return self.template[action_dict["act_type"]][index] + str(action_dict["slot_value"])
+
+        elif (action_dict["act_type"] == "inform_movie_name") or \
                 (action_dict["act_type"] == "inform_theater_name") or \
                 (action_dict["act_type"] == "inform_showing_time") or \
-                (action_dict["act_type"] == "inform_movie_showing") or \
                 (action_dict["act_type"] == "request_movie_name") or \
                 (action_dict["act_type"] == "request_theater_name") or \
                 (action_dict["act_type"] == "request_showing_time"):
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
+            slot_name = action_dict["slot_value"][0].keys()
+            for slot in slot_name:
+                options = action_dict["slot_value"][0][slot]
+                for i in range(1, len(action_dict["slot_value"])):
+                    options += "、" + action_dict["slot_value"][i][slot]
 
-            return self.template[action_dict["act_type"]][index] + str(action_dict["slot_value"])
+            return self.template[action_dict["act_type"]][index] + options
 
         # For single return
         else:

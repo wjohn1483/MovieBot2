@@ -5,25 +5,35 @@ templates = collections.defaultdict(list)
 
 # Multiple return
 # request_movie_name
-templates["request_movie_name"].append("請問想要看哪一部電影呢？現在有的電影如下：")
+templates["request_movie_name"].append("請問想要看哪一部電影呢？現在有的電影如下：\n")
+templates["request_movie_name"].append("請問想看哪部呢？聽說有格調的人都看這些\n")
+templates["request_movie_name"].append("請問想看哪個呢？大家都說這些電影好看！\n")
+templates["request_movie_name"].append("請問想看哪個呢？智慧對話機器人很強的人似乎都看這些\n")
+templates["request_movie_name"].append("請問想看哪個呢？聽說看這些電影的人後來都莫名拿書卷了\n")
 
 # request_theater_name
-templates["request_theater_name"].append("想要在哪一間電影院看呢？底下這些戲院有上映喔")
+templates["request_theater_name"].append("想要在哪一間電影院看呢？您周遭的戲院有\n")
+templates["request_theater_name"].append("哪間電影院較符合您的需求呢？\n")
 
 # request_showing_time
-templates["request_showing_time"].append("請問想要在哪個時間看呢？這些時段目前還有位子~")
+templates["request_showing_time"].append("請問想要在哪個時間看呢？這些時段目前還有位子~\n")
 
 # inform_movie_showing
-templates["inform_movie_showing"].append("底下這些滿足您的條件~")
+templates["inform_movie_showing"].append("底下這些滿足您的條件~\n")
 
 # inform_movie_name
-templates["inform_movie_name"].append("滿足您的條件的電影有")
+templates["inform_movie_name"].append("滿足您的條件的電影有\n")
 
 # inform_theater_name
-templates["inform_theater_name"].append("底下這些戲院有在上映")
+templates["inform_theater_name"].append("底下這些戲院有在上映\n")
+templates["inform_theater_name"].append("情侶們好像常去這些地方看電影\n")
+templates["inform_theater_name"].append("情侶們好像常去這些地方看電影\n")
+templates["inform_theater_name"].append("儂大和她老公似乎常去這些電影院看\n")
+templates["inform_theater_name"].append("聽說這些電影院常有稀有的神奇寶貝出沒\n")
 
 # inform_showing_time
-templates["inform_showing_time"].append("這些時段還有位子，但所剩不多了，要搶要快！")
+templates["inform_showing_time"].append("這些時段還有位子，但所剩不多了，要搶要快！\n")
+templates["inform_showing_time"].append("有這些時段可以選擇\n")
 
 # Single return
 # inform_movie_description
@@ -58,5 +68,6 @@ templates["greeting"].append("哈囉你好嗎 衷心感謝 珍重再見 期待�
 
 # confuse
 templates["confuse"].append("樓下支援黑人問號.jpg")
+templates["confuse"].append("對不起，我沒有很懂您的意思")
 
 json.dump(templates, open("./tables/NLG_templates.json", 'w'), indent=4)
