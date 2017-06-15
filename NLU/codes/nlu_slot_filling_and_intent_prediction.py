@@ -234,20 +234,27 @@ if __name__ == "__main__":
             sentences, length, slots, intents = read_data(testing_data_path)
 
         # Predict and output
-        feed_dict = {input_sentences: sentences, sequence_length: length, sentence_slots: slots, sentence_intent: intents}
-        testing_loss = sess.run(loss, feed_dict)
-        predicts_slot = sess.run(prediction_slot, feed_dict)
-        predicts_intent = sess.run(prediction_intent, feed_dict)
-        print("Testing loss = " + str(testing_loss))
-
         outputs = []
-        for i, predict in enumerate(predicts_slot):
-            groundtruth_string = ""
-            predict_string = ""
-            for j in range(length[i]):
-                groundtruth_string += idx2slot[str(int(slots[i][j]))] + ' '
-                predict_string += idx2slot[str(np.argmax(predict[j]))] + ' '
-            outputs.append({"groundtruth_slot": groundtruth_string, "groundtruth_intent": idx2intent[str(intents[i])], "prediction_slot": predict_string, "prediction_intent": idx2intent[str(np.argmax(predicts_intent[i]))]})
+        for i in tqdm(range(0, len(sentences), batch_size)):
+            sentences_batch = sentences[i:i+batch_size]
+            sentences_batch = convert_sentences_to_one_hot(sentences_batch)
+            length_batch = length[i:i+batch_size]
+            slots_batch = slots[i:i+batch_size]
+            intents_batch = intents[i:i+batch_size]
+
+            feed_dict = {input_sentences: sentences_batch, sequence_length: length_batch, sentence_slots: slots_batch, sentence_intent: intents_batch}
+            testing_loss = sess.run(loss, feed_dict)
+            predicts_slot = sess.run(prediction_slot, feed_dict)
+            predicts_intent = sess.run(prediction_intent, feed_dict)
+            #print("Testing loss = " + str(testing_loss))
+
+            for k, predict in enumerate(predicts_slot):
+                groundtruth_string = ""
+                predict_string = ""
+                for j in range(length[i]):
+                    groundtruth_string += idx2slot[str(int(slots[k][j]))] + ' '
+                    predict_string += idx2slot[str(np.argmax(predict[j]))] + ' '
+                outputs.append({"groundtruth_slot": groundtruth_string, "groundtruth_intent": idx2intent[str(intents[k])], "prediction_slot": predict_string, "prediction_intent": idx2intent[str(np.argmax(predicts_intent[k]))]})
 
         json.dump(outputs, open(output_path, 'w'), indent=4)
         print("Prediction saved in file: " + str(output_path))
