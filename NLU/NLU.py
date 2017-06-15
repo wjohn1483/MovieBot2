@@ -8,7 +8,7 @@ import nlu_slot_filling_and_intent_prediction
 
 # For random forest
 sys.path.append("./NLU/random_forest/")
-from helper_func import fromsentence2x, sid2ss, iid2is
+#from helper_func import fromsentence2x, sid2ss, iid2is
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
