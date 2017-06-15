@@ -27,7 +27,6 @@ templates["inform_movie_name"].append("滿足您的條件的電影有\n")
 # inform_theater_name
 templates["inform_theater_name"].append("底下這些戲院有在上映\n")
 templates["inform_theater_name"].append("情侶們好像常去這些地方看電影\n")
-templates["inform_theater_name"].append("情侶們好像常去這些地方看電影\n")
 templates["inform_theater_name"].append("儂大和她老公似乎常去這些電影院看\n")
 templates["inform_theater_name"].append("聽說這些電影院常有稀有的神奇寶貝出沒\n")
 
@@ -43,7 +42,8 @@ templates["inform_movie_description"].append("這部電影的敘述是{movie_des
 templates["inform_movie_rating"].append("大家對這部電影的評分是{movie_rating}")
 
 # inform_movie_type
-templates["inform_movie_type"].append("這部是{movie_type}類型的電影喔")
+templates["inform_movie_type"].append("這部是{movie_type}類型的電影喔，我也很喜歡{movie_type}類型的電影呢")
+templates["inform_movie_type"].append("我個人認為是{movie_type}類型的電影")
 
 # inform_showing_version
 templates["inform_showing_version"].append("這部電影有{showing_version}的版本，要試試看嗎？")
@@ -58,10 +58,11 @@ templates["inform_theater_location"].append("電影院在{theater_location}")
 templates["inform_theater_phone"].append("電影院的電話是{theater_phone}，趕快打過去吧！")
 
 # inform_theater_website
-templates["inform_theater_website"].append("底下是電影院的網站連結，不要去到奇怪的網站喔{theater_website}")
+templates["inform_theater_website"].append("底下是電影院的網站連結，不要去到奇怪的網站喔\n{theater_website}")
 
 # confirm
 templates["confirm"].append("您確定要訂{showing_time}在{theater_name}的{movie_name}嗎？")
+templates["confirm"].append("跟您做個最後確認，要訂{showing_time}在{theater_name}的{movie_name}嗎？下好離手喔~")
 
 # greeting
 templates["greeting"].append("哈囉你好嗎 衷心感謝 珍重再見 期待再相逢")
@@ -69,5 +70,6 @@ templates["greeting"].append("哈囉你好嗎 衷心感謝 珍重再見 期待�
 # confuse
 templates["confuse"].append("樓下支援黑人問號.jpg")
 templates["confuse"].append("對不起，我沒有很懂您的意思")
+templates["confuse"].append("對不起，這邊的訊號不好，沒有聽清楚您剛剛說什麼，可以麻煩再說得詳細一些嗎？")
 
 json.dump(templates, open("./tables/NLG_templates.json", 'w'), indent=4)
