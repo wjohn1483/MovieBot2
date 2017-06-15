@@ -11,7 +11,7 @@ with open('./config', 'r') as f:
 
 from ontology import OntologyManager
 
-MAX_LIMIT = 500
+MAX_LIMIT = 1500
 
 def get_all_values(filename, val='loc'):
     with open(filename, 'r', encoding='utf-8') as fin:
@@ -34,7 +34,7 @@ date_begin = ["今天", "明天", "後天"]
 ch_hours = ["一", "兩", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"]
 num_hours = [ str(i) for i in range(1, 25) ]
 ch_minutes = ["", "零", "十", "二十", "三十", "四十", "五十", "十五", "二十五", "三十五", "四十五", "五十五"]
-ch_minutes = tup_list2str_list( list(itertools.product(ch_minutes, ["", "分"])) ) 
+ch_minutes = tup_list2str_list( list(itertools.product(ch_minutes, ["", "分"])) )
 num_minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
 
 if __name__ == "__main__":
@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     # Generate time values
     hour_and_minute = tup_list2str_list(list(itertools.product(ch_hours, ch_minutes)), "點")
-    prefix_time = ( tup_list2str_list( list(itertools.product(week_begin, time_begin)) ) + 
+    prefix_time = ( tup_list2str_list( list(itertools.product(week_begin, time_begin)) ) +
                   tup_list2str_list( list(itertools.product(date_begin, time_begin)) ) + time_begin )
 
     time_values = tup_list2str_list( itertools.product( tup_list2str_list( list(itertools.product(prefix_time, hour_and_minute)) ), ["", "看", "都可以"]) )
