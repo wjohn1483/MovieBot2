@@ -47,8 +47,9 @@ if __name__ == "__main__":
 
     # Generate time values
     hour_and_minute = tup_list2str_list(list(itertools.product(ch_hours, ch_minutes)), "點")
-    prefix_time = ( tup_list2str_list( list(itertools.product(week_begin, time_begin)) ) +
-                  tup_list2str_list( list(itertools.product(date_begin, time_begin)) ) + time_begin )
+    #prefix_time = ( tup_list2str_list( list(itertools.product(week_begin, time_begin)) ) +
+    #              tup_list2str_list( list(itertools.product(date_begin, time_begin)) ) + time_begin )
+    prefix_time = (tup_list2str_list( list(itertools.product(date_begin, time_begin)) ) + time_begin )
 
     time_values = tup_list2str_list( itertools.product( tup_list2str_list( list(itertools.product(prefix_time, hour_and_minute)) ), ["", "看", "都可以"]) )
 
