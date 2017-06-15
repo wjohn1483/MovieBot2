@@ -59,7 +59,7 @@ def time_ch2num(string):
         ch_minute = ch_minute[:-1]
 
     num_minute = ch2num_dic[ch_minute]
-    return "%04d" % (num_hour + num_minute)
+    return num_hour + num_minute
 
 def error_correction(slot_dict):
   # name part
