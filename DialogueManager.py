@@ -55,9 +55,10 @@ class DialogueManager():
     utils.print_dict(self.system_state)
 
     print('--------------------------------NLG sentence------')
-    print(self.nlg.generate(action_dict))
+    response = self.nlg.generate(action_dict)
+    print(response)
 
-    return self.system_state
+    return action_dict, response
 
   # update DST
   def DialogueStateTracking(self, slot_dict):

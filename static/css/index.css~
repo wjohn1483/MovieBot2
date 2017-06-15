@@ -1,0 +1,15 @@
+system_output{
+    width: 1000px;
+    height: 200px;
+    font-size: 40px;
+    resize: none;
+}
+
+user_input{
+    font-size: 60px;
+    width: 1000px;
+}
+
+next-button{
+    display: block;
+}

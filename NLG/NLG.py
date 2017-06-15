@@ -23,13 +23,16 @@ class NLG:
             for slot in slot_name:
                 options = ""
                 for i in range(0, len(action_dict["slot_value"])):
-                    options += action_dict["slot_value"][i][slot] + "\n"
+                    options += "<br>" + action_dict["slot_value"][i][slot]
 
             return self.template[action_dict["act_type"]][index] + options
 
         # For single return
         else:
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
+            if action_dict["act_type"] == "booking":
+                return self.template[action_dict["act_type"]][index]
+
             slot_list = action_dict["slot_value"][0].keys()
             sentence = self.template[action_dict["act_type"]][index]
             for slot in slot_list:

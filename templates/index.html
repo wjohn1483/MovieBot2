@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Movie ChatBot</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.min.css">
+    <script type="text/javascript" src="../static/scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/scripts/jquery.seat-charts.min.js"></script>
+    <script type="text/javascript" src="../static/scripts/recorder.js"></script>
+    <script type="text/javascript" src="../static/scripts/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/jquery.seat-charts.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+  </head>
+  <body>
+    <div class="container">
+      <label style="font-size:70px">Movie ChatBot</label>
+      <div id="root">
+        <label for="Output" style="font-size:50px">Dialog</label>
+        <div id="dialog">
+            <!--<div class="dialog-row"><div class="bot-response">System: Hi, 我可以幫你訂票嗎?</div></div>-->
+        </div>
+        <label for="Input" style="font-size:50px">User Input</label>
+        <!--<textarea id="user_input" style="width:1000px;height:200px;font-size:40px;resize:none;" readonly></textarea>-->
+        <div id="user-input-block"><input id="user_input"><img id="mic-btn" src="../static/img/mic.png"></div>
+        <div id="button-block">
+            <button id="next-button" class="button-primary root-btn">Send</button>
+            <button id="reset-button" class="button-primary root-btn">Reset</button>
+        </div>
+        <div id="emotion"></div>
+        <!--<label style="font-size:30px">輸入exit來結束這次訂票，並開啟一次新的訂票過程</label>-->
+      </div>
+      <div id="booking-block">
+      	<div id="seat-map">
+      	    <div class="front-indicator">Screen</div>
+    	</div>
+    	<div class="booking-details">
+            <h2>Booking Details</h2>
+            <h3> Selected Seats (<span id="counter">0</span>):</h3>
+            <ul id="selected-seats">
+            </ul>
+            Total: <b>$<span id="total">0</span></b>
+            <button class="checkout-button">確認訂票</button>
+            <div id="legend"></div>
+        </div>
+        <div id="email-input-block"><input id="email_input" placeholder="請填寫您的email address"></div>
+      </div>
+    </div>
+  </body>
+</html>
