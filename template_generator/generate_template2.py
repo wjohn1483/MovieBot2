@@ -20,7 +20,7 @@ begin_end_nls_iwant = [ ["我想", ""], ["我想要", ""], ["我想找", ""], ["
 begin_end_nls_iwantin = [ ["我想在", ""], ["我想在", "看"], ["我想在", "看電影"], ["我想要在", ""], ["我想要在", "看"], ["我想要在", "看電影"] ]
 begin_end_nls_igo   = [ ["我想去", ""], ["我要去", ""], ["我想要去", ""] ]
 begin_end_nls_movie = [ ["請問放映的", "有哪些？"] ]
-begin_end_nls_type_country = [ ["", "片"], ["", "的電影"] ]
+begin_end_nls_type_country = [ ["", "片"], ["", "電影"], ["", "的電影"]]
 begin_end_nls_empty = [ ["", ""] ]
 
 def gen_templates(intent, slots, mid_nl, begin_end_nls):
@@ -28,8 +28,8 @@ def gen_templates(intent, slots, mid_nl, begin_end_nls):
     for begin, end in begin_end_nls:
         nl = begin + mid_nl + end
         template = { 'intent': intent,
-                  'slots': slots,
-                  'nl': nl }
+                     'slots': slots,
+                     'nl': nl }
         templates.append(template)
     return templates
 

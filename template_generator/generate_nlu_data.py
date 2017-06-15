@@ -2,6 +2,7 @@ import json
 import copy
 import sys
 import re
+import random
 import itertools
 
 with open('./config', 'r') as f:
@@ -9,6 +10,8 @@ with open('./config', 'r') as f:
     sys.path.append(path)
 
 from ontology import OntologyManager
+
+MAX_LIMIT = 500
 
 def get_all_values(filename, val='loc'):
     with open(filename, 'r', encoding='utf-8') as fin:
@@ -21,12 +24,17 @@ def get_all_values(filename, val='loc'):
         values = list(loc_dict.keys())
     return values
 
+def tup_list2str_list(tup_list, join_str=""):
+    return [ join_str.join(list(t)) for t in tup_list ]
 
+time_begin = ["早上", "中午", "下午", "晚上", "凌晨", "傍晚"]
+week_begin = tup_list2str_list( list(itertools.product(["禮拜", ""], ["一", "二", "三", "四", "五", "六", "天"])) )
+date_begin = ["今天", "明天", "後天"]
 
-time_begin = ["早上", "中午", "下午", "晚上"]
 ch_hours = ["一", "兩", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"]
 num_hours = [ str(i) for i in range(1, 25) ]
-ch_minutes = ["", "零分", "十分", "二十分", "三十分", "四十分", "五十分", "十五分", "二十五分", "三十五分", "四十五分", "五十五分"]
+ch_minutes = ["", "零", "十", "二十", "三十", "四十", "五十", "十五", "二十五", "三十五", "四十五", "五十五"]
+ch_minutes = tup_list2str_list( list(itertools.product(ch_minutes, ["", "分"])) ) 
 num_minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
 
 if __name__ == "__main__":
@@ -36,8 +44,11 @@ if __name__ == "__main__":
     theater_name_filename = './raw_data/theater_name.json'
 
     # Generate time values
-    begin_and_hour = [ "".join(list(l)) for l in list(itertools.product(time_begin, ch_hours)) ]
-    time_values = [ "點".join(list(l)) for l in list(itertools.product(begin_and_hour, ch_minutes)) ]
+    hour_and_minute = tup_list2str_list(list(itertools.product(ch_hours, ch_minutes)), "點")
+    prefix_time = ( tup_list2str_list( list(itertools.product(week_begin, time_begin)) ) + 
+                  tup_list2str_list( list(itertools.product(date_begin, time_begin)) ) + time_begin )
+
+    time_values = tup_list2str_list( itertools.product( tup_list2str_list( list(itertools.product(prefix_time, hour_and_minute)) ), ["", "看", "都可以"]) )
 
     #time_values.extend(num_hours)
     #time_values.extend(time_begin[:4])
@@ -74,8 +85,16 @@ if __name__ == "__main__":
         elif slots[0] == 'movie_country':
             head_values = [ v[0] for v in values ]
             curr_values = values + head_values
+        elif slots[0] == 'movie_type':
+            curr_values.extend([""])
         else:
             curr_values = values
+
+        # Filter too large values
+        if len(curr_values) > MAX_LIMIT:
+            curr_values = random.sample(curr_values, MAX_LIMIT)
+        else:
+            curr_values *= (MAX_LIMIT // len(curr_values))
 
         if slots[0] == '':
             template['values'] = None
@@ -85,13 +104,6 @@ if __name__ == "__main__":
                 template['values'] = v
                 data.append(copy.deepcopy(template))
     nlu_data.extend(data)
-
-    # request
-    #data = []
-    #for template in templates['request']:
-    #    template['values'] = None
-    #    data.append(copy.deepcopy(template))
-    #nlu_data.extend(data)
 
     # booking
     data = []
@@ -106,6 +118,8 @@ if __name__ == "__main__":
         template['values'] = None
         data.append(copy.deepcopy(template))
     nlu_data.extend(data)
+
+    print("Total number of nlu data = %d" % len(nlu_data))
 
     with open('./data/nlu_data.json', 'w', encoding='utf-8') as fout:
         json.dump(nlu_data, fout, ensure_ascii=False, indent=4)
