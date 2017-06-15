@@ -5,7 +5,7 @@ pattern = '[鄉|市|鎮|區]'
 theater_info_slots = [ 'theater_address', 'theater_phone', 'theater_website' ]
 
 def read_loc():
-    filename = './data/loc.dict'
+    filename = './raw_data/loc.dict'
 
     dic = {}
     with open(filename, 'r') as f:
@@ -17,7 +17,7 @@ def read_loc():
             
             dic[key] = row[1:]
 
-    with open('loc.json', 'w', encoding='utf-8') as fout:
+    with open('./raw_data/loc.json', 'w', encoding='utf-8') as fout:
         json.dump(dic, fout, ensure_ascii=False, indent=4)
 
 def gen_request_templates():
@@ -77,5 +77,6 @@ def gen_inform_templates():
         json.dump(cc, fout, ensure_ascii=False, indent=4)
 
 if __name__ == '__main__':
+    read_loc()
     gen_inform_templates()
     gen_request_templates()
