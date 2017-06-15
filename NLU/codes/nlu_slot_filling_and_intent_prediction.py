@@ -5,6 +5,7 @@ import random
 import json
 import argparse
 import sys
+from tqdm import tqdm
 
 # Config
 word2idx = json.load(open("./tables/word_table.json", 'r'))
@@ -180,7 +181,7 @@ if __name__ == "__main__":
         epoch = 0
         while epoch < nepoch:
             # Prepare batch input
-            for i in range(0, len(sentences), batch_size):
+            for i in tqdm(range(0, len(sentences), batch_size)):
                 sentences_batch = sentences[i:i+batch_size]
                 sequence_length_batch = length[i:i+batch_size]
                 slots_batch = slots[i:i+batch_size]
