@@ -30,8 +30,6 @@ class DialogueManager():
     print(self.intent)
     # restore slot value again
     slot_dict = utils.error_correction(slot_dict)
-    if slot_dict['showing_time'] != '':
-      slot_dict['showing_time'] = utils.time_ch2num(slot_dict['showing_time'])
 
     utils.print_dict(slot_dict)
     # state tracking

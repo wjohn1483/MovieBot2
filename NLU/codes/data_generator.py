@@ -2,7 +2,7 @@ import json
 import jieba
 import random
 
-percentage_of_training_data = 0.8
+percentage_of_training_data = 0.99
 
 # Load dict
 jieba.load_userdict("./tables/values.txt")

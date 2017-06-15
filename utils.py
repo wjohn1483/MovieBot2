@@ -44,7 +44,7 @@ def time_ch2num(string):
     num_hours = list(range(0, 25)) + [2, 30, 40, 50, 25, 35, 45, 55, 30]
     ch2num_dic = { ch: num for ch, num in zip(ch_hours, num_hours) }
 
-    if not re.match("([早上|中午|下午|晚上])(.*)([點])(.*)([半|分])", string):
+    if not re.match("([早上|中午|下午|晚上])(.*)([點])(.*)([半|分]*)", string):
         return string
 
     for tb in time_begin:
@@ -87,7 +87,7 @@ def error_correction(slot_dict):
       slot_dict['theater_location'] = t
       break
 
-  # movie type part 
+  # movie type part
   if slot_dict['movie_type'] in movie_type_map:
     slot_dict['movie_type'] = movie_type_map[slot_dict['movie_type']]
 
@@ -188,5 +188,5 @@ if __name__ == '__main__':
     d = [{'showing_time': '0015', 'movie_name': '我和他的季軍男友'}]
     #print(block_date('我想要定7/25的票'))
     #print(error_correction(d, OM))
-    print(error_correction_by_nl("我想看神鬼傳奇"))
+    print(error_correction_by_nl("早上十點零分"))
     #print(time_transfer('23:59'))

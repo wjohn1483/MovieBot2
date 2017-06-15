@@ -26,7 +26,7 @@ rnn_dim = 16
 learning_rate = 0.001
 batch_size = 100
 word_dim = 200
-nepoch = 15
+nepoch = 7
 save_per_epoch = nepoch
 
 # Argument parser
