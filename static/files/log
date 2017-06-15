@@ -710,3 +710,183 @@ Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
 /usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
   warnings.warn(warn)
 loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...
+compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:./static/files/sound.mfcc.ark,./static/files/sound.mfcc.scp 
+LOG (compute-mfcc-feats[5.1.89~1-b1e86]:main():compute-mfcc-feats.cc:181)  Done 1 out of 1 utterances.
+Using gpu device 0: GeForce GTX 960 (CNMeM is disabled, cuDNN 5103)
+/usr/local/lib/python2.7/site-packages/theano/sandbox/cuda/__init__.py:600: UserWarning: Your cuDNN version is more recent than the one Theano officially supports. If you see any problems, try updating Theano or downgrading cuDNN to version 5.
+  warnings.warn(warn)
+loading data ...

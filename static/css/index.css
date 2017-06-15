@@ -24,7 +24,7 @@ a {
 	margin-left: 35px;
 	font-size: 12px;
 	position: relative;
-	height: 401px;
+	height: 500px;
 }
 .booking-details h2 {
 	margin: 25px 0 20px 0;
@@ -74,7 +74,7 @@ div.seatCharts-container {
 div.seatCharts-legend {
 	padding-left: 0px;
 	position: absolute;
-	bottom: 16px;
+	bottom: 0px;
 }
 ul.seatCharts-legendList {
 	padding-left: 0px;
@@ -95,23 +95,25 @@ span.seatCharts-legendDescription {
 	width: 170px;
 }
 
-#root{}
+#root{
+}
 
 #dialog{
     padding: 20px;
     border: 1px solid #808080;
     border-radius: 5px;
-    width: 100%;
+    width: 70%;
     height: 310px;
-    font-size: 30px;
+    font-size: 24px;
     resize: none;
     overflow: scroll;
     overflow-x: hidden;
+    font-weight: 400;
 }
 
 #user_input{
     font-size: 30px;
-    width: 90%;
+    width: 70%;
     float: left;
 }
 
@@ -147,16 +149,57 @@ span.seatCharts-legendDescription {
 .dialog-row{
     width: 100%;
     display: table;
+    padding: 10px;
 }
 
 .bot-response{
     float: left;
     margin-left: 10px;
+    padding: 6px 20px;
+    position: relative;
+    background: #39cccc;
+    color: #317787;
+    display: inline-block;
+}
+
+.bot-response:before{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 0;
+    top: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-right: 7px solid #39cccc;
+    margin: 15px 0 0 -6px;
 }
 
 .user-response{
     float: right;
     margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    padding: 6px 20px;
+    background: #46a3ff;
+    color: #484891;
+}
+
+.user-response:before{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    top: 0;
+    right: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid #46a3ff;
+    border-right: 0;
+    margin: 15px -6px 0 0;
 }
 
 .bot-img{
@@ -204,4 +247,64 @@ img{
     cursor: pointer;
     margin-left: 10px; 
     margin-top: -3px;
+}
+
+#snapshot{
+    display: none;
+    margin: 20px auto;
+}
+
+#capture-block{
+    position: absolute;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+#capture-btns{
+    display: table;
+    margin: 20px auto;
+}
+
+#confirm-btns{
+    display: none;
+    margin: 20px auto;
+}
+
+#capture-btns button{
+    float: left;
+}
+
+#confirm-btns button{
+    float: left
+}
+
+#no-capture-btn{
+    margin-left: 20px;
+}
+
+#redo-btn{
+    margin-left: 20px;
+}
+
+#capture-block label{
+    display: table;
+    margin: auto;
+}
+
+#capture-block video{
+    display: table;
+    margin: 20px auto;
+}
+
+#movie-info-block{
+    display: table;
+    margin-top: 40px;
+}
+
+#movie-info-block div{
+    font-size: 22px;
 }

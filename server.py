@@ -1,35 +1,48 @@
 from flask import Flask, request, render_template, send_file, send_from_directory, jsonify
 import DialogueManager
-#from model_acc48 import emotion_gender_recognizer_jointly_training
+from model_acc48 import emotion_gender_recognizer_jointly_training
 import pickle
 import numpy as np
 import subprocess
 import tensorflow as tf
-
+import base64
 import smtplib, os, sys, time
+import http.client, urllib.request, urllib.parse, urllib.error
 from random import randint
+from speech_api import Speech
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
+#UPLOAD_FOLDER = "./static/img/"
 app = Flask(__name__)
+#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-#g1 = tf.Graph()
-#with g1.as_default():
-#    emotion_recognizer = emotion_gender_recognizer_jointly_training.restore()
+g1 = tf.Graph()
+with g1.as_default():
+    emotion_recognizer = emotion_gender_recognizer_jointly_training.restore()
 
+#manager = DialogueManager('dst/dst_data/dataset/table.tsv','dst/dst_data/dataset/movie_time.values')
+#usergoal_file = 'dst/dst_data/data/usergoal.v2.pkl'
 #template_file = 'dst/dst_data/data/template.v2.json'
-#print('Initialize user simulator')
+print('Initialize dialogue manager')
 dialogue_manager = DialogueManager.DialogueManager()
-print('Initialize dialogue manager...')
+#dialogue_manager.load_policy_nn()
 
+#dialogue_manager.load_previous_experience_pool('exp_buffer.pkl')
+#dialogue_manager.load_previous_experience_pool('exp_buffer_book_directly_2.pkl')
 episode_over = False
 system_sf = {}
+data_face = {}
+#dialog_history = ["System: Hi, 我可以幫你訂票嗎？"]
 
 address = "icb2017ta@gmail.com"
 passwd = "yunnungyunnunggogogoeatsushi"
 subject = "[MovieBot] 訂票成功通知"
 img_filename = './static/img/qr_code.jpg'
+msBingSpeechAPIKey = "f05528cb69b2435ba22126a12ca6ca72"
+voice_path = "./static/files/voice.wav"
+speech_api = Speech(msBingSpeechAPIKey)
 
 def connectSMTP():
     s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -43,6 +56,12 @@ def connectSMTP():
     print("SMTP Connected!")
     return s
 
+def stringToBase64(s):
+    return base64.b64encode(s.encode('utf-8'))
+
+def googleTTS(s):
+    subprocess.call('wget -q -U Mozilla -O static/files/voice.mp3 "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=' + s + '&tl=zh-TW"', shell=True)
+
 @app.route('/')
 def api_root():
     return render_template("index.html")
@@ -53,32 +72,53 @@ def api_response():
     input_sentence = request.args['input_sentence']
     print(input_sentence)
 
-    global episode_over
-    global system_sf
-    #global dialog_history
-
-    if input_sentence.rstrip() == 'exit':        
+    if input_sentence.rstrip() == 'exit':
         print('A new episode begin, reset')
         dialogue_manager.reset()
+        binary = speech_api.text_to_speech("您好您好, 請問我可以幫你訂票嗎？".encode("utf-8").decode("latin-1"), female=False)
+        with open(voice_path, "wb") as f:
+            f.write(binary)
         return jsonify(booking=False, nl="您好您好, 請問我可以幫你訂票嗎？")
     elif input_sentence.strip() == 'reset':
         dialogue_manager.reset()
+        binary = speech_api.text_to_speech("系統已經被重置, 請問我可以幫你訂票嗎？".encode("utf-8").decode("latin-1"), female=False)
+        with open(voice_path, "wb") as f:
+            f.write(binary)
         return jsonify(booking=False, nl="系統已經被重置, 請問我可以幫你訂票嗎？")
       
-
     system_rf, nn_nlg = dialogue_manager.update(input_sentence)
-    if system_rf['act_type'] == 'booking':
-      return jsonify(booking = True, nl = nn_nlg)
-    #system_sf, nn_nlg, avg_bleu, max_bleu = dialogue_manager.next()
-    #print(nn_nlg)
-    #print(system_sf)
+    binary = speech_api.text_to_speech(nn_nlg.split("<br>")[0].encode("utf-8").decode("latin-1"), female=False)
+    with open(voice_path, "wb") as f:
+        f.write(binary)
+    if system_rf['act_type'] == 'confirm':
+      return jsonify(booking = True, nl = nn_nlg, sf=system_rf)
+        
+    return jsonify(booking = False, nl = nn_nlg, sf=system_rf)
+    
+    """
+    dialogue_manager.convert_user_nl_to_next_dst_state(input_sentence, episode_over)
+    dialogue_manager.copy_next_state_to_cuttent_exp()
+    system_sf, nn_nlg, avg_bleu, max_bleu = dialogue_manager.next()
+    print(nn_nlg)
+    print(system_sf)
 
-    return jsonify(booking = False, nl = nn_nlg)
+    if system_sf['action_type'] != 'booking' and len(system_sf['request_slots']) == 0:
+        responseFound = False
+        for slot in system_sf['inform_slots']:
+            if len(system_sf['inform_slots'][slot]) != 0:
+                responseFound = True
+        if not responseFound:
+            print('系統：抱歉，沒有符合條件的選項')
+            episode_over = True
+            #dialog_history.append("System: 抱歉，沒有符合條件的選項")
+            googleTTS("抱歉，沒有符合條件的選項") 
+            return jsonify(booking=False, nl="抱歉，沒有符合條件的選項")
+    """
 
     '''
     Check whether valid ticket exists.
     '''
-    '''
+    """
     if system_sf['action_type'] == 'booking' and len(system_sf['inform_slots']) == 0:
         filled_slots_count = 0
         if len(dialogue_manager.state['obtain_slots']['movie_name']) > 0:
@@ -92,9 +132,12 @@ def api_response():
         if filled_slots_count == 4:
             print('系統：抱歉，沒有符合條件的票')
             episode_over = True
+            googleTTS("抱歉，沒有符合條件的選項") 
             #dialog_history.append("System: 抱歉，沒有符合條件的選項")
             return jsonify(booking=False, nl="抱歉，沒有符合條件的選項")
-    
+   
+    googleTTS(nn_nlg) 
+
     if system_sf['action_type'] == 'booking':
         episode_over = True
         #dialog_history.append("System: " + nn_nlg)
@@ -102,11 +145,11 @@ def api_response():
     else:
         #dialog_history.append("System: " + nn_nlg)
         return jsonify(booking=False, nl=nn_nlg)
-    '''
+    """
 @app.route('/mail', methods=['POST'])
 def api_mail():
     data = request.get_json(force=True)
-    print(data["email"])
+    print(data)
     server = connectSMTP()
     sender = address
     seat_str = ""
@@ -151,12 +194,44 @@ def api_record():
         f.write(request.files['source'].stream.read())
         f.close()
         emotion_list = ['happy', 'angry', 'sad', 'fear', 'neutral']
-        #rc = subprocess.call("bash script/extract_feat.sh -i ./static/files/sound.wav -o ./static/files -f 30", shell=True)
-        #p = emotion_gender_recognizer_jointly_training.classify_emotion(emotion_recognizer, "./static/files/sound.audio.npy")
-        p = [0.1,0.1,0.1,0.1,0.5]
+        rc = subprocess.call("bash script/extract_feat.sh -i ./static/files/sound.wav -o ./static/files -f 30", shell=True)
+        p = emotion_gender_recognizer_jointly_training.classify_emotion(emotion_recognizer, "./static/files/sound.audio.npy")
         return emotion_list[np.argmax(p)] 
     else:
         return "Getting record failed..."
+
+@app.route('/capture', methods=['POST'])
+def api_capture():
+    data = request.get_json(force=True)
+    global data_face
+    #base64_str = data["imgBase64"]
+    base64_str = data["imgBase64"].replace('data:image/png;base64,','')
+    f = open("static/img/user_upload.png", "wb")
+    f.write(base64.decodestring(base64_str.encode()))
+    print("get capture data")
+   
+    headers = {
+        'Content-Type': 'application/octet-stream',
+        'Ocp-Apim-Subscription-Key': '54b997bce88d4a4f8583d30702a3e00b',
+    }
+
+    params = urllib.parse.urlencode({
+        'returnFaceId': 'true',
+        'returnFaceLandmarks': 'false',
+        'returnFaceAttributes': 'age,gender,emotion'
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('southeastasia.api.cognitive.microsoft.com')
+        conn.request("POST", "/face/v1.0/detect?%s" % params, base64.decodestring(base64_str.encode()), headers)
+        response = conn.getresponse()
+        data_face = response.read()
+        conn.close()
+    except Exception as e:
+        print(e)
+    #print(base64_str)
+    print(data_face)
+    return "upload capture image success!"
 
 if __name__ == '__main__':
     context = ('static/resources/udara.com.crt', 'static/resources/udara.com.key')

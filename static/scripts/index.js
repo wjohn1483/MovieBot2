@@ -1,4 +1,7 @@
 var firstSeatLabel = 1;
+var booking_info;
+var booking_dialog;
+user_img_path = "../static/img/user.png";
 
 function randomIntFromInterval(min,max)
 {
@@ -6,9 +9,95 @@ function randomIntFromInterval(min,max)
 }
 
 $(document).ready(function() {
+    
+    //initialize user media
+    function init(){
+        try{
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            window.URL = window.URL || window.webkitURL;
+    
+            audio_context = new AudioContext; 
+        }catch(e){
+            alert('No web audio support in this browser!');
+        }
+        navigator.getUserMedia({audio: true}, startUserMedia, function(e){
+            __log('No live audio input: ' + e);
+        });
+    }
+
+    init();
+   
+    //user camera capture
+    var audio_player = document.getElementById('audio-element'); 
+    var player = document.getElementById('player'); 
+    var snapshotCanvas = document.getElementById('snapshot');
+    var captureButton = document.getElementById('capture-btn');   
+    var videoTracks;
+
+    var handleSuccess = function(stream) {
+        // Attach the video stream to the video element and autoplay.
+        player.srcObject = stream;
+        videoTracks = stream.getVideoTracks();
+    };
+
+    captureButton.addEventListener('click', function() {
+        var context = snapshot.getContext('2d');
+        // Draw the video frame to the canvas.
+        context.drawImage(player, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+        $("#capture-btns").css("display", "none");
+        $("#confirm-btns").css("display", "table");
+        $("#player").css("display", "none");
+        $("#snapshot").css("display", "table");
+    });
+
+    $("#no-capture-btn").click(function(){
+        $("#capture-block").fadeOut(1000);
+        videoTracks.forEach(function(track){track.stop()});
+        audio_player.play();
+    });
+
+    $("#upload-btn").click(function(){
+        var dataURL = snapshotCanvas.toDataURL();
+        //console.log(dataURL);
+        $.ajax({
+            type: "POST",
+            url: "/capture",
+            data: JSON.stringify({imgBase64: dataURL}),
+            success: function(res){
+                console.log(res);
+                var rand_int = randomIntFromInterval(1,999999);
+                user_img_path = "../static/img/user_upload.png?" + rand_int.toString(); 
+                $("#capture-block").fadeOut(1000);
+                audio_player.play();
+            }
+        });
+        videoTracks.forEach(function(track){track.stop()});
+    });
+
+    $("#redo-btn").click(function(){
+        $("#capture-btns").css("display", "table");
+        $("#confirm-btns").css("display", "none");
+        $("#player").css("display", "table");
+        $("#snapshot").css("display", "none");
+    });
+
+    navigator.getUserMedia(
+            {video: true},
+            function(stream){
+                handleSuccess(stream);
+            },
+            function(err){
+                $("#capture-block").css("display","none");
+                console.log(err.name);
+                audio_player.play();
+            }
+    );
+
+    //user audio recognition
     var audio_context;
     var recorder;
-    
+        
     function __log(e, data){
         console.log(e + " " + (data || ''));
     }
@@ -32,26 +121,10 @@ $(document).ready(function() {
             contentType: false,
             success: function(data){
                 console.log("getting emotion response success!"); 
-                $("#emotion").html(data);
+                //$("#emotion").html(data);
             }
         });
     }
-    
-    window.onload = function init(){
-        try{
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-            window.URL = window.URL || window.webkitURL;
-    
-            audio_context = new AudioContext; 
-        }catch(e){
-            alert('No web audio support in this browser!');
-        }
-        navigator.getUserMedia({audio: true}, startUserMedia, function(e){
-            __log('No live audio input: ' + e);
-        });
-    }
-
 
     if(!('webkitSpeechRecognition' in window)){
         alert("您的瀏覽器不支援語音辨識，如果需要使用語音辨識，請用Chrome瀏覽器！");
@@ -120,18 +193,22 @@ $(document).ready(function() {
             }
         });
     }
-    
+   
+    //check email address format
     function validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
     }
 
+    //dialog box auto scroll to bottom
     function scrollToBottom() {
         $('#dialog').scrollTop($('#dialog')[0].scrollHeight);
     }
 
-    function reset_dialog(){
+    //reset dialog
+    function reset_dialog(play_or_not=false){
         $("#user_input").val("");
+        $("#user_input").prop('disabled', false);
         $.ajax({
             url: '/response?input_sentence=exit',
             type: 'GET',
@@ -139,16 +216,22 @@ $(document).ready(function() {
                 output_str = data['nl'];
                 $("#dialog").empty();
                 $("#dialog").append("<div class='dialog-row'><div class='bot-img'><img src='../static/img/bot.jpg'></div><div class='bot-response'>" + output_str + "</div></div>");
+                var rand_int = randomIntFromInterval(1,999999);
+                $("#audio-element").attr("src", "../static/files/voice.wav?" + rand_int.toString());
+                if(play_or_not){
+                    audio_player.play(); 
+                }
             }
         }); 
     }
-   
+  
+    //get chatbot response 
     function get_response() {
         var input_str = $("#user_input").val();
         if(input_str != ""){
-            $("#dialog").append("<div class='dialog-row'><div class='user-img'><img src='../static/img/user.png'></div><div class='user-response'>" + input_str + "</div></div>");
+            $("#dialog").append("<div class='dialog-row'><div class='user-img'><img src=" + user_img_path + "></div><div class='user-response'>" + input_str + "</div></div>");
             scrollToBottom();
-            $("input").prop('disabled', true);
+            $("#user_input").prop('disabled', true);
             $("#user_input").val("");
             $.ajax({
                 url: '/response?input_sentence=' + input_str,
@@ -161,25 +244,61 @@ $(document).ready(function() {
                     //    output_str = output_str + data['dialog'][i] + '\n';
                     //}
                     output_str = data['nl'];
-                    
+                    //console.log(data['sf']); 
                     if(data['booking']){
-                        output_str = output_str + "  現在幫您轉到訂票頁面，請稍候！";
+                        /*output_str = output_str + "  現在幫您轉到訂票頁面，請稍候！";
                         setTimeout(function(){ 
                             $("#root").fadeOut(500, function(){
                                 $("#booking-block").fadeIn(500);
                             });
-                        }, 2000);
+                        }, 2000);*/
+                        //console.log("booking");
+                        $("#user_input").prop('disabled', true);
+                        booking_info = data["sf"]["slot_value"][0];
+                        booking_dialog = $("<div>" + output_str + "</div>").dialog({
+                            buttons: {
+                                "是": function(){
+                                    $("#dialog").append("<div class='dialog-row'><div class='bot-img'><img src='../static/img/bot.jpg'></div><div class='bot-response'>現在幫您轉到訂票頁面，請稍候！</div></div>");
+                                    scrollToBottom();
+                                    $("#audio-element").attr("src", "../static/files/booking.mp3");
+                                    audio_player.play();
+                                    $(this).dialog('close');
+                                    $("#movie-info-name").html("電影名稱: " + booking_info["movie_name"]);
+                                    $("#movie-info-theater").html("放映影院: " + booking_info["theater_name"]);
+                                    $("#movie-info-time").html("放映時間: " + booking_info["showing_time"]);
+                                    setTimeout(function(){ 
+                                        $("#root").fadeOut(500, function(){
+                                            $("#booking-block").fadeIn(500);
+                                        });
+                                    }, 3000);
+                                },
+                                "否": function(){
+                                    $(this).dialog('close');
+                                    reset_dialog(true);
+                                }
+                            },
+                            closeOnEscape: false,
+                            open: function(event, ui) {
+                                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                            }
+                        });
+                    }
+                    else{
+                        $("#user_input").prop('disabled', false);
                     }
                     $("#dialog").append("<div class='dialog-row'><div class='bot-img'><img src='../static/img/bot.jpg'></div><div class='bot-response'>" + output_str + "</div></div>");
                     scrollToBottom();
-                    $("input").prop('disabled', false);
+                    var rand_int = randomIntFromInterval(1,999999);
+                    $("#audio-element").attr("src", "../static/files/voice.wav?" + rand_int.toString());
+                    audio_player.play();
                 }
             });
         }
     }
     
     reset_dialog();
-    
+   
+    //seat selection implement 
     var $cart = $('#selected-seats'),
         $counter = $('#counter'),
         $total = $('#total'),
@@ -269,11 +388,6 @@ $(document).ready(function() {
         sc.get($(this).parents('li:first').data('seatId')).click();
     });
     
-    $(document).on('click', '.dialog-selection',function(){
-        var selection = $(this).html();
-        $("#user_input").val(selection);
-    });
-
     var booked_list = [];
     var booked_num = randomIntFromInterval(10,50);
 
@@ -285,9 +399,19 @@ $(document).ready(function() {
     
     //let's pretend some seats have already been booked
     sc.get(booked_list).status('unavailable');
+    
+    //dialog selection event
+    $(document).on('click', '.dialog-selection',function(){
+        var selection = $(this).html();
+        $("#user_input").val(selection);
+        get_response();
+    });
 
+    //button click events
     $("#reset-button").click(function(){
-        reset_dialog();
+        if(booking_dialog)
+            booking_dialog.dialog('close');
+        reset_dialog(true); 
     });
 
     $("#next-button").click(function(){
@@ -304,8 +428,9 @@ $(document).ready(function() {
     $('.checkout-button').click(function(){
         if(validateEmail($("#email_input").val())){
             if(sc.find('selected').length != 0){
-                var alert_str = "你已經訂了";
-                var data = {"email": $("#email_input").val(), "movie": "神力女超人", "theater": "華納威秀", "seats": [], "time": "14:00"};
+                var alert_str = "你已經訂了" + booking_info["theater_name"] + "於" + booking_info["showing_time"] + "放映的" + booking_info["movie_name"] + "的票\n座位為";
+                console.log(booking_info);
+                var data = {"email": $("#email_input").val(), "movie": booking_info["movie_name"], "theater": booking_info["theater_name"], "seats": [], "time": booking_info["showing_time"]};
                 sc.find('selected').each(function(){
                     var tokens = this.settings.id.split("_");
                     tokens[1] = parseInt(tokens[1]);
@@ -332,7 +457,7 @@ $(document).ready(function() {
                 });
 
                 alert_str = alert_str.slice(0, -1);
-                alert_str = alert_str + "的票，訂票成功！\n總金額為" + recalculateTotal(sc) + "元";
+                alert_str = alert_str + "，訂票成功！\n總金額為" + recalculateTotal(sc) + "元";
             }
             else{
                 alert("尚未選取座位！");
