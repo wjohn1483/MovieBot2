@@ -1,9 +1,26 @@
 import jieba
 import json
 import sys
+import numpy as np
 sys.path.append("./codes/")
 sys.path.append("./NLU/codes/")
 import nlu_slot_filling_and_intent_prediction
+
+# For random forest
+sys.path.append("./NLU/random_forest/")
+from helper_func import fromsentence2x, sid2ss, iid2is
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+import gzip, pickle, pdb, os
+def load_pklgz( filename):
+    print("... loading", filename)
+    with gzip.open( filename, 'rb') as fp:
+        u = pickle._Unpickler(fp)
+        u.encoding = 'latin1'
+        #obj = pickle.load(fp);
+        obj = u.load()
+    return obj;
 
 # Load dict
 jieba.load_userdict("./tables/values.txt")
@@ -36,8 +53,23 @@ class NLU:
 
         return slot_value_dict, idx2intent[str(sentence_intent)]
 
+    def understand_tree(self, sentence):
+        sentence = " ".join(jieba.cut(sentence))
+        x = fromsentence2x(sentence)
+        #multi_target_forest_intent = load_pklgz("./NLU/random_forest/LU_intent.pkl.gz")
+        #multi_target_forest_slot = load_pklgz("./NLU/random_forest/LU_slot.pkl.gz")
+        multi_target_forest_intent = load_pklgz("/media/wjohn1483/DATA/ntu/ICB/random_forest_original/LU_intent.pkl.gz")
+        multi_target_forest_slot = load_pklgz("/media/wjohn1483/DATA/ntu/ICB/random_forest_original/LU_slot.pkl.gz")
+        intent = iid2is(multi_target_forest_intent.predict(x))
+        slots = sid2ss(multi_target_forest_slot.predict(x))
+        return slots, intent
+
 if __name__ == "__main__":
     nlu = NLU()
     while True:
         sentence = input("> ")
+        print("="*15)
         print(nlu.understand(sentence))
+        print("="*15)
+        print(nlu.understand_tree(sentence))
+
