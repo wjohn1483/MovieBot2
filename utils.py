@@ -4,12 +4,17 @@ from ontology import OntologyManager
 import json
 import jieba
 import re
+import random
 
 jieba.load_userdict("./tables/values.txt")
 
 location_map = json.loads(open('raw_data/loc.json').read())
 theater_map = json.loads(open('raw_data/theater_name.json').read())
 movie_type_map = json.loads(open('raw_data/movie_type.json').read())
+specialcase_map = {'西門町':['喜滿客絕色影城','國賓戲院','今日秀泰影城','in89豪華數位影城',\
+                             '台北日新威秀','樂聲影城','台北新光影城','真善美戲院'],
+                   '公館':['東南亞秀泰影城','百老匯數位影城']}
+
 
 edit_distance_threshold = 2
 
@@ -71,13 +76,18 @@ def error_correction(slot_dict):
       similarity = [distance(s, slot_dict[slot]) for s in value_list]
       slot_dict[slot] = value_list[np.argmin(similarity)]
 
+  # handle special cases
+  if slot_dict['theater_location'] in specialcase_map:
+    if slot_dict['theater_name'] == '':
+      slot_dict['theater_name'] = random.choice(specialcase_map[slot_dict['theater_location']])
+
   # location part
   for t in location_map:
     if slot_dict['theater_location'] in location_map[t]:
       slot_dict['theater_location'] = t
       break
 
-  # theater type part 
+  # movie type part 
   if slot_dict['movie_type'] in movie_type_map:
     slot_dict['movie_type'] = movie_type_map[slot_dict['movie_type']]
 
@@ -162,9 +172,13 @@ def time_transfer(string):
   return o
 
 def print_dict(d):
+  empty = True
   for i in d:
     if d[i] != '':
+      empty = False
       print(i, ':', d[i])
+  if empty:
+    print('No Slot Value Detected!')
 
 if __name__ == '__main__':
     d = [{'showing_time': '0015', 'movie_name': '我和他的季軍男友'}]
