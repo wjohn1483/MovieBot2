@@ -11,7 +11,7 @@ location_map = json.loads(open('raw_data/loc.json').read())
 theater_map = json.loads(open('raw_data/theater_name.json').read())
 movie_type_map = json.loads(open('raw_data/movie_type.json').read())
 
-edit_distance_threshold = 2
+edit_distance_threshold = 1
 
 valid_slot = ['theater_address', 'movie_name', \
               'movie_country', 'movie_type']
@@ -77,7 +77,7 @@ def error_correction(slot_dict):
       slot_dict['theater_location'] = t
       break
 
-  # theater type part 
+  # theater type part
   if slot_dict['movie_type'] in movie_type_map:
     slot_dict['movie_type'] = movie_type_map[slot_dict['movie_type']]
 
@@ -113,13 +113,17 @@ def error_correction_by_nl(string):
     if ("戲院" in words) or ("影城" in words):
         return "".join(words)
 
-    for sub_string_length in reversed(range(3, len(words))):
+    for sub_string_length in reversed(range(3, len(words)+1)):
+        #print(words)
+        #print(sub_string_length)
         for index in range(0, len(words)-sub_string_length+1):
             sub_string = "".join(words[index:index+sub_string_length])
+            #print(sub_string)
             edit_distance = [distance(s, sub_string) for s in value_list]
             if np.min(edit_distance) <= edit_distance_threshold and np.min(edit_distance) != 0:
                 temp = words[:index]
                 temp.append(value_list[np.argmin(edit_distance)])
+                #print("In replace : " + str(value_list[np.argmin(edit_distance)]))
                 temp.extend(words[index+sub_string_length+1:])
                 words = temp
     return "".join(words)
@@ -170,7 +174,5 @@ if __name__ == '__main__':
     d = [{'showing_time': '0015', 'movie_name': '我和他的季軍男友'}]
     #print(block_date('我想要定7/25的票'))
     #print(error_correction(d, OM))
-    #print(error_correction_by_nl("我想要看我和我的冠軍男友"))
-    #print(error_correction_by_nl("我想要看神力女廢人"))
-    print(error_correction_by_nl("我想要看神鬼戰士"))
+    print(error_correction_by_nl("我想看神鬼傳奇"))
     #print(time_transfer('23:59'))
