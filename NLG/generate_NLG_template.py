@@ -75,7 +75,4 @@ templates["confuse"].append("樓下支援黑人問號.jpg")
 templates["confuse"].append("對不起，我沒有很懂您的意思")
 templates["confuse"].append("對不起，這邊的訊號不好，沒有聽清楚您剛剛說什麼，可以麻煩再說得詳細一些嗎？")
 
-# booking
-templates['booking'].append('為您重新導向...')
-
 json.dump(templates, open("./tables/NLG_templates.json", 'w'), indent=4)

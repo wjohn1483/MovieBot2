@@ -23,7 +23,7 @@ class NLG:
             for slot in slot_name:
                 options = ""
                 for i in range(0, len(action_dict["slot_value"])):
-                    options += "<br>" + action_dict["slot_value"][i][slot]
+                    options += "<br><span class='dialog-selection'>" + action_dict["slot_value"][i][slot] + "</span>"
 
             return self.template[action_dict["act_type"]][index] + options
 
