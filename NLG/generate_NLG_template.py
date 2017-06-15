@@ -60,6 +60,9 @@ templates["inform_theater_phone"].append("電影院的電話是{theater_phone}�
 # inform_theater_website
 templates["inform_theater_website"].append("底下是電影院的網站連結，不要去到奇怪的網站喔\n{theater_website}")
 
+# no_result
+templates["no_result"].append("抱歉，沒有找到符合您條件的電影")
+
 # confirm
 templates["confirm"].append("您確定要訂{showing_time}在{theater_name}的{movie_name}嗎？")
 templates["confirm"].append("跟您做個最後確認，要訂{showing_time}在{theater_name}的{movie_name}嗎？下好離手喔~")
