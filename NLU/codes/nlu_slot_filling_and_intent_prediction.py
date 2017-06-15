@@ -109,13 +109,9 @@ def read_data(filepath):
 
     f = json.load(open(filepath, 'r'))
     for item in f:
-        # Convert sentence to 1-hot
+        # Store sentence
+        sentences.append(item["sentence"].rstrip('\n'))
         line = item["sentence"].rstrip('\n').split()
-        temp = np.zeros((max_sequence_length, vocsize))
-        for i, word in enumerate(line):
-            if (word in word2idx) and (i<max_sequence_length): temp[i][int(word2idx[word])] = 1
-            elif (not (word in word2idx)) and (i<max_sequence_length): temp[i][int(word2idx["_UNK"])] = 1
-        sentences.append(temp)
         if len(line) > max_sequence_length:
             sequence_length.append(max_sequence_length)
         else:
@@ -132,6 +128,19 @@ def read_data(filepath):
         intents.append(int(intent2idx[item["intent"]]))
 
     return sentences, sequence_length, slots, intents
+
+def convert_sentences_to_one_hot(sentences):
+    sentences_onehot = []
+    for sentence in sentences:
+        # Convert sentence to 1-hot
+        sentence = sentence.split()
+        temp = np.zeros((max_sequence_length, vocsize))
+        for i, word in enumerate(sentence):
+            if (word in word2idx) and (i<max_sequence_length): temp[i][int(word2idx[word])] = 1
+            elif (not (word in word2idx)) and (i<max_sequence_length): temp[i][int(word2idx["_UNK"])] = 1
+        sentences_onehot.append(temp)
+
+    return sentences_onehot
 
 def restore():
     sess = tf.Session()
@@ -183,6 +192,7 @@ if __name__ == "__main__":
             # Prepare batch input
             for i in tqdm(range(0, len(sentences), batch_size)):
                 sentences_batch = sentences[i:i+batch_size]
+                sentences_batch = convert_sentences_to_one_hot(sentences_batch)
                 sequence_length_batch = length[i:i+batch_size]
                 slots_batch = slots[i:i+batch_size]
                 intents_batch = intents[i:i+batch_size]

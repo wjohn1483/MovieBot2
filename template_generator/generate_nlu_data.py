@@ -37,6 +37,8 @@ ch_minutes = ["", "零", "十", "二十", "三十", "四十", "五十", "十五"
 ch_minutes = tup_list2str_list( list(itertools.product(ch_minutes, ["", "分"])) ) 
 num_minutes = ["00", "10", "20", "30", "40", "50", "15", "25", "35", "45", "55"]
 
+rating_values = ["高", "低", "普通", "好", "棒", "超高", "超好", "超棒", "好棒棒", "熱門", "冷門"]
+
 if __name__ == "__main__":
 
     filename = './data/template.json'
@@ -85,6 +87,8 @@ if __name__ == "__main__":
         elif slots[0] == 'movie_country':
             head_values = [ v[0] for v in values ]
             curr_values = values + head_values
+        elif slots[0] == 'movie_rating':
+            curr_values = rating_values
         elif slots[0] == 'movie_type':
             curr_values.extend([""])
         else:
