@@ -9,6 +9,9 @@ class NLG:
         # For multiple return
         if (action_dict["act_type"] == "inform_movie_showing"):
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
+            options = ""
+            for item in action_dict["slot_value"]:
+                options += "<br><span class='dialog-selection'>" + str(item["showing_time"]) + str("在") + str(item["theater_name"]) + str("的") + str(item["movie_name"]) + "</span>"
 
             return self.template[action_dict["act_type"]][index] + str(action_dict["slot_value"])
 
