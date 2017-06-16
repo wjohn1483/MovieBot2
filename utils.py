@@ -96,8 +96,8 @@ def error_correction(slot_dict):
     slot_dict['theater_name'] = theater_map[slot_dict['theater_name']]
 
   # Chinese time to number time
-  if slot_dict['showing_time'] != '':
-      slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
+  #if slot_dict['showing_time'] != '':
+  #    slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
 
   return slot_dict
 
@@ -119,6 +119,7 @@ def block_date(sentence):
   return sentence
 
 def error_correction_by_nl(string):
+    string = string.replace(':', '')
     words = " ".join(jieba.cut(string)).split()
     if ("戲院" in words) or ("影城" in words):
         return "".join(words)
