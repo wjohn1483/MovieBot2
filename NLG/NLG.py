@@ -36,7 +36,7 @@ class NLG:
             slot_list = action_dict["slot_value"][0].keys()
             sentence = self.template[action_dict["act_type"]][index]
             for slot in slot_list:
-                sentence = sentence.replace('{' + slot + '}', action_dict["slot_value"][0][slot])
+                sentence = sentence.replace('{' + slot + '}', str(action_dict["slot_value"][0][slot]))
 
             return sentence
 
