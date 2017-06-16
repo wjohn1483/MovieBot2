@@ -47,7 +47,9 @@ def gen_request_templates():
                                                        "{%s}的播放{intent}", "{intent}{%s}"] },
 
     { 'intent': 'movie_country', 'slots': ['movie_name', ''], 'mid_nls': ["{%s}{intent}", "{%s}的{intent}"] },
-    { 'intent': 'movie_type', 'slots': ['movie_name', ''], 'mid_nls': ["{%s}{intent}", "{%s}的{intent}"] }]
+    { 'intent': 'movie_type', 'slots': ['movie_name', ''], 'mid_nls': ["{%s}{intent}", "{%s}的{intent}"] },
+    { 'intent': 'movie_rating', 'slots': ['movie_name', ''], 'mid_nls': ["{%s}{intent}", "{%s}的{intent}"] },
+    { 'intent': 'movie_description', 'slots': ['movie_name', ''], 'mid_nls': ["{%s}{intent}", "{%s}的{intent}"] }]
     }
     with open('./data/raw_request_template', 'w', encoding='utf-8') as fout:
         json.dump(cc, fout, ensure_ascii=False, indent=4)
@@ -62,7 +64,7 @@ def gen_inform_templates():
     { 'intent': 'theater_name', 'slots': ['theater_name'], 'mid_nls': ["{%s}"] },
 
     # 時間
-    { 'intent': 'showing_time', 'slots': ['showing_time'], 'mid_nls': ["{%s}"] },
+    #{ 'intent': 'showing_time', 'slots': ['showing_time'], 'mid_nls': ["{%s}"] },
 
     # 版本                                                                                    
     { 'intent': 'showing_version', 'slots': ['showing_version'], 'mid_nls': ["{%s}"] }, 

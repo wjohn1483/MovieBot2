@@ -110,20 +110,30 @@ if __name__ == "__main__":
                 data.append(copy.deepcopy(template))
     nlu_data.extend(data)
 
+    # greeting
+    data = []
+    for template in templates['greeting']:
+        template['values'] = None
+        data.append(copy.deepcopy(template))
+    nlu_data.extend(data)
+
     # booking
+    """
     data = []
     for template in templates['booking']:
         template['values'] = None
         data.append(copy.deepcopy(template))
     nlu_data.extend(data)
+    """
 
     # closing
+    """
     data = []
     for template in templates['closing']:
         template['values'] = None
         data.append(copy.deepcopy(template))
     nlu_data.extend(data)
-
+    """
     print("Total number of nlu data = %d" % len(nlu_data))
 
     with open('./data/nlu_data.json', 'w', encoding='utf-8') as fout:

@@ -15,7 +15,10 @@ class DialogueManager():
     self.OM = OntologyManager.OntologyManager()
 
     self.system_state = {}.fromkeys(self.OM.get_all_slots(), '')
+    self.system_state['showing_time_end'] = ''
     self.unfinished_intent = ''
+    self.last_sys_act = ''
+
   def update(self, sentence):
     # remove date
     sentence = utils.block_date(sentence)
@@ -34,21 +37,26 @@ class DialogueManager():
     print('--------------------------------NLU Slot----------')
     utils.print_dict(slot_dict)
     print('--------------------------------NLU Intent--------')
-    print(self.intent)
     # restore slot value again
     slot_dict = utils.error_correction(slot_dict)
 
     # correct time with previous extracting time
-    if ret_dict['start_time'] != -1:
-        slot_dict['showing_time'] = ret_dict['start_time']
-    print(slot_dict)
+    if ret_dict['end_time'] != -1:
+        # if user give the time twice: let end_time=start_time
+        if self.system_state['showing_time'] == ret_dict['start_time']:
+            slot_dict['showing_time_end'] = ret_dict['start_time']
+        else:
+            slot_dict['showing_time'] = ret_dict['start_time']
+            slot_dict['showing_time_end'] = ret_dict['end_time']
+        self.intent = 'inform_showing_time'
 
+    print(self.intent)
     utils.print_dict(slot_dict)
     # state tracking
     self.DialogueStateTracking(slot_dict)
 
     action_dict, self.unfinished_intent = self.policy.act_on(\
-                               (self.system_state, self.intent, self.unfinished_intent))
+                               (self.system_state, self.intent, self.unfinished_intent, self.last_sys_act))
     #action_dict = self.policy.act_on(\
     #                          (self.system_state, self.intent))
     print('--------------------------------System Action-----')
@@ -60,6 +68,10 @@ class DialogueManager():
     if action_dict['act_type'] == 'confuse':
       for a in action_dict['slot_value'][0]:
         self.system_state[a] = ''
+    elif action_dict['act_type'] == 'no_result':
+      self.reset()
+
+    self.last_sys_act = action_dict['act_type']
 
     print('--------------------------------Current State-----')
     utils.print_dict(self.system_state)
@@ -83,6 +95,7 @@ class DialogueManager():
 
   def reset(self):
     self.system_state = {}.fromkeys(self.OM.get_all_slots(), '')
+    self.system_state['showing_time_end'] = ''
 
 if __name__ == '__main__':
   DM = DialogueManager()

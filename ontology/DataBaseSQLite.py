@@ -77,11 +77,16 @@ class DataBase_SQLite:
             bits = []
             values = []
             for slot,value in constraints.items():
-                if slot=='movie_name' or slot=='theater_name':
-                    slot = self.domain+'.'+slot
                 if value != '':
                 #if value != 'dontcare':
-                    bits.append(slot + '= ?')
+                    if slot=='showing_time':
+                        bits.append(slot + '>= ?')
+                    elif slot=='showing_time_end':
+                        bits.append(slot[:12] + '<= ?')
+                    else:
+                        if slot=='movie_name' or slot=='theater_name':
+                            slot = self.domain+'.'+slot
+                        bits.append(slot + '= ?')
                     values.append(value)
 
             # 2. Finalise and Execute sql_query

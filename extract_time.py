@@ -8,7 +8,7 @@ import re
 DEBUG = True
 
 # For the variable end_time_hours
-INTERVAL = 3
+INTERVAL = 1
 
 """
     If you want to set your defualt hours for some specific words, such as "晚上" = 19 and "中午" = 12.
