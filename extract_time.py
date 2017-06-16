@@ -5,7 +5,7 @@
 """
 
 import re
-DEBUG = False
+DEBUG = True
 
 # For the variable end_time_hours
 INTERVAL = 3
@@ -110,8 +110,9 @@ def extract_part_time_info(pattern, inp_string, dictionary):
     Args: 
         string: the natural language before inputing into NLU.
 
-    Returns: (int time, str string)  
-        1. time: the numerical time between 0000 and 2400. If there is no time infomation, return -1
+    Returns: (int start_time, int end_time, str string)  
+        1. start_time: the numerical time between 0000 and 2400. If there is no time infomation, return -1
+        2. end_time: the numerical time between 0000 and 2400. If there is no time infomation, return -1
         2. string: if time != -1, we will extract the time information in the string and return it.
                    however, if time == -1, we will return original string.
     E.g.
@@ -177,16 +178,17 @@ def extract_time(string):
 
     # If there is no time information, return -1.
     if not shift_hour_string and not time_string:
-        return (-1, string)
-    elif shift_hour_string and not time_string:
-    # If there is only shift time information, return default hours according to shift time word.
-        return (default_hours_dict[shift_hour_string], string)
+        return { 'start_time': -1, 'end_time': -1, 'modified_str': string }
 
     # Avoid incorrect time
     if shift_hour_string and hour < 12:
         hour = hour + shift_hours_dict[shift_hour_string]
     minute %= 60
     hour %= 24
+
+    # If there is only shift time information, return default hours according to shift time word.
+    if shift_hour_string and not time_string:
+        hour = default_hours_dict[shift_hour_string]
 
     start_hour = end_hour = hour
 
@@ -213,4 +215,7 @@ if __name__ == "__main__":
     test_string = "我想看明天午場09點半以後在華納威秀的電影"
     ret = extract_time(test_string)
     print("Input  = ", test_string)
-    print("Output = ", ret['start_time'], ret['end_time'], ret['modified_str'])
+    print("Output")
+    print("    start time =", ret['start_time'])
+    print("    end time   =", ret['end_time'])
+    print("    modified   =", ret['modified_str'])

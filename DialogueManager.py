@@ -5,6 +5,7 @@ from NLU import NLU
 from NLG import NLG
 from ontology import OntologyManager
 from policy import PolicyManager
+from extract_time import extract_time
 
 class DialogueManager():
   def __init__(self):
@@ -21,6 +22,12 @@ class DialogueManager():
     #print(sentence)
     # restore movie name
     sentence = utils.error_correction_by_nl(sentence)
+
+    # Extract time
+    ret_dict = extract_time(sentence)
+    print("ret_dict = ", ret_dict)
+    sentence = ret_dict['modified_str']
+
     #print(sentence)
     # NLU
     slot_dict, self.intent = self.nlu.understand(sentence)
@@ -30,6 +37,11 @@ class DialogueManager():
     print(self.intent)
     # restore slot value again
     slot_dict = utils.error_correction(slot_dict)
+
+    # correct time with previous extracting time
+    if ret_dict['start_time'] != -1:
+        slot_dict['showing_time'] = ret_dict['start_time']
+    print(slot_dict)
 
     utils.print_dict(slot_dict)
     # state tracking
