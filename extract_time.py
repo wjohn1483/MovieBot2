@@ -7,7 +7,8 @@
 import re
 DEBUG = False
 
-day_begin = ["昨天", "明天", "今天", "後天"]
+# For the variable end_time_hours
+INTERVAL = 3
 
 """
     If you want to set your defualt hours for some specific words, such as "晚上" = 19 and "中午" = 12.
@@ -17,34 +18,41 @@ day_begin = ["昨天", "明天", "今天", "後天"]
     For example, 
         晚上七點 --> 700 --> 700 + 1200 (shift time) --> 1900
 """
-shift_hours_word = ["早上", "中午", "下午", "傍晚", "晚上" ,"凌晨", "午夜", "深夜"]
-shift_hours   = [ 0, 12, 12, 12, 12,  0, 0, 0]
-default_hours = [10, 11, 14, 17, 19, 23, 0, 0]
+shift_hours_word = ["早上", "中午", "下午", "傍晚", "晚上" ,"凌晨", "午夜", "深夜", "早場", "午場", "晚場"]
+shift_hours   = [ 0, 12, 12, 12, 12,  0, 0, 0, 0, 12, 12]
+default_hours = [10, 11, 14, 17, 19, 23, 0, 0, 10, 11, 19]
+
+day_begin_word = ["昨天", "明天", "今天", "後天", "大後天"]
 
 shift_hours_dict = { c: i for i, c in zip(shift_hours, shift_hours_word) }
 default_hours_dict =  { c: i for i, c in zip(default_hours, shift_hours_word) }
 
-time_end = ["都可以", "都行", "以後", "以前", "左右"]
+# 1st value of each tuple is for previous hours.
+# 2nd value of each tuple is for next hours.
+end_time_word = ["都可以", "都行", "以後", "以前", "左右"]
+end_time_hours = [(INTERVAL, INTERVAL), (INTERVAL, INTERVAL), (0, INTERVAL), (INTERVAL, 0), (INTERVAL, INTERVAL)]
+end_time_dict = { c: i for i, c in zip(end_time_hours, end_time_word) }
 
 ch_num = ["零", "一", "二", "三", "四", "五",
           "六", "七", "八", "九", "十", "兩"]
 
 ch2num_dict = { c: i for i, c in zip(list(range(0,11))+[2], ch_num) }
 
-re_day_begin = "|".join(day_begin)
+re_day_begin_word = "|".join(day_begin_word)
 re_shift_hours_word = "|".join(shift_hours_word)
-re_time_end = "|".join(time_end)
+re_end_time_word = "|".join(end_time_word)
 re_ch_num = "|".join(ch_num)
 
-whole_time_pattern = "[%s]*[%s]*[%s|\d]+[點|:]*[%s|\d|半]*[分]*[%s]*" % ( re_day_begin,
+whole_time_pattern = "[%s]*[%s]*[%s|\d]+[點|:]*[%s|\d|半]*[分]*[%s]*" % ( re_day_begin_word,
                                                                           re_shift_hours_word,
                                                                           re_ch_num, 
                                                                           re_ch_num,
-                                                                          re_time_end)
+                                                                          re_end_time_word)
                                                                     
 hour_num_pattern = "[%s|\d]+[點|:]*" % (re_ch_num)
 minute_num_pattern = "[%s|\d|半]+[分]*" % (re_ch_num)
 shift_hours_word_pattern = "(%s)" % (re_shift_hours_word)
+end_time_pattern = "(%s)" % (re_end_time_word)
 
 def get_int_num(string):
     int_nums = re.search("[\d]+", string)
@@ -84,6 +92,20 @@ def get_ch_num(string):
     
     return ret
 
+def extract_part_time_info(pattern, inp_string, dictionary):
+    search_string = re.search(pattern, inp_string)
+    if search_string:
+        search_string = search_string.group(0)
+        #dict_value = dictionary[search_string]
+
+        # Replace shift_time string with ""
+        inp_string = inp_string.replace(search_string, "")
+
+    if DEBUG: print("pattern    = ", pattern)
+    if DEBUG: print("search str = ", search_string)
+
+    return search_string, inp_string
+
 """
     Args: 
         string: the natural language before inputing into NLU.
@@ -93,26 +115,30 @@ def get_ch_num(string):
         2. string: if time != -1, we will extract the time information in the string and return it.
                    however, if time == -1, we will return original string.
     E.g.
-        Input: 我想看明天午夜場03點半在華納威秀的電影
-        Output: (330, '我想看在華納威秀的電影') 
+        Input  =  我想看明天午場09點半以後在華納威秀的電影
+        Output =  {'start_time': 2130, 'end_time': 2359, 'modified_str': '我想看在華納威秀的電影'}
 """
 def extract_time(string):
-        
-    if DEBUG: print("time string = ", time_string)
 
-    # Get time beginning words
-    shift_time_string = re.search(shift_hours_word_pattern, string)
-    if shift_time_string:
-        shift_time_string = shift_time_string.group(0)
-        shift_hour = shift_hours_dict[shift_time_string]
+    # Get shift hours
+
+    # Get time end
+    end_time_string = re.search(end_time_pattern, string)
+    if end_time_string:
+        end_time_string = end_time_string.group(0)
+        end_time = end_time_dict[end_time_string]
 
         # Replace shift_time string with ""
-        string = string.replace(shift_time_string, "")
+        string = string.replace(end_time_string, "")
+
+    shift_hour_string, string = extract_part_time_info(shift_hours_word_pattern, string, shift_hours_dict)
+    end_time_string, string = extract_part_time_info(end_time_pattern, string, end_time_dict)
 
     if DEBUG: print("whole_time_pattern = ", whole_time_pattern)
 
     # Get whole time
     time_string = re.search(whole_time_pattern, string)
+    if DEBUG: print("time string = ", time_string)
 
     # If there are time string
     hour = 0
@@ -150,23 +176,41 @@ def extract_time(string):
         string = string.replace(time_string, "")
 
     # If there is no time information, return -1.
-    if not shift_time_string and not time_string:
+    if not shift_hour_string and not time_string:
         return (-1, string)
-    elif shift_time_string and not time_string:
+    elif shift_hour_string and not time_string:
     # If there is only shift time information, return default hours according to shift time word.
-        return (default_hours_dict[shift_time_string], string)
+        return (default_hours_dict[shift_hour_string], string)
 
     # Avoid incorrect time
-    if hour < 12:
-        hour = hour + shift_hour
+    if shift_hour_string and hour < 12:
+        hour = hour + shift_hours_dict[shift_hour_string]
     minute %= 60
     hour %= 24
 
-    if DEBUG: print("hour %d, minute %d" % (hour, minute))
+    start_hour = end_hour = hour
 
-    return (hour * 100 + minute, string)
+    # Modify hour according to the end_time_word.
+    if end_time_string:
+        modify_time = end_time_dict[end_time_string]
+        start_hour -= modify_time[0]
+        end_hour += modify_time[1]
+    else:
+        end_hour += INTERVAL
+    
+    # Merge hour and minute into one number.
+    ret_start_time = (start_hour % 24) * 100 + minute
+    ret_end_time   = (end_hour % 24) * 100 + minute
+
+    # Check if the end time is earlier than start time.
+    # Namely, if the end time is in tomorrow.
+    if ret_end_time < ret_start_time:
+        ret_end_time = 2359
+
+    return { 'start_time': ret_start_time, 'end_time': ret_end_time, 'modified_str': string }
 
 if __name__ == "__main__":
-    test_string = "我想看明天午夜場03點半在華納威秀的電影"
-    t = extract_time(test_string)
-    print(t)
+    test_string = "我想看明天午場09點半以後在華納威秀的電影"
+    ret = extract_time(test_string)
+    print("Input  = ", test_string)
+    print("Output = ", ret['start_time'], ret['end_time'], ret['modified_str'])
