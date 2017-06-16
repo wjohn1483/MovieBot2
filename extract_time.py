@@ -12,12 +12,14 @@ day_begin = ["昨天", "明天", "今天", "後天"]
 """
     If you want to set your defualt hours for some specific words, such as "晚上" = 19 and "中午" = 12.
     You should modify three varibles "shift_hours_word", "shift_hours" and "default_hours" together.
+
+    The varible shift_hours is for shifing time.
+    For example, 
+        晚上七點 --> 700 --> 700 + 1200 (shift time) --> 1900
 """
-# shift_hours should match shift_hours_word
-# Remember to modify shift_hours_word, shift_hours and default_hours together.
-shift_hours_word = ["早上", "中午", "下午", "傍晚", "晚上" ,"凌晨", "午夜場"]
-shift_hours = [0, 12, 12, 12, 12, 0, 0]
-default_hours = [10, 12, 14, 17, 19, 23, 0]
+shift_hours_word = ["早上", "中午", "下午", "傍晚", "晚上" ,"凌晨", "午夜", "深夜"]
+shift_hours   = [ 0, 12, 12, 12, 12,  0, 0, 0]
+default_hours = [10, 11, 14, 17, 19, 23, 0, 0]
 
 shift_hours_dict = { c: i for i, c in zip(shift_hours, shift_hours_word) }
 default_hours_dict =  { c: i for i, c in zip(default_hours, shift_hours_word) }
