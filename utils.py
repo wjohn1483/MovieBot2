@@ -21,11 +21,22 @@ edit_distance_threshold = 1
 valid_slot = ['theater_address', 'movie_name', \
               'movie_country', 'movie_type']
 time_map = {0:'零',1:'一',2:'兩',3:'三',4:'四',5:'五',6:'六',\
-            7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'}
+            7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二', 15:'十五', 20:'二十', 25:'二十五',30:'三十',\
+            35:'三十五',40:'四十',45:'四十五',50:'五十',55:'五十五'}
 subtime_map = {1:'一',2:'二',3:'三',4:'四',5:'五',6:'六',\
                7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'}
 date_blacklist = ['禮拜一','禮拜二','禮拜三','禮拜四','禮拜五','禮拜六','禮拜天','禮拜日',\
                   '星期一','星期二','星期三','星期四','星期五','星期六','星期日','星期天']
+pattern = "[早上|中午|下午|晚上]"
+time_begin = ["早上", "中午", "下午", "晚上"]
+num_begin = [0, 1200, 1200, 1200]
+ch_begin2num_begin_dic = { ch: num for ch, num in zip(time_begin, num_begin) }
+ch_hours = [ "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四",
+             "十五", "十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四",
+             "兩", "三十", "四十", "五十", "二十五", "三十五", "四十五", "五十五", "半"]
+num_hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'] + [str(i) for i in range(10, 25)] +\
+            ['02', '30', '40', '50', '25', '35', '45', '55', '30']
+ch2num_dic = { ch: int(num) for ch, num in zip(ch_hours, num_hours) }
 
 OM = OntologyManager.OntologyManager()
 value_list = []
@@ -33,20 +44,15 @@ for slot in valid_slot:
     value_list.extend(OM.values_by_slot(slot = slot))
 
 def time_ch2num(string):
-    pattern = "[早上|中午|下午|晚上]"
-    time_begin = ["早上", "中午", "下午", "晚上"]
-    num_begin = [0, 1200, 1200, 1200]
-    ch_begin2num_begin_dic = { ch: num for ch, num in zip(time_begin, num_begin) }
 
-    ch_hours = [ "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四",
-    "十五", "十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四",
-    "兩", "三十", "四十", "五十", "二十五", "三十五", "四十五", "五十五", "半"]
-    num_hours = list(range(0, 25)) + [2, 30, 40, 50, 25, 35, 45, 55, 30]
-    ch2num_dic = { ch: num for ch, num in zip(ch_hours, num_hours) }
-
-    if not re.match("([早上|中午|下午|晚上])(.*)([點])(.*)([半|分]*)", string):
+    if not re.match("([早上|中午|下午|晚上]?)(.*)([點])(.*)([半|分]*)", string):
         return string
 
+    match = re.findall("[0-9]{1,2}", string)
+    for m in match:
+      string = string.replace(m, time_map[int(m)])
+   
+    prefix_hour = 0
     for tb in time_begin:
         if tb in string:
             prefix_hour = ch_begin2num_begin_dic[tb]
@@ -58,13 +64,15 @@ def time_ch2num(string):
     num_hour = ch2num_dic[ch_hour] * 100 + prefix_hour
 
     # minute
-    ch_minute = string.split("點")[1]
+    ch_minute = string.split("點")[1].split("分")[0]
     num_minute = 0
-    if len(ch_minute) != 0 and "分" in ch_minute[-1]:
-        ch_minute = ch_minute[:-1]
-
-    num_minute = ch2num_dic[ch_minute]
-    return num_hour + num_minute
+    if len(ch_minute) != 0:
+    #    ch_minute = ch_minute[:-1]
+         num_minute = ch2num_dic[ch_minute]
+    o = str(num_hour + num_minute)
+    while len(o) < 4:
+      o = '0' + o
+    return o
 
 def error_correction(slot_dict):
   # name part
@@ -96,8 +104,8 @@ def error_correction(slot_dict):
     slot_dict['theater_name'] = theater_map[slot_dict['theater_name']]
 
   # Chinese time to number time
-  #if slot_dict['showing_time'] != '':
-  #    slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
+  if slot_dict['showing_time'] != '':
+      slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
 
   return slot_dict
 
