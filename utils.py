@@ -25,7 +25,7 @@ time_map = {0:'零',1:'一',2:'兩',3:'三',4:'四',5:'五',6:'六',\
 subtime_map = {1:'一',2:'二',3:'三',4:'四',5:'五',6:'六',\
                7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'}
 date_blacklist = ['禮拜一','禮拜二','禮拜三','禮拜四','禮拜五','禮拜六','禮拜天','禮拜日',\
-                  '星期一','星期二','星期三','星期四','星期五','星期六','星期日','星期天','今天']
+                  '星期一','星期二','星期三','星期四','星期五','星期六','星期日','星期天']
 
 OM = OntologyManager.OntologyManager()
 value_list = []
@@ -96,8 +96,8 @@ def error_correction(slot_dict):
     slot_dict['theater_name'] = theater_map[slot_dict['theater_name']]
 
   # Chinese time to number time
-  if slot_dict['showing_time'] != '':
-      slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
+  #if slot_dict['showing_time'] != '':
+  #    slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
 
   return slot_dict
 
@@ -119,6 +119,7 @@ def block_date(sentence):
   return sentence
 
 def error_correction_by_nl(string):
+    string = string.replace(':', '')
     words = " ".join(jieba.cut(string)).split()
     if ("戲院" in words) or ("影城" in words):
         return "".join(words)

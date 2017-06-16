@@ -11,7 +11,7 @@ with open('./config', 'r') as f:
 
 from ontology import OntologyManager
 
-MAX_LIMIT = 500
+MAX_LIMIT = 800
 
 def get_all_values(filename, val='loc'):
     with open(filename, 'r', encoding='utf-8') as fin:
