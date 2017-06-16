@@ -31,10 +31,15 @@ idx2intent = json.load(open("./tables/intent_table.json", 'r'))
 
 class NLU:
     def __init__(self):
+        # Load RNN model
         self.slot_list = []
         for i in range(1, len(idx2slot)):
             self.slot_list.append(idx2slot[str(i)])
         self.sess, self.input_sentences, self.sequence_length, self.prediction_slot, self.prediction_intent = nlu_slot_filling_and_intent_prediction.restore()
+
+        ## Load logistic regression
+        #self.multi_target_forest_intent = load_pklgz("./NLU/random_forest/LU_intent.pkl.gz")
+        #self.multi_target_forest_slot = load_pklgz("./NLU/random_forest/LU_slot.pkl.gz")
 
     def understand(self, sentence):
         # Create empty dict
@@ -55,21 +60,22 @@ class NLU:
 
     def understand_tree(self, sentence):
         sentence = " ".join(jieba.cut(sentence))
+        print(sentence)
         x = fromsentence2x(sentence)
-        #multi_target_forest_intent = load_pklgz("./NLU/random_forest/LU_intent.pkl.gz")
-        #multi_target_forest_slot = load_pklgz("./NLU/random_forest/LU_slot.pkl.gz")
-        multi_target_forest_intent = load_pklgz("/media/wjohn1483/DATA/ntu/ICB/random_forest_original/LU_intent.pkl.gz")
-        multi_target_forest_slot = load_pklgz("/media/wjohn1483/DATA/ntu/ICB/random_forest_original/LU_slot.pkl.gz")
-        intent = iid2is(multi_target_forest_intent.predict(x))
-        slots = sid2ss(multi_target_forest_slot.predict(x))
+        #multi_target_forest_intent = load_pklgz("/media/wjohn1483/DATA/ntu/ICB/random_forest_original/LU_intent.pkl.gz")
+        #multi_target_forest_slot = load_pklgz("/media/wjohn1483/DATA/ntu/ICB/random_forest_original/LU_slot.pkl.gz")
+        intent = iid2is(self.multi_target_forest_intent.predict(x))
+        slots = sid2ss(self.multi_target_forest_slot.predict(x))
+
         return slots, intent
 
 if __name__ == "__main__":
     nlu = NLU()
-    while True:
-        sentence = input("> ")
-        print("="*15)
-        print(nlu.understand(sentence))
-        print("="*15)
-        print(nlu.understand_tree(sentence))
+    #while True:
+    #sentence = input("> ")
+    sentence = "我想要看神力女超人"
+    print("="*15)
+    print(nlu.understand(sentence))
+    print("="*15)
+    print(nlu.understand_tree(sentence))
 
