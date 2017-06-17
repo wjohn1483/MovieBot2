@@ -31,12 +31,21 @@ class NLG:
                 options += "<br><span class='dialog-selection'>" + str(item["showing_time"]) + str("在") + str(item["theater_name"]) + str("的") + str(item["movie_name"]) + "</span>"
 
             return self.template[action_dict["act_type"]][index] + options
+        
+        elif (action_dict["act_type"] == "inform_theater_name") or \
+                (action_dict["act_type"] == "request_theater_name"):
+            index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
+            #slot_name = action_dict["slot_value"][0].keys()
+            #for slot in slot_name:
+            options = ""
+            for i in range(0, len(action_dict["slot_value"])):
+                options += "<br><span class='dialog-selection'>" + str(action_dict["slot_value"][i]['theater_name']) + "</span>" + str(" (距離") +str(action_dict["slot_value"][i]['search_location'])+str(action_dict["slot_value"][i]['distance']) + str(")")
 
+            return self.template[action_dict["act_type"]][index] + options
+        
         elif (action_dict["act_type"] == "inform_movie_name") or \
-                (action_dict["act_type"] == "inform_theater_name") or \
                 (action_dict["act_type"] == "inform_showing_time") or \
                 (action_dict["act_type"] == "request_movie_name") or \
-                (action_dict["act_type"] == "request_theater_name") or \
                 (action_dict["act_type"] == "request_showing_time"):
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
             slot_name = action_dict["slot_value"][0].keys()

@@ -83,18 +83,18 @@ def error_correction(slot_dict):
 
       similarity = [distance(s, slot_dict[slot]) for s in value_list]
       slot_dict[slot] = value_list[np.argmin(similarity)]
-
+  '''
   # handle special cases
   if slot_dict['theater_location'] in specialcase_map:
     if slot_dict['theater_name'] == '':
       slot_dict['theater_name'] = random.choice(specialcase_map[slot_dict['theater_location']])
-
+  '''
   # location part
   for t in location_map:
     if slot_dict['theater_location'] in location_map[t]:
       slot_dict['theater_location'] = t
       break
-
+  
   # movie type part
   if slot_dict['movie_type'] in movie_type_map:
     slot_dict['movie_type'] = movie_type_map[slot_dict['movie_type']]

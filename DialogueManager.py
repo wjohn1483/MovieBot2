@@ -15,9 +15,11 @@ class DialogueManager():
     self.OM = OntologyManager.OntologyManager()
 
     self.system_state = {}.fromkeys(self.OM.get_all_slots(), '')
+    self.system_state['theater_location'] = '台北'
     self.system_state['showing_time_end'] = ''
     self.unfinished_intent = ''
     self.last_sys_act = ''
+    self.search_location = '台大德田館'
 
   def update(self, sentence):
     # remove date
@@ -38,6 +40,9 @@ class DialogueManager():
     print('--------------------------------NLU Slot----------')
     utils.print_dict(slot_dict)
     print('--------------------------------NLU Intent--------')
+
+    if slot_dict['theater_location'] != '':
+        self.search_location = slot_dict['theater_location']
     # restore slot value again
     slot_dict = utils.error_correction(slot_dict)
 
@@ -57,7 +62,7 @@ class DialogueManager():
     self.DialogueStateTracking(slot_dict)
 
     action_dict, self.unfinished_intent = self.policy.act_on(\
-                               (self.system_state, self.intent, self.unfinished_intent, self.last_sys_act))
+                               (self.system_state, self.intent, self.unfinished_intent, self.last_sys_act, self.search_location))
     #action_dict = self.policy.act_on(\
     #                          (self.system_state, self.intent))
     print('--------------------------------System Action-----')
@@ -96,9 +101,11 @@ class DialogueManager():
 
   def reset(self):
     self.system_state = {}.fromkeys(self.OM.get_all_slots(), '')
+    self.system_state['theater_location'] = '台北'
     self.system_state['showing_time_end'] = ''
     self.unfinished_intent = ''
     self.last_sys_act = ''
+    self.search_location = '台大德田館'
 
 if __name__ == '__main__':
   DM = DialogueManager()

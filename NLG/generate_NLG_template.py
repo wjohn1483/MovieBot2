@@ -12,7 +12,7 @@ templates["request_movie_name"].append("請問想看哪個呢？智慧對話機�
 templates["request_movie_name"].append("請問想看哪個呢？聽說看這些電影的人後來都莫名拿書卷了\n")
 
 # request_theater_name
-templates["request_theater_name"].append("想要在哪一間電影院看呢？您周遭的戲院有\n")
+templates["request_theater_name"].append("想要在哪一間電影院看呢？\n")
 templates["request_theater_name"].append("哪間電影院較符合您的需求呢？\n")
 
 # request_showing_time
