@@ -23,14 +23,15 @@ class DialogueManager():
     # remove date
     sentence = utils.block_date(sentence)
     #print(sentence)
+
     # restore movie name
     sentence = utils.error_correction_by_nl(sentence)
-
+    
     # Extract time
     ret_dict = extract_time(sentence)
     print("ret_dict = ", ret_dict)
     sentence = ret_dict['modified_str']
-
+    
     #print(sentence)
     # NLU
     slot_dict, self.intent = self.nlu.understand(sentence)
@@ -96,6 +97,8 @@ class DialogueManager():
   def reset(self):
     self.system_state = {}.fromkeys(self.OM.get_all_slots(), '')
     self.system_state['showing_time_end'] = ''
+    self.unfinished_intent = ''
+    self.last_sys_act = ''
 
 if __name__ == '__main__':
   DM = DialogueManager()
