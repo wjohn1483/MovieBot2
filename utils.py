@@ -127,7 +127,7 @@ def block_date(sentence):
   return sentence
 
 def error_correction_by_nl(string):
-    string = string.replace(':', '')
+    #string = string.replace(':', '')
     words = " ".join(jieba.cut(string)).split()
     if ("戲院" in words) or ("影城" in words):
         return "".join(words)
