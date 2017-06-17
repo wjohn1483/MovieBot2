@@ -29,15 +29,16 @@ class DialogueManager():
     
     # Extract time
     ret_dict = extract_time(sentence)
-    print("ret_dict = ", ret_dict)
+    print('---------------Extract Time Info------------------')
+    print("extract time return dict = ", ret_dict)
     sentence = ret_dict['modified_str']
     
     #print(sentence)
     # NLU
     slot_dict, self.intent = self.nlu.understand(sentence)
-    print('--------------------------------NLU Slot----------')
+    print('--------------------NLU Slot----------------------')
     utils.print_dict(slot_dict)
-    print('--------------------------------NLU Intent--------')
+    print('------------------- NLU Intent--------------------')
     # restore slot value again
     slot_dict = utils.error_correction(slot_dict)
 
