@@ -5,7 +5,7 @@
 """
 
 import re
-DEBUG = True
+DEBUG = False
 
 # For the variable end_time_hours
 INTERVAL = 1
@@ -43,13 +43,13 @@ re_shift_hours_word = "|".join(shift_hours_word)
 re_end_time_word = "|".join(end_time_word)
 re_ch_num = "|".join(ch_num)
 
-whole_time_pattern = "[%s]*[%s]*[%s|\d]+[點|:]*[%s|\d|半]*[分]*[%s]*" % ( re_day_begin_word,
+whole_time_pattern = "[%s]*[%s]*[%s|\d]{1,3}[點|:|：]{1}[%s|\d|半]{0,3}[分]*[%s]*" % ( re_day_begin_word,
                                                                           re_shift_hours_word,
                                                                           re_ch_num, 
                                                                           re_ch_num,
                                                                           re_end_time_word)
                                                                     
-hour_num_pattern = "[%s|\d]+[點|:]*" % (re_ch_num)
+hour_num_pattern = "[%s|\d]+[點|:|：]*" % (re_ch_num)
 minute_num_pattern = "[%s|\d|半]+[分]*" % (re_ch_num)
 shift_hours_word_pattern = "(%s)" % (re_shift_hours_word)
 end_time_pattern = "(%s)" % (re_end_time_word)
@@ -83,9 +83,13 @@ def get_ch_num(string):
     if len(nums) == 1:
         ret = nums[0]
     elif len(nums) == 2:
-        if nums[0] < 10:
+        if nums[0] < 10 and nums[1] < 10:
             ret = nums[0] * 10 + nums[1]
-        else: # if nums[0] == 10
+        elif nums[0] < 10 and nums[1] == 10:
+            # e.g. 四十
+            ret = nums[0] * 10
+        else:
+            # e.g. 十五
             ret = nums[0] + nums[1]
     elif len(nums) == 3:
         ret = nums[0] * 10 + nums[2] 
@@ -176,8 +180,19 @@ def extract_time(string):
         # Replace time string with ""
         string = string.replace(time_string, "")
 
+    only_digit_time_string = re.search("\d{3,4}", string)
+    # If there is information in time_string, then we dont need to check only_digit_time_string again.
+    # only_digit_time_string is for those case such as 930, 1230, and 1800.
+    if only_digit_time_string and not time_string:
+        only_digit_time_string = only_digit_time_string.group(0)
+        hour = int(only_digit_time_string) // 100
+        minute = int(only_digit_time_string) % 100
+        # Replace time string with ""
+        string = string.replace(only_digit_time_string, "")
+
+
     # If there is no time information, return -1.
-    if not shift_hour_string and not time_string:
+    if not shift_hour_string and not time_string and not only_digit_time_string:
         return { 'start_time': -1, 'end_time': -1, 'modified_str': string }
 
     # Avoid incorrect time
@@ -187,7 +202,7 @@ def extract_time(string):
     hour %= 24
 
     # If there is only shift time information, return default hours according to shift time word.
-    if shift_hour_string and not time_string:
+    if shift_hour_string and not time_string and not only_digit_time_string:
         hour = default_hours_dict[shift_hour_string]
 
     start_hour = end_hour = hour
@@ -212,7 +227,8 @@ def extract_time(string):
     return { 'start_time': ret_start_time, 'end_time': ret_end_time, 'modified_str': string }
 
 if __name__ == "__main__":
-    test_string = "我想看明天午場09點半以後在華納威秀的電影"
+    #test_string = "我想看明天午場09點半以後在華納威秀的電影"
+    test_string = "我想看明天早上9半"
     ret = extract_time(test_string)
     print("Input  = ", test_string)
     print("Output")
