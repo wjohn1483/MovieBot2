@@ -41,11 +41,11 @@ class DialogueManager():
     # NLU
     slot_dict, self.intent = self.nlu.understand(sentence)
     print('--------------------------------NLU Slot----------')
-    self.log_file.write('--------------------------------NLU Slot----------' + '\n')
+    self.log_file.write('--------------------------------NLU Slot----------\n')
     utils.print_dict(slot_dict)
     self.log_file.write(str(slot_dict) + '\n')
     print('--------------------------------NLU Intent--------')
-    self.log_file.write('--------------------------------NLU Intent--------' + '\n') 
+    self.log_file.write('--------------------------------NLU Intent--------\n')
     # restore slot value again
     slot_dict = utils.error_correction(slot_dict)
 
@@ -71,12 +71,12 @@ class DialogueManager():
     #action_dict = self.policy.act_on(\
     #                          (self.system_state, self.intent))
     print('--------------------------------System Action-----')
-    self.log_file.write('--------------------------------System Action-----' + '\n')
+    self.log_file.write('--------------------------------System Action-----\n')
     print("Sys Act:    %s" % action_dict['act_type'])
-    self.log_file.write("Sys Act:    %s" % action_dict['act_type'] + '\n')
+    self.log_file.write("Sys Act:    %s\n" % action_dict['act_type'])
     if 'slot_value' in action_dict:
         print("Slot-value:")
-        self.log_file.write("Slot-value:" + '\n')
+        self.log_file.write("Slot-value:\n")
         for a in action_dict['slot_value']:
           print(str(a))
           self.log_file.write(str(a) + '\n')
