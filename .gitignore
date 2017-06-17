@@ -1,3 +1,5 @@
 config
 data/*
-*.pyc
+**__pycache__
+**pyc
+*log*

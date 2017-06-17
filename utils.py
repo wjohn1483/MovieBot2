@@ -43,36 +43,36 @@ value_list = []
 for slot in valid_slot:
     value_list.extend(OM.values_by_slot(slot = slot))
 
-def time_ch2num(string):
-
-    if not re.match("([早上|中午|下午|晚上]?)(.*)([點])(.*)([半|分]*)", string):
-        return string
-
-    match = re.findall("[0-9]{1,2}", string)
-    for m in match:
-      string = string.replace(m, time_map[int(m)])
-   
-    prefix_hour = 0
-    for tb in time_begin:
-        if tb in string:
-            prefix_hour = ch_begin2num_begin_dic[tb]
-
-    string = re.sub(pattern, '', string)
-
-    # hour
-    ch_hour = string.split("點")[0]
-    num_hour = ch2num_dic[ch_hour] * 100 + prefix_hour
-
-    # minute
-    ch_minute = string.split("點")[1].split("分")[0]
-    num_minute = 0
-    if len(ch_minute) != 0:
-    #    ch_minute = ch_minute[:-1]
-         num_minute = ch2num_dic[ch_minute]
-    o = str(num_hour + num_minute)
-    while len(o) < 4:
-      o = '0' + o
-    return o
+#def time_ch2num(string):
+#
+#    if not re.match("([早上|中午|下午|晚上]?)(.*)([點])(.*)([半|分]*)", string):
+#        return string
+#
+#    match = re.findall("[0-9]{1,2}", string)
+#    for m in match:
+#      string = string.replace(m, time_map[int(m)])
+#   
+#    prefix_hour = 0
+#    for tb in time_begin:
+#        if tb in string:
+#            prefix_hour = ch_begin2num_begin_dic[tb]
+#
+#    string = re.sub(pattern, '', string)
+#
+#    # hour
+#    ch_hour = string.split("點")[0]
+#    num_hour = ch2num_dic[ch_hour] * 100 + prefix_hour
+#
+#    # minute
+#    ch_minute = string.split("點")[1].split("分")[0]
+#    num_minute = 0
+#    if len(ch_minute) != 0:
+#    #    ch_minute = ch_minute[:-1]
+#         num_minute = ch2num_dic[ch_minute]
+#    o = str(num_hour + num_minute)
+#    while len(o) < 4:
+#      o = '0' + o
+#    return o
 
 def error_correction(slot_dict):
   # name part
@@ -104,8 +104,8 @@ def error_correction(slot_dict):
     slot_dict['theater_name'] = theater_map[slot_dict['theater_name']]
 
   # Chinese time to number time
-  if slot_dict['showing_time'] != '':
-      slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
+  #if slot_dict['showing_time'] != '':
+  #    slot_dict['showing_time'] = time_ch2num(slot_dict['showing_time'])
 
   return slot_dict
 
