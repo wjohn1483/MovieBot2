@@ -7,8 +7,10 @@
 import re
 DEBUG = False
 
-# For the variable end_time_hours
-INTERVAL = 1
+# LONG_INTERVAL is for those users who don't require the specific time.
+LONG_INTERVAL = 3
+# SHORT_INTERVAL is for those users who require the specific time.
+SHORT_INTERVAL = 1
 
 """
     If you want to set your defualt hours for some specific words, such as "晚上" = 19 and "中午" = 12.
@@ -30,7 +32,7 @@ default_hours_dict =  { c: i for i, c in zip(default_hours, shift_hours_word) }
 # 1st value of each tuple is for previous hours.
 # 2nd value of each tuple is for next hours.
 end_time_word = ["都可以", "都行", "以後", "以前", "左右"]
-end_time_hours = [(INTERVAL, INTERVAL), (INTERVAL, INTERVAL), (0, INTERVAL), (INTERVAL, 0), (INTERVAL, INTERVAL)]
+end_time_hours = [(LONG_INTERVAL, LONG_INTERVAL), (LONG_INTERVAL, LONG_INTERVAL), (0, LONG_INTERVAL), (LONG_INTERVAL, 0), (LONG_INTERVAL, LONG_INTERVAL)]
 end_time_dict = { c: i for i, c in zip(end_time_hours, end_time_word) }
 
 ch_num = ["零", "一", "二", "三", "四", "五",
@@ -201,9 +203,13 @@ def extract_time(string):
     minute %= 60
     hour %= 24
 
+    interval = SHORT_INTERVAL
+
     # If there is only shift time information, return default hours according to shift time word.
     if shift_hour_string and not time_string and not only_digit_time_string:
         hour = default_hours_dict[shift_hour_string]
+        # User doesn't give a specific time; thus we use long interval instead of short interval.
+        interval = LONG_INTERVAL
 
     start_hour = end_hour = hour
 
@@ -213,7 +219,7 @@ def extract_time(string):
         start_hour -= modify_time[0]
         end_hour += modify_time[1]
     else:
-        end_hour += INTERVAL
+        end_hour += interval
     
     # Merge hour and minute into one number.
     ret_start_time = (start_hour % 24) * 100 + minute

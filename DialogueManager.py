@@ -33,7 +33,8 @@ class DialogueManager():
     
     # Extract time
     ret_dict = extract_time(sentence)
-    print("ret_dict = ", ret_dict)
+    print('---------------Extract Time Info------------------')
+    print("extract time return dict = ", ret_dict)
     sentence = ret_dict['modified_str']
     
     #print(sentence)
