@@ -117,6 +117,13 @@ if __name__ == "__main__":
         data.append(copy.deepcopy(template))
     nlu_data.extend(data)
 
+    # dontcare
+    data = []
+    for template in templates['dontcare']:
+        template['values'] = None
+        data.append(copy.deepcopy(template))
+    nlu_data.extend(data)
+
     # booking
     """
     data = []

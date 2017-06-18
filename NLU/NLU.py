@@ -47,14 +47,14 @@ class NLU:
         for slot in self.slot_list:
             slot_value_dict[slot] = ""
 
-        sentence = " ".join(jieba.cut(sentence))
+        sentence = " ".join(jieba.cut(sentence.replace("：", "_")))
         sentence_slots, sentence_intent = nlu_slot_filling_and_intent_prediction.slot_filling_and_intent_prediction(sentence, self.sess, self.input_sentences, self.sequence_length, self.prediction_slot, self.prediction_intent)
 
         sentence = sentence.split()
         sentence_slots = sentence_slots.split()
         for i, slot in enumerate(sentence_slots):
             if slot in self.slot_list:
-                slot_value_dict[slot] = sentence[i]
+                slot_value_dict[slot] = sentence[i].replace("_", "：")
 
         return slot_value_dict, idx2intent[str(sentence_intent)]
 
@@ -73,9 +73,9 @@ if __name__ == "__main__":
     nlu = NLU()
     #while True:
     #sentence = input("> ")
-    sentence = "我想要看神力女超人"
+    sentence = "我想要看神鬼奇航：死無對證"
     print("="*15)
     print(nlu.understand(sentence))
     print("="*15)
-    print(nlu.understand_tree(sentence))
+    #print(nlu.understand_tree(sentence))
 

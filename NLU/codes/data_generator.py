@@ -19,12 +19,12 @@ for template in data:
         sentence = template["nl"]
     if template["values"] != None:
         sentence = sentence.replace("{" + template["slots"][0] + "}", template["values"])
-    sentence = " ".join(jieba.cut(sentence))
+    sentence = " ".join(jieba.cut(sentence.replace("：", "_")))
     sentences.append(sentence)
     words = sentence.split()
     temp = ["O"] * len(words)
     for i, word in enumerate(words):
-        if word == template["values"]:
+        if word.replace("_", "：") == template["values"]:
             temp[i] = template["slots"][0]
     slots.append(" ".join(temp))
     intent.append(template["intent"])
