@@ -32,13 +32,13 @@ class DialogueManager():
 
     # restore movie name
     sentence = utils.error_correction_by_nl(sentence)
-    
+
     # Extract time
     ret_dict = extract_time(sentence)
     print('---------------Extract Time Info------------------')
     print("extract time return dict = ", ret_dict)
     sentence = ret_dict['modified_str']
-    
+
     #print(sentence)
     # NLU
     slot_dict, self.intent = self.nlu.understand(sentence)
@@ -50,7 +50,7 @@ class DialogueManager():
 
     if slot_dict['theater_location'] != '':
         self.search_location = slot_dict['theater_location']
-    
+
     self.log_file.write('--------------------------------NLU Intent--------\n')
     # restore slot value again
     slot_dict = utils.error_correction(slot_dict)
@@ -134,6 +134,7 @@ class DialogueManager():
 
 if __name__ == '__main__':
   DM = DialogueManager()
+  DM.reset()
   turn = 1
   print('你好  請問有什麼可以幫助您的嗎？')
   while(True):
