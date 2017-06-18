@@ -37,10 +37,15 @@ class HDCPolicy(Policy.Policy):
 
 
         elif intent == 'dontcare':
-            if last_sys_act == 'inform_movie_showing':
+            if last_sys_act == '':
+                error_slot = self._detectErrorSlot(state)
+                sys_act['type'] = 'confuse'
+                sys_act['slot_value'] = [error_slot]
+            elif last_sys_act == 'inform_movie_showing':
                 results = self.ontology_manager.entity_by_features('*', state)
-                state = random.sample(results, 1)
-                intent = 'inform_showing_time'.format(slot)
+                state = random.sample(results, 1)[0]
+                state['showing_time_end'] = state['showing_time']
+                intent = 'inform_showing_time'
             else:
                 slot = '{}_{}'.format(last_sys_act.split('_')[1], last_sys_act.split('_')[2])
                 results = self.ontology_manager.entity_by_features(slot, state)
@@ -51,7 +56,6 @@ class HDCPolicy(Policy.Policy):
                 if slot=='showing_time':
                     state['showing_time_end'] = state[slot] + 100
                 intent = 'inform_{}'.format(slot)
-            print(state)
             sys_act, unfinished_intent = self._getInform(state, intent, unfinished_intent, search_location)
 
         elif intent == 'greeting':
@@ -73,7 +77,6 @@ class HDCPolicy(Policy.Policy):
                 slot = 'theater_name'
             elif state['showing_time'] == '':
                 slot = 'showing_time'
-            print(results)
             sys_act['act_type'] = 'request_{}'.format(slot)
             results = self.ontology_manager.entity_by_features(slot, state)
 
