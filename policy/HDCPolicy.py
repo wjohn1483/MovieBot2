@@ -25,7 +25,7 @@ class HDCPolicy(Policy.Policy):
         # if there is unfinished intent, do it first
         if intent[:6] == 'inform' and unfinished_intent != '':
             intent = unfinished_intent
-            unfinished_intent = '' 
+            unfinished_intent = ''
 
         # inform type intent
         if intent[:6] == 'inform':
@@ -37,10 +37,22 @@ class HDCPolicy(Policy.Policy):
 
 
         elif intent == 'dontcare':
-            slot = '{}_{}'.format(last_sys_act.split('_')[1:])
-            results = self.ontology_manager.entity_by_features(slot, state)
-            state[slot] = random.sample(results, 1)[0]
-            sys_act, unfinished_intent = self.getInform(state, intent, unfinished_intent)
+            if last_sys_act == 'inform_movie_showing':
+                results = self.ontology_manager.entity_by_features('*', state)
+                state = random.sample(results, 1)
+                intent = 'inform_showing_time'.format(slot)
+            else:
+                slot = '{}_{}'.format(last_sys_act.split('_')[1], last_sys_act.split('_')[2])
+                results = self.ontology_manager.entity_by_features(slot, state)
+                state[slot] = random.sample(results, 1)[0][slot]
+            #error_slot = self._detectErrorSlot(state)
+            #for slot in error_slot.keys():
+            #    state[slot] = ''
+                if slot=='showing_time':
+                    state['showing_time_end'] = state[slot] + 100
+                intent = 'inform_{}'.format(slot)
+            print(state)
+            sys_act, unfinished_intent = self._getInform(state, intent, unfinished_intent, search_location)
 
         elif intent == 'greeting':
             sys_act['act_type'] = 'greeting'
@@ -49,7 +61,7 @@ class HDCPolicy(Policy.Policy):
 
     def _getInform(self, state, intent, unfinished_intent, search_location):
         sys_act={}
-        
+
         results = self.ontology_manager.entity_by_features('*', state)
         movie_showing = [{k: result[k] for k in ('movie_name', 'theater_name', 'showing_time')} for result in results]
 
@@ -61,9 +73,10 @@ class HDCPolicy(Policy.Policy):
                 slot = 'theater_name'
             elif state['showing_time'] == '':
                 slot = 'showing_time'
+            print(results)
             sys_act['act_type'] = 'request_{}'.format(slot)
             results = self.ontology_manager.entity_by_features(slot, state)
-            
+
             # sort theater name by distance
             if slot == 'theater_name' and search_location != '':
                 results = self._sortByDistance(search_location, results)
@@ -72,7 +85,7 @@ class HDCPolicy(Policy.Policy):
             elif len(results) > MAX_RESULTS:
                 sys_act['slot_value'] = random.sample(results, MAX_RESULTS)
             else:
-                sys_act['slot_value'] = results[:MAX_RESULTS]                
+                sys_act['slot_value'] = results[:MAX_RESULTS]
 
         # show result for user to select
         elif len(results) > 1:
@@ -86,30 +99,22 @@ class HDCPolicy(Policy.Policy):
 
         # no results or remove error slots
         else:
-            error_slot = {}
-            for slot in state:
-                results = self.ontology_manager.entity_by_features('*', {slot: state[slot]})
-                if len(results) == 0:
-                    error_slot[slot] = state[slot]
+            error_slot = self._detectErrorSlot(state)
             if error_slot != {}:
                 sys_act['act_type'] = 'confuse'
                 sys_act['slot_value'] = [error_slot]
             else:
                 sys_act['act_type'] = 'no_result'
-        
+
         return (sys_act, unfinished_intent)
 
     def _getRequest(self, state, intent, unfinished_intent, search_location):
         sys_act={}
-        
+
         results = self.ontology_manager.entity_by_features(intent[8:], state)
         # no results or remove error slots
         if len(results) == 0:
-            error_slot = {}
-            for slot in state:
-                results = self.ontology_manager.entity_by_features('*', {slot: state[slot]})
-                if len(results) == 0:
-                    error_slot[slot] = state[slot]
+            error_slot = self._detectErrorSlot(state)
             if error_slot != {}:
                 sys_act['act_type'] = 'confuse'
                 sys_act['slot_value'] = [error_slot]
@@ -123,11 +128,11 @@ class HDCPolicy(Policy.Policy):
             if intent[8:] == 'theater_name' and search_location != '':
                 results = self._sortByDistance(search_location, results)
                 sys_act['slot_value'] = results[:MAX_RESULTS]
-            
+
             elif len(results) > MAX_RESULTS:
                 sys_act['slot_value'] = random.sample(results, MAX_RESULTS)
             else:
-                sys_act['slot_value'] = results[:MAX_RESULTS]                
+                sys_act['slot_value'] = results[:MAX_RESULTS]
 
         # only one result => just show it!
         elif len(results) == 1:
@@ -151,11 +156,11 @@ class HDCPolicy(Policy.Policy):
             if slot == 'theater_name' and search_location != '':
                 results = self._sortByDistance(search_location, results)
                 sys_act['slot_value'] = results[:MAX_RESULTS]
-           
+
             elif len(results) > MAX_RESULTS:
                 sys_act['slot_value'] = random.sample(results, MAX_RESULTS)
             else:
-                sys_act['slot_value'] = results[:MAX_RESULTS]                
+                sys_act['slot_value'] = results[:MAX_RESULTS]
             unfinished_intent = intent
 
         return (sys_act, unfinished_intent)
@@ -174,3 +179,12 @@ class HDCPolicy(Policy.Policy):
         results = [{'theater_name': x, 'distance': y, 'search_location': location} for (x,y) in zip(destinations, texts)]
 
         return results
+
+    def _detectErrorSlot(self, state):
+        error_slot = {}
+        for slot in state:
+            results = self.ontology_manager.entity_by_features('*', {slot: state[slot]})
+            if len(results) == 0:
+                error_slot[slot] = state[slot]
+
+        return error_slot
