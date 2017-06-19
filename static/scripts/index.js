@@ -171,6 +171,7 @@ $(document).ready(function() {
                 passFile(blob);
             });
             recorder.clear();
+            undisableNextButton()
         }
 
         recognition.onresult = function(event){
@@ -202,6 +203,7 @@ $(document).ready(function() {
                 recorder.clear();*/
             }
             else{
+                disableNextButton()
                 final_transcript = "";
                 recognition.start();
                 recognizing = true;
@@ -212,7 +214,20 @@ $(document).ready(function() {
             }
         });
     }
-   
+    
+    function disableNextButton() {
+        document.getElementById("next-button").disabled = true;
+    }
+ 
+    function undisableNextButton() {
+        document.getElementById("next-button").disabled = false;
+    }
+ 
+    //check email address format
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
     //check email address format
     function validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

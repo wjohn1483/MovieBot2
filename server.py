@@ -110,7 +110,7 @@ def api_response():
     # response based on speech emotion
     print(speech_emotion)
     if speech_emotion == 'angry':
-        nn_nlg = "好啦, 不要森77了~{}".format(nn_nlg)
+        nn_nlg = "好啦, 不要森七七了~{}".format(nn_nlg)
     elif speech_emotion == 'happy':
         nn_nlg = "你是不是覺得這個機器人很強, {}".format(nn_nlg)
     elif speech_emotion == 'fear':
