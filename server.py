@@ -35,6 +35,7 @@ dialogue_manager = DialogueManager.DialogueManager()
 episode_over = False
 system_sf = {}
 data_face = []
+speech_emotion = ''
 #dialog_history = ["System: Hi, 我可以幫你訂票嗎？"]
 
 address = "icb2017ta@gmail.com"
@@ -76,22 +77,23 @@ def api_response():
     if input_sentence.rstrip() == 'exit':
         print('A new episode begin, reset')
         dialogue_manager.reset()
+        # greeting based on face recognition
         greeting_sentence = "您好您好，請問我可以幫你訂票嗎？"
         if data_face:
             if data_face[0]['faceAttributes']['gender'] == 'female':
                 if data_face[0]['faceAttributes']['age'] < 20:
-                    greeting_sentence = "這位妹妹我是不是在哪裡看過妳，請問我可以幫妳訂票嗎？"
+                    greeting_sentence = "妹妹~我是不是在哪裡看過妳, 請問我可以幫妳訂票嗎？"
                 elif data_face[0]['faceAttributes']['age'] > 30:
-                    greeting_sentence = "這位姊姊我是不是在哪裡看過妳，請問我可以幫妳訂票嗎？"
+                    greeting_sentence = "姊姊~我是不是在哪裡看過妳, 請問我可以幫妳訂票嗎？"
                 else:
-                    greeting_sentence = "這位美女我是不是在哪裡看過妳，請問我可以幫妳訂票嗎？"
+                    greeting_sentence = "美女~我是不是在哪裡看過妳, 請問我可以幫妳訂票嗎？"
             if data_face[0]['faceAttributes']['gender'] == 'male':
                 if data_face[0]['faceAttributes']['age'] < 20:
-                    greeting_sentence = "這位弟弟我是不是在哪裡看過你，請問我可以幫你訂票嗎？"
+                    greeting_sentence = "弟弟~我是不是在哪裡看過你, 請問我可以幫你訂票嗎？"
                 elif data_face[0]['faceAttributes']['age'] > 30:
-                    greeting_sentence = "這位歐巴我是不是在哪裡看過你，請問我可以幫你訂票嗎？"
+                    greeting_sentence = "歐巴~我是不是在哪裡看過你, 請問我可以幫你訂票嗎？"
                 else:
-                    greeting_sentence = "這位帥哥我是不是在哪裡看過你，請問我可以幫你訂票嗎？"
+                    greeting_sentence = "帥哥~我是不是在哪裡看過你, 請問我可以幫你訂票嗎？"
         binary = speech_api.text_to_speech(greeting_sentence.encode("utf-8").decode("latin-1"), female=False)
         with open(voice_path, "wb") as f:
             f.write(binary)
@@ -103,7 +105,19 @@ def api_response():
             f.write(binary)
         return jsonify(booking=False, nl="系統已經被重置, 請問我可以幫你訂票嗎？")
 
+    
     system_rf, nn_nlg = dialogue_manager.update(input_sentence)
+    # response based on speech emotion
+    print(speech_emotion)
+    if speech_emotion == 'angry':
+        nn_nlg = "好啦, 不要森77了~{}".format(nn_nlg)
+    elif speech_emotion == 'happy':
+        nn_nlg = "你是不是覺得這個機器人很強, {}".format(nn_nlg)
+    elif speech_emotion == 'fear':
+        nn_nlg = "別怕, 我也是第一次...幫人訂票, {}".format(nn_nlg)
+    elif speech_emotion == 'sad':
+        nn_nlg = "不哭不哭, 眼淚是珍珠~{}".format(nn_nlg)
+    print(nn_nlg)
     binary = speech_api.text_to_speech(nn_nlg.split("<br>")[0].encode("utf-8").decode("latin-1"), female=False)
     with open(voice_path, "wb") as f:
         f.write(binary)
@@ -217,6 +231,8 @@ def api_record():
         print(emotion_list)
         print(p)
         print(emotion_list[np.argmax(p)])
+        global speech_emotion 
+        speech_emotion = emotion_list[np.argmax(p)]
         return emotion_list[np.argmax(p)]
     else:
         return "Getting record failed..."
