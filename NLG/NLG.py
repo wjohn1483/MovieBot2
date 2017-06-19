@@ -37,6 +37,8 @@ class NLG:
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
             #slot_name = action_dict["slot_value"][0].keys()
             #for slot in slot_name:
+            if action_dict["act_type"] == "inform_theater_name" and len(action_dict["slot_value"]) == 5:
+                index = index + 4 if index < 4 else index
             options = ""
             for i in range(0, len(action_dict["slot_value"])):
                 options += "<br><span class='dialog-selection'>" + str(action_dict["slot_value"][i]['theater_name']) + "</span>" + str(" (距離") +str(action_dict["slot_value"][i]['search_location'])+str(action_dict["slot_value"][i]['distance']) + str(")")
@@ -49,6 +51,8 @@ class NLG:
                 (action_dict["act_type"] == "request_showing_time"):
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
             slot_name = action_dict["slot_value"][0].keys()
+            if action_dict["act_type"] == "request_movie_name" and len(action_dict["slot_value"]) == 5:
+                index = index + 5 if index < 5 else index
             for slot in slot_name:
                 options = ""
                 for i in range(0, len(action_dict["slot_value"])):
