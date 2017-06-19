@@ -131,16 +131,7 @@ $(document).ready(function() {
             contentType: false,
             success: function(data){
                 console.log("getting emotion response success!"); 
-                $("#emotion").html("");
-                if(data == "angry"){
-                    $("#emotion").html("好啦，不要森77了~");
-                }
-                else if(data == "happy"){
-                    $("#emotion").html("你是不是覺得這個機器人很強");
-                }
-                else if(data == "fear"){
-                    $("#emotion").html("既期待又怕受傷害><");
-                }
+                //$("#emotion").html("");
             }
         });
     }
