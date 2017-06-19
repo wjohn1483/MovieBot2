@@ -85,16 +85,16 @@ def api_response():
         with open(voice_path, "wb") as f:
             f.write(binary)
         return jsonify(booking=False, nl="系統已經被重置, 請問我可以幫你訂票嗎？")
-      
+
     system_rf, nn_nlg = dialogue_manager.update(input_sentence)
     binary = speech_api.text_to_speech(nn_nlg.split("<br>")[0].encode("utf-8").decode("latin-1"), female=False)
     with open(voice_path, "wb") as f:
         f.write(binary)
     if system_rf['act_type'] == 'confirm':
       return jsonify(booking = True, nl = nn_nlg, sf=system_rf)
-        
+
     return jsonify(booking = False, nl = nn_nlg, sf=system_rf)
-    
+
     """
     dialogue_manager.convert_user_nl_to_next_dst_state(input_sentence, episode_over)
     dialogue_manager.copy_next_state_to_cuttent_exp()
@@ -111,7 +111,7 @@ def api_response():
             print('系統：抱歉，沒有符合條件的選項')
             episode_over = True
             #dialog_history.append("System: 抱歉，沒有符合條件的選項")
-            googleTTS("抱歉，沒有符合條件的選項") 
+            googleTTS("抱歉，沒有符合條件的選項")
             return jsonify(booking=False, nl="抱歉，沒有符合條件的選項")
     """
 
@@ -132,11 +132,11 @@ def api_response():
         if filled_slots_count == 4:
             print('系統：抱歉，沒有符合條件的票')
             episode_over = True
-            googleTTS("抱歉，沒有符合條件的選項") 
+            googleTTS("抱歉，沒有符合條件的選項")
             #dialog_history.append("System: 抱歉，沒有符合條件的選項")
             return jsonify(booking=False, nl="抱歉，沒有符合條件的選項")
-   
-    googleTTS(nn_nlg) 
+
+    googleTTS(nn_nlg)
 
     if system_sf['action_type'] == 'booking':
         episode_over = True
@@ -196,7 +196,9 @@ def api_record():
         emotion_list = ['happy', 'angry', 'sad', 'fear', 'neutral']
         rc = subprocess.call("bash script/extract_feat.sh -i ./static/files/sound.wav -o ./static/files -f 30", shell=True)
         p = emotion_gender_recognizer_jointly_training.classify_emotion(emotion_recognizer, "./static/files/sound.audio.npy")
-        return emotion_list[np.argmax(p)] 
+        print("="*15 + "Emotion recognizer" + "="*15)
+        print(emotion_list[np.argmax(p)])
+        return emotion_list[np.argmax(p)]
     else:
         return "Getting record failed..."
 
@@ -209,7 +211,7 @@ def api_capture():
     f = open("static/img/user_upload.png", "wb")
     f.write(base64.decodestring(base64_str.encode()))
     print("get capture data")
-   
+
     headers = {
         'Content-Type': 'application/octet-stream',
         'Ocp-Apim-Subscription-Key': '54b997bce88d4a4f8583d30702a3e00b',

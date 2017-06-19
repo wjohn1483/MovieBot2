@@ -121,7 +121,16 @@ $(document).ready(function() {
             contentType: false,
             success: function(data){
                 console.log("getting emotion response success!"); 
-                //$("#emotion").html(data);
+                $("#emotion").html("");
+                if(data == "angry"){
+                    $("#emotion").html("好啦，不要森77了~");
+                }
+                else if(data == "happy"){
+                    $("#emotion").html("你是不是覺得這個機器人很強");
+                }
+                else if(data == "fear"){
+                    $("#emotion").html("既期待又怕受傷害><");
+                }
             }
         });
     }
@@ -228,6 +237,7 @@ $(document).ready(function() {
     //get chatbot response 
     function get_response() {
         var input_str = $("#user_input").val();
+        $("#emotion").html("");
         if(input_str != ""){
             $("#dialog").append("<div class='dialog-row'><div class='user-img'><img src=" + user_img_path + "></div><div class='user-response'>" + input_str + "</div></div>");
             scrollToBottom();
