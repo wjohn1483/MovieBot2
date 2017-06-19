@@ -52,9 +52,18 @@ $(document).ready(function() {
     });
 
     $("#no-capture-btn").click(function(){
-        $("#capture-block").fadeOut(1000);
-        videoTracks.forEach(function(track){track.stop()});
-        audio_player.play();
+        $.ajax({
+            type: "POST",
+            url: "/capture",
+            data: JSON.stringify({}),
+            success: function(data){
+                console.log(data)
+                $("#capture-block").fadeOut(1000);
+                videoTracks.forEach(function(track){track.stop()});
+                //audio_player.play();
+                reset_dialog(true)
+            }
+        });
     });
 
     $("#upload-btn").click(function(){
@@ -69,7 +78,8 @@ $(document).ready(function() {
                 var rand_int = randomIntFromInterval(1,999999);
                 user_img_path = "../static/img/user_upload.png?" + rand_int.toString(); 
                 $("#capture-block").fadeOut(1000);
-                audio_player.play();
+                //audio_player.play();
+                reset_dialog(true)
             }
         });
         videoTracks.forEach(function(track){track.stop()});

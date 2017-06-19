@@ -8,6 +8,7 @@ import tensorflow as tf
 import base64
 import smtplib, os, sys, time
 import http.client, urllib.request, urllib.parse, urllib.error
+import json
 from random import randint
 from speech_api import Speech
 from email.mime.multipart import MIMEMultipart
@@ -33,7 +34,7 @@ dialogue_manager = DialogueManager.DialogueManager()
 #dialogue_manager.load_previous_experience_pool('exp_buffer_book_directly_2.pkl')
 episode_over = False
 system_sf = {}
-data_face = {}
+data_face = []
 #dialog_history = ["System: Hi, 我可以幫你訂票嗎？"]
 
 address = "icb2017ta@gmail.com"
@@ -75,10 +76,26 @@ def api_response():
     if input_sentence.rstrip() == 'exit':
         print('A new episode begin, reset')
         dialogue_manager.reset()
-        binary = speech_api.text_to_speech("您好您好, 請問我可以幫你訂票嗎？".encode("utf-8").decode("latin-1"), female=False)
+        greeting_sentence = "您好您好，請問我可以幫你訂票嗎？"
+        if data_face:
+            if data_face[0]['faceAttributes']['gender'] == 'female':
+                if data_face[0]['faceAttributes']['age'] < 20:
+                    greeting_sentence = "這位妹妹我是不是在哪裡看過妳，請問我可以幫妳訂票嗎？"
+                elif data_face[0]['faceAttributes']['age'] > 30:
+                    greeting_sentence = "這位姊姊我是不是在哪裡看過妳，請問我可以幫妳訂票嗎？"
+                else:
+                    greeting_sentence = "這位美女我是不是在哪裡看過妳，請問我可以幫妳訂票嗎？"
+            if data_face[0]['faceAttributes']['gender'] == 'male':
+                if data_face[0]['faceAttributes']['age'] < 20:
+                    greeting_sentence = "這位弟弟我是不是在哪裡看過你，請問我可以幫你訂票嗎？"
+                elif data_face[0]['faceAttributes']['age'] > 30:
+                    greeting_sentence = "這位歐巴我是不是在哪裡看過你，請問我可以幫你訂票嗎？"
+                else:
+                    greeting_sentence = "這位帥哥我是不是在哪裡看過你，請問我可以幫你訂票嗎？"
+        binary = speech_api.text_to_speech(greeting_sentence.encode("utf-8").decode("latin-1"), female=False)
         with open(voice_path, "wb") as f:
             f.write(binary)
-        return jsonify(booking=False, nl="您好您好, 請問我可以幫你訂票嗎？")
+        return jsonify(booking=False, nl=greeting_sentence)
     elif input_sentence.strip() == 'reset':
         dialogue_manager.reset()
         binary = speech_api.text_to_speech("系統已經被重置, 請問我可以幫你訂票嗎？".encode("utf-8").decode("latin-1"), female=False)
@@ -209,30 +226,33 @@ def api_capture():
     data = request.get_json(force=True)
     global data_face
     #base64_str = data["imgBase64"]
-    base64_str = data["imgBase64"].replace('data:image/png;base64,','')
-    f = open("static/img/user_upload.png", "wb")
-    f.write(base64.decodestring(base64_str.encode()))
-    print("get capture data")
+    if data:
+        base64_str = data["imgBase64"].replace('data:image/png;base64,','')
+        f = open("static/img/user_upload.png", "wb")
+        f.write(base64.decodestring(base64_str.encode()))
+        print("get capture data")
 
-    headers = {
-        'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': '54b997bce88d4a4f8583d30702a3e00b',
-    }
+        headers = {
+            'Content-Type': 'application/octet-stream',
+            'Ocp-Apim-Subscription-Key': '54b997bce88d4a4f8583d30702a3e00b',
+        }
 
-    params = urllib.parse.urlencode({
-        'returnFaceId': 'true',
-        'returnFaceLandmarks': 'false',
-        'returnFaceAttributes': 'age,gender,emotion'
-    })
+        params = urllib.parse.urlencode({
+            'returnFaceId': 'true',
+            'returnFaceLandmarks': 'false',
+            'returnFaceAttributes': 'age,gender,emotion'
+        })
 
-    try:
-        conn = http.client.HTTPSConnection('southeastasia.api.cognitive.microsoft.com')
-        conn.request("POST", "/face/v1.0/detect?%s" % params, base64.decodestring(base64_str.encode()), headers)
-        response = conn.getresponse()
-        data_face = response.read()
-        conn.close()
-    except Exception as e:
-        print(e)
+        try:
+            conn = http.client.HTTPSConnection('southeastasia.api.cognitive.microsoft.com')
+            conn.request("POST", "/face/v1.0/detect?%s" % params, base64.decodestring(base64_str.encode()), headers)
+            response = conn.getresponse()
+            data_face = json.loads(response.read().decode('utf-8'))
+            conn.close()
+        except Exception as e:
+            print(e)
+    else:
+        data_face = []
     #print(base64_str)
     print(data_face)
     return "upload capture image success!"
