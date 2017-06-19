@@ -74,7 +74,7 @@ div.seatCharts-container {
 div.seatCharts-legend {
 	padding-left: 0px;
 	position: absolute;
-	bottom: 0px;
+	bottom: -50px;
 }
 ul.seatCharts-legendList {
 	padding-left: 0px;
@@ -102,7 +102,7 @@ span.seatCharts-legendDescription {
     padding: 20px;
     border: 1px solid #808080;
     border-radius: 5px;
-    width: 70%;
+    width: 100%;
     height: 310px;
     font-size: 24px;
     resize: none;
@@ -113,7 +113,7 @@ span.seatCharts-legendDescription {
 
 #user_input{
     font-size: 30px;
-    width: 70%;
+    width: 93%;
     float: left;
 }
 
@@ -160,6 +160,7 @@ span.seatCharts-legendDescription {
     background: #39cccc;
     color: #317787;
     display: inline-block;
+    border-radius: 10px;
 }
 
 .bot-response:before{
@@ -184,6 +185,7 @@ span.seatCharts-legendDescription {
     padding: 6px 20px;
     background: #46a3ff;
     color: #484891;
+    border-radius: 10px;
 }
 
 .user-response:before{
@@ -262,6 +264,7 @@ img{
     width: 100%;
     height: 100%;
     background: #fff;
+    display: table;
 }
 
 #capture-btns{
@@ -307,4 +310,18 @@ img{
 
 #movie-info-block div{
     font-size: 22px;
+}
+
+#root-left-block{
+    width: 70%;
+    display: table;
+    float: left;
+}
+
+#root-right-block{
+    float: left;
+    display: table;
+    width: 29%;
+    padding: 30px;
+    margin-top: 60px;
 }

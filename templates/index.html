@@ -17,20 +17,24 @@
     <div class="container">
       <label style="font-size:70px">Movie ChatBot</label>
       <div id="root">
-        <label for="Output" style="font-size:50px">Dialog</label>
-        <div id="dialog">
-            <!--<div class="dialog-row"><div class="bot-response">System: Hi, 我可以幫你訂票嗎?</div></div>-->
+        <div id="root-left-block">
+            <label for="Output" style="font-size:50px">Dialog</label>
+            <div id="dialog">
+            </div>
+            <label for="Input" style="font-size:50px">User Input</label>
+            <div id="user-input-block"><input id="user_input"><img id="mic-btn" src="../static/img/mic.png"></div>
+            <div id="button-block">
+                <button id="next-button" class="button-primary root-btn">Send</button>
+                <button id="reset-button" class="button-primary root-btn">Reset</button>
+            </div>
+            <audio id="audio-element" preload></audio>
         </div>
-        <label for="Input" style="font-size:50px">User Input</label>
-        <!--<textarea id="user_input" style="width:1000px;height:200px;font-size:40px;resize:none;" readonly></textarea>-->
-        <div id="user-input-block"><input id="user_input"><img id="mic-btn" src="../static/img/mic.png"></div>
-        <div id="button-block">
-            <button id="next-button" class="button-primary root-btn">Send</button>
-            <button id="reset-button" class="button-primary root-btn">Reset</button>
+        <div id="root-right-block">
+        你可以問我：<br>
+        電影的簡介<br>電影的類型<br>電影的放映時間<br>電影在特定戲院的版本<br>電影的名字<br>電影的國家<br>電影院的地址<br>電影院的電話<br>電影院的位置<br>電影院的名字<br>電影院的網站<br>電影的評價<br><br>
+        或是告訴我：<br>
+        你想看的電影名字<br>跟我打聲招呼<br>你想看哪國的電影<br>你想看的電影版本(2D，3D，英文版)<br>你想去的電影院或是他的所在地區
         </div>
-        <audio id="audio-element" preload></audio>
-        <!--<div id="emotion"></div>-->
-        <!--<label style="font-size:30px">輸入exit來結束這次訂票，並開啟一次新的訂票過程</label>-->
       </div>
       <div id="booking-block">
       	<div id="seat-map">
