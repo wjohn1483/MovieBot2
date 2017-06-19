@@ -6,4 +6,4 @@ if [ ! -d "model_acc48" ]; then
     rm model_acc48.zip
 fi
 
-CUDA_VISIBLE_DEVICES=1 python3 server.py
+CUDA_VISIBLE_DEVICES=0 python3 server.py

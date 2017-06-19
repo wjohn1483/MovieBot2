@@ -197,6 +197,8 @@ def api_record():
         rc = subprocess.call("bash script/extract_feat.sh -i ./static/files/sound.wav -o ./static/files -f 30", shell=True)
         p = emotion_gender_recognizer_jointly_training.classify_emotion(emotion_recognizer, "./static/files/sound.audio.npy")
         print("="*15 + "Emotion recognizer" + "="*15)
+        print(emotion_list)
+        print(p)
         print(emotion_list[np.argmax(p)])
         return emotion_list[np.argmax(p)]
     else:

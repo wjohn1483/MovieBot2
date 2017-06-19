@@ -50,7 +50,7 @@ log=$feat_dir/log
 # extract mfcc feats
 echo "Extract mfcc feats..."
 echo "$video_name $feat_dir/$video_name.wav" >> tmp.scp
-compute-mfcc-feats --sample-frequency=44100 --channel=0 scp:tmp.scp ark,t,scp:$feat_dir/$video_name.mfcc.ark,$feat_dir/$video_name.mfcc.scp >> $log 2>&1
+compute-mfcc-feats --sample-frequency=48000 --channel=0 scp:tmp.scp ark,t,scp:$feat_dir/$video_name.mfcc.ark,$feat_dir/$video_name.mfcc.scp >> $log 2>&1
 rm tmp.scp
 
 # extract audio word2vec
