@@ -120,6 +120,10 @@ def api_response():
         nn_nlg = "不哭不哭, 眼淚是珍珠~{}".format(nn_nlg)
     speech_emotion = 'neutral'
     print(nn_nlg)
+
+    if "我和我的冠軍女友" in input_sentence:
+        nn_nlg = "醒醒吧！你沒有女友，" + nn_nlg
+
     binary = speech_api.text_to_speech(nn_nlg.split("<br>")[0].encode("utf-8").decode("latin-1"), female=False)
     with open(voice_path, "wb") as f:
         f.write(binary)
