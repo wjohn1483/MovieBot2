@@ -22,7 +22,7 @@ class NLG:
             for i, item in enumerate(action_dict["slot_value"]):
                 if 'showing_time' in item:
                     action_dict['slot_value'][i]['showing_time'] = self._adjust_time(str(item["showing_time"]))
-            
+
         # For multiple return
         if (action_dict["act_type"] == "inform_movie_showing"):
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
@@ -31,7 +31,7 @@ class NLG:
                 options += "<br><span class='dialog-selection'>" + str(item["showing_time"]) + str("在") + str(item["theater_name"]) + str("的") + str(item["movie_name"]) + "</span>"
 
             return self.template[action_dict["act_type"]][index] + options
-        
+
         elif (action_dict["act_type"] == "inform_theater_name") or \
                 (action_dict["act_type"] == "request_theater_name"):
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
@@ -44,11 +44,27 @@ class NLG:
                 options += "<br><span class='dialog-selection'>" + str(action_dict["slot_value"][i]['theater_name']) + "</span>" + str(" (距離") +str(action_dict["slot_value"][i]['search_location'])+str(action_dict["slot_value"][i]['distance']) + str(")")
 
             return self.template[action_dict["act_type"]][index] + options
-        
+
+        elif (action_dict["act_type"] == "request_showing_time") or (action_dict["act_type"] == "inform_showing_time"):
+            index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
+            slot_name = action_dict["slot_value"][0].keys()
+            if action_dict["act_type"] == "request_movie_name" and len(action_dict["slot_value"]) == 5:
+                index = index + 5 if index < 5 else index
+            for slot in slot_name:
+                time_list = []
+                for i in range(len(action_dict["slot_value"])):
+                    time_list.append(action_dict["slot_value"][i][slot])
+
+            time_list = sorted(time_list)
+            options = ""
+            for t in time_list:
+                options += "<br><span class='dialog-selection'>" + str(t) + "</span>"
+
+            return self.template[action_dict["act_type"]][index] + options
+
+
         elif (action_dict["act_type"] == "inform_movie_name") or \
-                (action_dict["act_type"] == "inform_showing_time") or \
-                (action_dict["act_type"] == "request_movie_name") or \
-                (action_dict["act_type"] == "request_showing_time"):
+                (action_dict["act_type"] == "request_movie_name"):
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
             slot_name = action_dict["slot_value"][0].keys()
             if action_dict["act_type"] == "request_movie_name" and len(action_dict["slot_value"]) == 5:
@@ -65,7 +81,7 @@ class NLG:
             index = random.randint(0, len(self.template[action_dict["act_type"]])-1)
             if action_dict["act_type"] == "no_result":
                 return self.template[action_dict["act_type"]][index]
-            
+
             if action_dict["act_type"] == "greeting":
                 return self.template[action_dict["act_type"]][index]
 
