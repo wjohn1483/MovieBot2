@@ -52,9 +52,9 @@ class NLU:
 
         sentence = sentence.split()
         sentence_slots = sentence_slots.split()
-        for i, slot in enumerate(sentence_slots):
+        for i, slot in enumerate(reversed(sentence_slots)):
             if slot in self.slot_list:
-                slot_value_dict[slot] = sentence[i].replace("_", "：")
+                slot_value_dict[slot] = sentence[len(sentence_slots)-1-i].replace("_", "：")
 
         return slot_value_dict, idx2intent[str(sentence_intent)]
 
@@ -74,6 +74,7 @@ if __name__ == "__main__":
     #while True:
     #sentence = input("> ")
     sentence = "我想要看神鬼奇航：死無對證"
+    sentence = "梅花電影院"
     print("="*15)
     print(nlu.understand(sentence))
     print("="*15)
